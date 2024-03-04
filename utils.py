@@ -1,3 +1,4 @@
+import numpy as np
 from tqdm import tqdm
 
 import torch
@@ -6,13 +7,51 @@ import torch.nn as nn
 
 import clip
 
+from sklearn import metrics
+import statistics
+
 
 def cls_acc(output, target, topk=1):
+    # top-1 只有当模型的最高得分与真实标签匹配时，预测才被认为是正确的
     pred = output.topk(topk, 1, True, True)[1].t()
-    correct = pred.eq(target.view(1, -1).expand_as(pred))
+    correct = pred.eq(target.view(1, -1).expand_as(pred)) # -1自动计算匹配新值, topk不一定为1所以要用expand_as
     acc = float(correct[: topk].reshape(-1).float().sum(0, keepdim=True).cpu().numpy())
     acc = 100 * acc / target.shape[0]
     return acc
+
+
+def cls_auroc(closed_logits, open_logits, target, topk=1):
+    return cls_auroc_origin(closed_logits, open_logits, target, topk)
+
+def cls_auroc_origin(closed_logits, open_logtis, target, topk=1):
+    """
+    用原本的logtis计算阈值
+    """
+    flat_closed_logits = closed_logits.reshape(-1).tolist()
+    mean = statistics.mean(flat_closed_logits)
+    std = statistics.stdev(flat_closed_logits)
+    threshold = mean + 3 * std
+    closed_pred = [1 if max(logit) > threshold else 0 for logit in closed_logits]
+    open_pred = [1 if max(logit) > threshold else 0 for logit in open_logtis]
+    auroc = metrics.roc_auc_score(target, closed_pred + open_pred)
+
+    return auroc
+
+
+def cls_auroc_softmax(closed_logits, open_logits, target, topk=1):
+    """
+    用softmax函数处理logits之后，计算阈值
+    """
+    softmax = nn.Softmax(dim=1)
+    closed_softmax_logits = softmax(closed_logits)
+    open_softmax_logits = softmax(open_logits)
+    # 设置固定阈值
+    threshold = 0.7
+    closed_pred = [1 if max(logit) > threshold else 0 for logit in closed_softmax_logits]
+    open_pred = [1 if max(logit) > threshold else 0 for logit in open_softmax_logits]
+
+    auroc = metrics.roc_auc_score(target, closed_pred + open_pred)
+    return auroc
 
 
 def clip_classifier(classnames, template, clip_model):
