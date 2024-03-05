@@ -1,18 +1,18 @@
 # ------ root_path/dataset_name ------
-root_path: ''
+root_path: './data'
 
 
 # ------ Load Cache and Features ------
 load_cache: False
 load_pre_feat: False
 
-# load_cache: True
-# load_pre_feat: True
+#load_cache: True
+#load_pre_feat: True
 
 
 # ------ Hyperparamters ------
 search_hp: True
-# search_hp: False
+#search_hp: False
 
 search_scale: [50, 50]
 search_step: [200, 20]
@@ -25,6 +25,9 @@ init_alpha: 10
 dataset: 'oxford_flowers'
 shots: 16
 backbone: 'RN50'
+
+# ------ Data Split ------
+data_section: 0
 
 lr: 0.001
 augment_epoch: 10

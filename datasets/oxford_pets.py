@@ -112,7 +112,7 @@ class OxfordPets(DatasetBase):
                     impath=impath,
                     label=int(label),
                     classname=classname
-                )
+                )  # 数据的存储格式（图片路径、标签、标签对应的类名）
                 out.append(item)
             return out
         

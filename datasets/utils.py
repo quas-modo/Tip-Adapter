@@ -85,6 +85,7 @@ class Datum:
         self._classname = classname
 
     @property
+    # @property内置装饰器，将一个类方法转换为一个只读属性，不用括号就能调用这个方法
     def impath(self):
         return self._impath
 
@@ -110,11 +111,12 @@ class DatasetBase:
     dataset_dir = '' # the directory where the dataset is stored
     domains = [] # string names of all domains
 
-    def __init__(self, train_x=None, train_u=None, val=None, test=None):
+    def __init__(self, train_x=None, train_u=None, val=None, test=None, open_set=None):
         self._train_x = train_x # labeled training data
         self._train_u = train_u # unlabeled training data (optional)
         self._val = val # validation data (optional)
         self._test = test # test data
+        self._open_set = open_set # out-of-domain data(open-set data)
 
         self._num_classes = self.get_num_classes(train_x)
         self._lab2cname, self._classnames = self.get_lab2cname(train_x)
@@ -134,6 +136,10 @@ class DatasetBase:
     @property
     def test(self):
         return self._test
+
+    @property
+    def open_set(self):
+        return self._open_set
 
     @property
     def lab2cname(self):
@@ -254,11 +260,12 @@ class DatasetBase:
     def split_dataset_by_label(self, data_source):
         """Split a dataset, i.e. a list of Datum objects,
         into class-specific groups stored in a dictionary.
+        将数据集分割成基于标签的不同组，并且这些组被存储在一个字典中。
 
         Args:
             data_source (list): a list of Datum objects.
         """
-        output = defaultdict(list)
+        output = defaultdict(list) # 字典初始化，当访问不存在的键的时候，自动创建该键，并将其值初始化为一个空列表
 
         for item in data_source:
             output[item.label].append(item)
@@ -284,10 +291,10 @@ class DatasetWrapper(TorchDataset):
     def __init__(self, data_source, input_size, transform=None, is_train=False,
                  return_img0=False, k_tfm=1):
         self.data_source = data_source
-        self.transform = transform # accept list (tuple) as input
-        self.is_train = is_train
+        self.transform = transform  # accept list (tuple) as input 数据转换操作
+        self.is_train = is_train  # 是否用于训练， 决定了是否使用数据增强
         # Augmenting an image K>1 times is only allowed during training
-        self.k_tfm = k_tfm if is_train else 1
+        self.k_tfm = k_tfm if is_train else 1  # 执行图像转换的次数
         self.return_img0 = return_img0
 
         if self.k_tfm > 1 and transform is None:
@@ -297,7 +304,7 @@ class DatasetWrapper(TorchDataset):
             )
 
         # Build transform that doesn't apply any data augmentation
-        interp_mode = T.InterpolationMode.BICUBIC
+        interp_mode = T.InterpolationMode.BICUBIC  # 插值方法(双三次插值)，使用16个相邻像素来计算新像素值
         to_tensor = []
         to_tensor += [T.Resize(input_size, interpolation=interp_mode)]
         to_tensor += [T.ToTensor()]
