@@ -182,7 +182,7 @@ def run_tip_adapter_ood(cfg, cache_keys, cache_values, val_features, val_labels,
     print("**** Tip-Adapter's val auroc, aupr, fpr: {:.2f}, {:.2f}, {:.2f}. ****\n".format(auroc, aupr, fpr))
 
     # Search Hyperparameters
-    best_beta, best_alpha = search_hp(cfg, cache_keys, cache_values, val_features, val_labels, clip_weights)
+    best_beta, best_alpha = search_hp_ood(cfg, cache_keys, cache_values, val_features, val_labels, open_features, open_labels, clip_weights)
 
     print("\n-------- Evaluating on the test set. --------")
 
@@ -191,13 +191,23 @@ def run_tip_adapter_ood(cfg, cache_keys, cache_values, val_features, val_labels,
     acc = cls_acc(clip_logits, test_labels)
     print("\n**** Zero-shot CLIP's test accuracy: {:.2f}. ****\n".format(acc))
 
-    # Tip-Adapter
+    # Tip-Adapter acc
     affinity = test_features @ cache_keys
     cache_logits = ((-1) * (best_beta - best_beta * affinity)).exp() @ cache_values
 
     tip_logits = clip_logits + cache_logits * best_alpha
     acc = cls_acc(tip_logits, test_labels)
     print("**** Tip-Adapter's test accuracy: {:.2f}. ****\n".format(acc))
+
+    # Tip-Adapter auroc
+    open_affinity = open_features @ cache_keys
+    open_logits = 100. * open_features @ clip_weights
+
+    open_cache_logits = ((-1) * (best_beta - best_beta * open_affinity)).exp() @ cache_values
+    open_tip_logits = open_logits + open_cache_logits * best_alpha
+
+    auroc, aupr, fpr = cls_auroc_mcm(tip_logits, open_tip_logits, 1)
+    print("**** Tip-Adapter's test auroc, aupr, fpr: {:.2f}, {:.2f}, {:.2f}. ****\n".format(auroc, aupr, fpr))
 
 
 def main():
