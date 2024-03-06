@@ -161,7 +161,7 @@ def clip_classifier(classnames, template, clip_model):
     return clip_weights
 
 
-def build_cache_model(cfg, clip_model, train_loader_cache):
+def build_cache_model(log, cfg, clip_model, train_loader_cache):
 
     if cfg['load_cache'] == False:    
         cache_keys = []
@@ -172,7 +172,7 @@ def build_cache_model(cfg, clip_model, train_loader_cache):
             for augment_idx in range(cfg['augment_epoch']):
                 train_features = []
 
-                print('Augment Epoch: {:} / {:}'.format(augment_idx, cfg['augment_epoch']))
+                log.debug('Augment Epoch: {:} / {:}'.format(augment_idx, cfg['augment_epoch']))
                 for i, (images, target) in enumerate(tqdm(train_loader_cache)):
                     images = images.cuda()
                     image_features = clip_model.encode_image(images)
@@ -255,7 +255,7 @@ def search_hp(cfg, cache_keys, cache_values, features, labels, clip_weights, ada
     return best_beta, best_alpha
 
 
-def search_hp_ood(cfg, cache_keys, cache_values, id_features, id_labels, ood_features, ood_labels, clip_weights, adapter=None):
+def search_hp_ood(log, cfg, cache_keys, cache_values, id_features, id_labels, ood_features, ood_labels, clip_weights, adapter=None):
     if cfg['search_hp'] == True:
 
         beta_list = [i * (cfg['search_scale'][0] - 0.1) / cfg['search_step'][0] + 0.1 for i in
@@ -292,13 +292,13 @@ def search_hp_ood(cfg, cache_keys, cache_values, id_features, id_labels, ood_fea
                 score = acc + auroc
 
                 if acc > best_score:
-                    print("New best setting, beta: {:.2f}, alpha: {:.2f}; accuracy: {:.2f}, auroc: {:.2f}".format(beta, alpha, acc, auroc))
+                    log.debug("New best setting, beta: {:.2f}, alpha: {:.2f}; accuracy: {:.2f}, auroc: {:.2f}".format(beta, alpha, acc, auroc))
                     best_score = score
                     best_acc = acc
                     best_auroc = auroc
                     best_beta = beta
                     best_alpha = alpha
 
-        print("\nAfter searching, the best score: {:.2f}, best acc: {:.2f}, best auroc: {:.2f}.\n".format(best_score, best_acc, best_auroc))
+        log.debug("\nAfter searching, the best score: {:.2f}, best acc: {:.2f}, best auroc: {:.2f}.\n".format(best_score, best_acc, best_auroc))
 
     return best_beta, best_alpha
