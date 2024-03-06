@@ -116,6 +116,7 @@ class DatasetBase:
         self._train_u = train_u # unlabeled training data (optional)
         self._val = val # validation data (optional)
         self._test = test # test data
+        self._all = train_x + val + test
         self._open_set = open_set # out-of-domain data(open-set data)
 
         self._num_classes = self.get_num_classes(train_x)
@@ -136,6 +137,10 @@ class DatasetBase:
     @property
     def test(self):
         return self._test
+
+    @property
+    def all(self):
+        return self._all
 
     @property
     def open_set(self):

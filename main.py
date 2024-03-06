@@ -38,7 +38,7 @@ def run_tip_adapter(cfg, cache_keys, cache_values, val_features, val_labels, tes
     print("\n**** Zero-shot CLIP's val accuracy: {:.2f}. ****\n".format(acc))
 
     open_labels_binary = np.concatenate((np.ones(val_labels.shape), np.zeros(open_labels.shape)))
-    auroc = cls_auroc(clip_logits, open_logits, open_labels_binary)
+    auroc = cls_auroc_mcm(clip_logits, open_logits)
     print("**** Zero-shot CLIP's val auroc: {:.2f}. ****\n".format(auroc))
 
     # Tip-Adapter

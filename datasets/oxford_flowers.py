@@ -14,14 +14,13 @@ class OxfordFlowers(DatasetBase):
 
     dataset_dir = 'oxford_flowers'
 
-    def __init__(self, root, num_shots, data_section):
+    def __init__(self, root, num_shots):
         self.dataset_dir = os.path.join(root, self.dataset_dir)
         self.image_dir = os.path.join(self.dataset_dir, 'jpg')
         self.label_file = os.path.join(self.dataset_dir, 'imagelabels.mat') # 标签
         self.lab2cname_file = os.path.join(self.dataset_dir, 'cat_to_name.json') # 标签到类名的对应
         self.split_path = os.path.join(self.dataset_dir, 'split_zhou_OxfordFlowers.json') # 划分训练集和验证集
         self.template = template
-        self.data_section = data_section
 
         train, val, test = OxfordPets.read_split(self.split_path, self.image_dir) # 分别读取train val 和test的数据集
         train = self.generate_fewshot_dataset(train, num_shots=num_shots)
