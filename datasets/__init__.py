@@ -8,6 +8,7 @@ from .fgvc import FGVCAircraft
 from .food101 import Food101
 from .oxford_flowers import OxfordFlowers
 from .stanford_cars import StanfordCars
+from .ood_dataset import OutOfDomainDataset
 
 
 dataset_list = {
@@ -26,3 +27,6 @@ dataset_list = {
 
 def build_dataset(dataset, root_path, shots):
     return dataset_list[dataset](root_path, shots)
+
+def build_ood_dataset(dataset, root_path, log):
+    return OutOfDomainDataset(dataset, root_path, log)

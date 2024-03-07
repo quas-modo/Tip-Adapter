@@ -19,7 +19,7 @@ import torch.nn.functional as F
 import torch.nn as nn
 import torchvision.transforms as transforms
 
-from datasets import build_dataset
+from datasets import build_dataset, build_ood_dataset
 from datasets.utils import build_data_loader
 import clip
 from utils import *
@@ -31,43 +31,6 @@ def get_arguments():
     parser.add_argument('--ood_config', dest="ood_config", help="out of domain dataset settings in yaml format")
     args = parser.parse_args()
     return args
-
-
-def run_tip_adapter(cfg, cache_keys, cache_values, val_features, val_labels, test_features, test_labels, clip_weights):
-    print("\n-------- Searching hyperparameters on the val set. --------")
-
-    # Zero-shot CLIP
-    clip_logits = 100. * val_features @ clip_weights
-    acc = cls_acc(clip_logits, val_labels)
-    print("\n**** Zero-shot CLIP's val accuracy: {:.2f}. ****\n".format(acc))
-
-    # Tip-Adapter
-    beta, alpha = cfg['init_beta'], cfg['init_alpha']
-
-    affinity = val_features @ cache_keys
-    cache_logits = ((-1) * (beta - beta * affinity)).exp() @ cache_values
-
-    tip_logits = clip_logits + cache_logits * alpha
-    acc = cls_acc(tip_logits, val_labels)
-    print("**** Tip-Adapter's val accuracy: {:.2f}. ****\n".format(acc))
-
-    # Search Hyperparameters
-    best_beta, best_alpha = search_hp(cfg, cache_keys, cache_values, val_features, val_labels, clip_weights)
-
-    print("\n-------- Evaluating on the test set. --------")
-
-    # Zero-shot CLIP
-    clip_logits = 100. * test_features @ clip_weights
-    acc = cls_acc(clip_logits, test_labels)
-    print("\n**** Zero-shot CLIP's test accuracy: {:.2f}. ****\n".format(acc))
-
-    # Tip-Adapter
-    affinity = test_features @ cache_keys
-    cache_logits = ((-1) * (best_beta - best_beta * affinity)).exp() @ cache_values
-
-    tip_logits = clip_logits + cache_logits * best_alpha
-    acc = cls_acc(tip_logits, test_labels)
-    print("**** Tip-Adapter's test accuracy: {:.2f}. ****\n".format(acc))
 
 
 def run_tip_adapter_F(cfg, cache_keys, cache_values, val_features, val_labels, test_features, test_labels, clip_weights,
@@ -216,15 +179,13 @@ def main():
     assert (os.path.exists(args.id_config))
     assert (os.path.exists(args.ood_config))
 
-
-
     # Load configuration
     id_cfg = yaml.load(open(args.id_config, 'r'), Loader=yaml.Loader)
     ood_cfg = yaml.load(open(args.ood_config, 'r'), Loader=yaml.Loader)
 
     # Set logging
-    args.log_directory = f"logs/{id_cfg['dataset']}/{id_cfg['backbone']}"
-    args.name = "OOD"
+    args.log_directory = f"logs/{id_cfg['dataset']}/{id_cfg['backbone']}/{ood_cfg['dataset']}"
+    args.name = "TRAIN_EVAL_INFO"
     os.makedirs(args.log_directory, exist_ok=True)
     log = setup_log(args)
 
@@ -272,27 +233,22 @@ def main():
     # Construct the cache model by few-shot training set
     log.debug("\nConstructing cache model by few-shot visual features and labels.")
     cache_keys, cache_values = build_cache_model(log, id_cfg, clip_model, train_loader_cache)
-    # cache_keys [1024, 1632]
-    # cache_value [1632, 102]
 
     # Pre-load val features
     log.debug("\nLoading visual features and labels from val set.")
     val_features, val_labels = pre_load_features(id_cfg, "val", clip_model, id_val_loader)
-    # val_features [1633, 1024]
-    # val_labels (1633,)
 
     # Pre-load test features
     log.debug("\nLoading visual features and labels from test set.")
     test_features, test_labels = pre_load_features(id_cfg, "test", clip_model, id_test_loader)
-    #  test_features [2463, 1024]
-    # test_label (2463,)
+
     # Load open-set dataset
     log.debug("\nRunning out-domain dataset configs.")
     log.debug(ood_cfg)
     ood_cache_dir = os.path.join('./caches', ood_cfg['dataset'])
     os.makedirs(ood_cache_dir, exist_ok=True)
     ood_cfg['cache_dir'] = ood_cache_dir
-    ood_dataset = build_dataset(ood_cfg['dataset'], ood_cfg['root_path'], ood_cfg['shots'])
+    ood_dataset = build_ood_dataset(ood_cfg['dataset'], ood_cfg['root_path'], log)
     ood_loader = build_data_loader(data_source=ood_dataset.all, batch_size=64, is_train=False, tfm=preprocess,
                                    shuffle=False)
     ood_features, ood_labels = pre_load_features(ood_cfg, "ood", clip_model, ood_loader)

@@ -33,7 +33,7 @@ def cls_auroc_mcm(closed_logits, open_logits, t=1):
     mcm_open = np.max(smax_open, axis=1)
 
     auroc, aupr, fpr = get_measure(mcm_closed, mcm_open)
-    return auroc, aupr, fpr
+    return auroc * 100, aupr * 100, fpr * 100
 
 def get_measure(_pos, _neg, recall_level=0.95):
     pos = np.array(_pos[:]).reshape((-1, 1))
@@ -289,7 +289,7 @@ def search_hp_ood(log, cfg, cache_keys, cache_values, id_features, id_labels, oo
                 ood_tip_logits = ood_clip_logits + ood_cache_logits * alpha
                 auroc, aupr, fpr = cls_auroc_mcm(id_tip_logits, ood_tip_logits, 1)
                 # todo: 目前暂时未简单地相加
-                score = acc + auroc
+                score = 0.9 * acc + 0.1 * auroc
 
                 if acc > best_score:
                     log.debug("New best setting, beta: {:.2f}, alpha: {:.2f}; accuracy: {:.2f}, auroc: {:.2f}".format(beta, alpha, acc, auroc))

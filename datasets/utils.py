@@ -250,7 +250,7 @@ class DatasetBase:
                     sampled_items = random.sample(items, num_shots)
                 else:
                     if repeat:
-                        sampled_items = random.choices(items, k=num_shots)
+                        sampled_items = random.choices(items, k=num_shots)  # 进行有放回地抽样
                     else:
                         sampled_items = items
                 dataset.extend(sampled_items)
