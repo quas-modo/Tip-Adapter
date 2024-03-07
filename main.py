@@ -38,7 +38,7 @@ def run_tip_adapter(cfg, cache_keys, cache_values, val_features, val_labels, tes
     print("\n**** Zero-shot CLIP's val accuracy: {:.2f}. ****\n".format(acc))
 
     open_labels_binary = np.concatenate((np.ones(val_labels.shape), np.zeros(open_labels.shape)))
-    auroc = cls_auroc_mcm(clip_logits, open_logits)
+    auroc, _, _ = cls_auroc_mcm(clip_logits, open_logits, 1)
     print("**** Zero-shot CLIP's val auroc: {:.2f}. ****\n".format(auroc))
 
     # Tip-Adapter
@@ -54,7 +54,7 @@ def run_tip_adapter(cfg, cache_keys, cache_values, val_features, val_labels, tes
     open_affinity = open_features @ cache_keys
     open_cache_logits = ((-1) * (beta - beta * open_affinity)).exp() @ cache_values
     open_tip_logits = open_logits + open_cache_logits * alpha
-    auroc = cls_auroc(tip_logits, open_tip_logits, open_labels_binary)
+    auroc, _, _ = cls_auroc_mcm(tip_logits, open_tip_logits, 1)
     print("**** Tip-Adapter's auroc: {:.2f}. **** \n".format(auroc))
 
 
@@ -72,7 +72,7 @@ def run_tip_adapter(cfg, cache_keys, cache_values, val_features, val_labels, tes
 
     open_logits = 100. * open_features @ clip_weights
     open_labels_binary = np.concatenate((np.ones(test_labels.shape), np.zeros(open_labels.shape)))
-    auroc = cls_auroc(clip_logits, open_logits, open_labels_binary)
+    auroc, _, _ = cls_auroc_mcm(clip_logits, open_logits, 1)
     print("**** Zero-shot CLIP's test auroc: {:.2f}. ****\n".format(auroc))
 
     # Tip-Adapter    
@@ -86,7 +86,7 @@ def run_tip_adapter(cfg, cache_keys, cache_values, val_features, val_labels, tes
     open_affinity = open_features @ cache_keys
     open_cache_logits = ((-1) * (best_beta - best_beta * open_affinity)).exp() @ cache_values
     open_tip_logits = open_logits + open_cache_logits * best_alpha
-    auroc = cls_auroc(tip_logits, open_tip_logits, open_labels_binary)
+    auroc, _, _ = cls_auroc_mcm(tip_logits, open_tip_logits, 1)
     print("**** Tip-Adapter's test auroc: {:.2f}. ****\n".format(auroc))
 
 def run_tip_adapter_F(cfg, cache_keys, cache_values, val_features, val_labels, test_features, test_labels, clip_weights, clip_model, train_loader_F):
@@ -214,7 +214,7 @@ def main():
 
     # Construct the cache model by few-shot training set
     print("\nConstructing cache model by few-shot visual features and labels.")
-    cache_keys, cache_values = build_cache_model(cfg, clip_model, train_loader_cache)
+    cache_keys, cache_values = build_cache_model( cfg, clip_model, train_loader_cache)
 
     # Pre-load val features
     print("\nLoading visual features and labels from val set.")
@@ -233,7 +233,7 @@ def main():
     run_tip_adapter(cfg, cache_keys, cache_values, val_features, val_labels, test_features, test_labels, open_features, open_labels, clip_weights)
 
     # ------------------------------------------ Tip-Adapter-F ------------------------------------------
-    run_tip_adapter_F(cfg, cache_keys, cache_values, val_features, val_labels, test_features, test_labels, clip_weights, clip_model, train_loader_F)
+    # run_tip_adapter_F(cfg, cache_keys, cache_values, val_features, val_labels, test_features, test_labels, clip_weights, clip_model, train_loader_F)
            
 
 if __name__ == '__main__':
