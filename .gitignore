@@ -2,3 +2,5 @@
 ./caches
 ./pkgs
 ./envs
+./venv
+./logs
