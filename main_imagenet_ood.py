@@ -17,7 +17,6 @@ from log_utils import *
 
 
 def get_arguments():
-    
     parser = argparse.ArgumentParser()
     parser.add_argument('--id_config', dest='id_config', help='in domain dataset settings in yaml format')
     parser.add_argument('--ood_config', dest="ood_config", help="out of domain dataset settings in yaml format")
@@ -27,7 +26,6 @@ def get_arguments():
 
 
 def run_tip_adapter(cfg, cache_keys, cache_values, test_features, test_labels, clip_weights):
-    
     # Zero-shot CLIP
     clip_logits = 100. * test_features @ clip_weights
     acc = cls_acc(clip_logits, test_labels)
@@ -35,10 +33,10 @@ def run_tip_adapter(cfg, cache_keys, cache_values, test_features, test_labels, c
 
     # Tip-Adapter
     beta, alpha = cfg['init_beta'], cfg['init_alpha']
-    
+
     affinity = test_features @ cache_keys
     cache_logits = ((-1) * (beta - beta * affinity)).exp() @ cache_values
-    
+
     tip_logits = clip_logits + cache_logits * alpha
     acc = cls_acc(tip_logits, test_labels)
     print("**** Tip-Adapter's test accuracy: {:.2f}. ****\n".format(acc))
@@ -47,15 +45,15 @@ def run_tip_adapter(cfg, cache_keys, cache_values, test_features, test_labels, c
     _ = search_hp(cfg, cache_keys, cache_values, test_features, test_labels, clip_weights)
 
 
-def run_tip_adapter_F(cfg, cache_keys, cache_values, test_features, test_labels, clip_weights, clip_model, train_loader_F):
-    
+def run_tip_adapter_F(cfg, cache_keys, cache_values, test_features, test_labels, clip_weights, clip_model,
+                      train_loader_F):
     # Enable the cached keys to be learnable
     adapter = nn.Linear(cache_keys.shape[0], cache_keys.shape[1], bias=False).to(clip_model.dtype).cuda()
     adapter.weight = nn.Parameter(cache_keys.t())
-    
+
     optimizer = torch.optim.AdamW(adapter.parameters(), lr=cfg['lr'], eps=1e-4)
     scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(optimizer, cfg['train_epoch'] * len(train_loader_F))
-    
+
     beta, alpha = cfg['init_beta'], cfg['init_alpha']
     best_acc, best_epoch = 0.0, 0
 
@@ -90,7 +88,9 @@ def run_tip_adapter_F(cfg, cache_keys, cache_values, test_features, test_labels,
             scheduler.step()
 
         current_lr = scheduler.get_last_lr()[0]
-        print('LR: {:.6f}, Acc: {:.4f} ({:}/{:}), Loss: {:.4f}'.format(current_lr, correct_samples / all_samples, correct_samples, all_samples, sum(loss_list)/len(loss_list)))
+        print('LR: {:.6f}, Acc: {:.4f} ({:}/{:}), Loss: {:.4f}'.format(current_lr, correct_samples / all_samples,
+                                                                       correct_samples, all_samples,
+                                                                       sum(loss_list) / len(loss_list)))
 
         # Eval
         adapter.eval()
@@ -106,7 +106,7 @@ def run_tip_adapter_F(cfg, cache_keys, cache_values, test_features, test_labels,
             best_acc = acc
             best_epoch = train_idx
             torch.save(adapter.weight, cfg['cache_dir'] + "/best_F_" + str(cfg['shots']) + "shots.pt")
-    
+
     adapter.weight = torch.load(cfg['cache_dir'] + "/best_F_" + str(cfg['shots']) + "shots.pt")
     print(f"**** After fine-tuning, Tip-Adapter-F's best test accuracy: {best_acc:.2f}, at epoch: {best_epoch}. ****\n")
 
@@ -114,7 +114,8 @@ def run_tip_adapter_F(cfg, cache_keys, cache_values, test_features, test_labels,
     _ = search_hp(cfg, affinity, cache_values, test_features, test_labels, clip_weights, adapter=adapter)
 
 
-def run_tip_adapter_ood(log, cfg, cache_keys, cache_values, test_features, test_labels, clip_weights, open_features, open_labels):
+def run_tip_adapter_ood(log, cfg, cache_keys, cache_values, test_features, test_labels, clip_weights, open_features,
+                        open_labels):
     # Zero-shot CLIP
     clip_logits = 100. * test_features @ clip_weights
     acc = cls_acc(clip_logits, test_labels)
@@ -140,11 +141,11 @@ def run_tip_adapter_ood(log, cfg, cache_keys, cache_values, test_features, test_
     log.debug("**** Tip-Adapter's val auroc, aupr, fpr: {:.2f}, {:.2f}, {:.2f}. ****\n".format(auroc, aupr, fpr))
 
     # Search Hyperparameters
-    _ = search_hp_ood(log, cfg, cache_keys, cache_values, test_features, test_labels, open_features, open_labels, clip_weights)
+    _ = search_hp_ood(log, cfg, cache_keys, cache_values, test_features, test_labels, open_features, open_labels,
+                      clip_weights)
 
 
 def main():
-
     # Load config file
     args = get_arguments()
     assert (os.path.exists(args.id_config))
@@ -161,7 +162,7 @@ def main():
     log = setup_log(args)
 
     # Set cache
-    id_cache_dir = os.path.join('./caches', id_cfg['dataset'])
+    id_cache_dir = os.path.join('/home/nfs03/zengtc/tip/caches', id_cfg['dataset'])
     os.makedirs(id_cache_dir, exist_ok=True)
     id_cfg['cache_dir'] = id_cache_dir
 
@@ -175,7 +176,7 @@ def main():
     # ImageNet dataset
     random.seed(1)
     torch.manual_seed(1)
-    
+
     log.debug("Preparing ImageNet dataset.")
     imagenet = ImageNet(id_cfg['root_path'], id_cfg['shots'], preprocess)
 
@@ -190,7 +191,7 @@ def main():
 
     # Construct the cache model by few-shot training set
     log.debug("\nConstructing cache model by few-shot visual features and labels.")
-    cache_keys, cache_values = build_cache_model(id_cfg, clip_model, train_loader_cache)
+    cache_keys, cache_values = build_cache_model(log, id_cfg, clip_model, train_loader_cache)
 
     # Pre-load test features
     log.debug("\nLoading visual features and labels from test set.")
@@ -199,7 +200,7 @@ def main():
     # Load open-set dataset
     log.debug("\nRunning out-domain dataset configs.")
     log.debug(ood_cfg)
-    ood_cache_dir = os.path.join('./caches', ood_cfg['dataset'])
+    ood_cache_dir = os.path.join('/home/nfs03/zengtc/tip/caches', ood_cfg['dataset'])
     os.makedirs(ood_cache_dir, exist_ok=True)
     ood_cfg['cache_dir'] = ood_cache_dir
     ood_dataset = build_ood_dataset(ood_cfg['dataset'], ood_cfg['root_path'], log)
@@ -208,11 +209,12 @@ def main():
     ood_features, ood_labels = pre_load_features(ood_cfg, "ood", clip_model, ood_loader)
 
     # ------------------------------------------ Tip-Adapter ------------------------------------------
-    run_tip_adapter_ood(log, id_cfg, cache_keys, cache_values, test_features, test_labels, clip_weights, ood_features, ood_labels)
+    run_tip_adapter_ood(log, id_cfg, cache_keys, cache_values, test_features, test_labels, clip_weights, ood_features,
+                        ood_labels)
 
     # ------------------------------------------ Tip-Adapter-F ------------------------------------------
     # run_tip_adapter_F(cfg, cache_keys, cache_values, test_features, test_labels, clip_weights, clip_model, train_loader_F)
-           
+
 
 if __name__ == '__main__':
     main()
