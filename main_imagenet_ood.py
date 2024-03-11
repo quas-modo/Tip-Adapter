@@ -172,7 +172,7 @@ def main():
     # Set logging
     current = datetime.now()
     formatted_time = current.strftime("%Y_%m_%d_%H_%M_%S")
-    args.log_directory = f"logs/{id_cfg['dataset']}/{id_cfg['backbone']}/{ood_cfg['dataset']/formatted_time}"
+    args.log_directory = f"logs/{id_cfg['dataset']}/{id_cfg['backbone']}/{ood_cfg['dataset']}/{str(formatted_time)}"
     args.name = "TRAIN_EVAL_INFO"
     os.makedirs(args.log_directory, exist_ok=True)
     log = setup_log(args)
