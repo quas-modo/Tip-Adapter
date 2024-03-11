@@ -15,6 +15,8 @@ from datasets.utils import build_data_loader
 from utils import *
 from log_utils import *
 
+from datetime import datetime
+
 
 def get_arguments():
     parser = argparse.ArgumentParser()
@@ -153,8 +155,8 @@ def run_tip_adapter_ood(log, cfg, cache_keys, cache_values, test_features, test_
     log.debug("**** Tip-Adapter's val auroc, aupr, fpr: {:.2f}, {:.2f}, {:.2f}. ****\n".format(auroc, aupr, fpr))
 
     # Search Hyperparameters
-    _ = search_hp_ood(log, cfg, cache_keys, cache_values, test_features, test_labels, open_features, open_labels,
-                      clip_weights)
+    #_ = search_hp_ood(log, cfg, cache_keys, cache_values, test_features, test_labels, open_features, open_labels,
+    #                  clip_weights)
 
 
 def main():
@@ -168,7 +170,9 @@ def main():
     ood_cfg = yaml.load(open(args.ood_config, 'r'), Loader=yaml.Loader)
 
     # Set logging
-    args.log_directory = f"logs/{id_cfg['dataset']}/{id_cfg['backbone']}/{ood_cfg['dataset']}"
+    current = datetime.now()
+    formatted_time = current.strftime("%Y_%m_%d_%H_%M_%S")
+    args.log_directory = f"logs/{id_cfg['dataset']}/{id_cfg['backbone']}/{ood_cfg['dataset']/formatted_time}"
     args.name = "TRAIN_EVAL_INFO"
     os.makedirs(args.log_directory, exist_ok=True)
     log = setup_log(args)
