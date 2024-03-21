@@ -2,6 +2,7 @@ import numpy as np
 import sklearn.metrics
 from tqdm import tqdm
 
+import os
 import torch
 import torch.nn.functional as F
 import torch.nn as nn
@@ -20,6 +21,63 @@ def cls_acc(output, target, topk=1):
     acc = 100 * acc / target.shape[0]
     return acc
 
+
+def cal_criterion(cfg, clip_weights, cache_keys, only_use_txt=True, training_free=True):
+    feat_dim, cate_num = clip_weights.shape
+    text_feat = clip_weights.t().unsqueeze(1)
+    cache_feat = cache_keys.reshape(cate_num, cfg['shots'], feat_dim)
+
+    save_path = 'caches/{}'.format(cfg['dataset'])
+    save_file = '{}/criterion_{}_{}shot.pt'.format(save_path, cfg['backbone'].replace('/', ''), cfg['shots'])
+
+    if os.path.exists(save_file):
+        print('Loading criterion...')
+        sim = torch.load(save_file)
+    elif only_use_txt:
+        print('Calculating criterion...')
+
+        feats = text_feat.squeeze()
+
+        sim_sum = torch.zeros((feat_dim)).cuda()
+        count = 0
+        for i in range(cate_num):
+            for j in range(cate_num):
+                if i != j:
+                    sim_sum += feats[i, :] * feats[j, :]
+                    count += 1
+        sim = sim_sum / count
+        torch.save(sim, save_file)
+    else:
+        print('Calculating criterion...')
+
+        feats = torch.cat([text_feat, cache_feat], dim=1)
+        samp_num = feats.shape[1]
+
+        sim_sum = torch.zeros((feat_dim)).cuda()
+        count = 0
+        for i in range(cate_num):
+            for j in range(cate_num):
+                for m in range(samp_num):
+                    for n in range(samp_num):
+                        if i != j:
+                            sim_sum += feats[i, m, :] * feats[j, n, :]
+                            count += 1
+        sim = sim_sum / count
+        torch.save(sim, save_file)
+
+    criterion = (-1) * cfg['w'][0] * sim + cfg['w'][1] * torch.var(clip_weights, dim=1)
+    all_indices = torch.arange(criterion.size(0))
+
+    if training_free:
+        _, topk_indices = torch.topk(criterion, k=cfg['training_free_feat_num'])
+
+    else:
+        _, topk_indices = torch.topk(criterion, k=cfg['training_feat_num'])
+
+    ood_indices = torch.tensor(list(set(all_indices.numpy()) - set(topk_indices.cpu().numpy())))
+    return topk_indices, ood_indices
+
+
 def cls_auroc_mcm(closed_logits, open_logits, t=1):
     to_np = lambda x: x.data.cpu().numpy()
     concat = lambda x: np.concatenate(x, axis=0)
@@ -34,6 +92,36 @@ def cls_auroc_mcm(closed_logits, open_logits, t=1):
 
     auroc, aupr, fpr = get_measure(mcm_closed, mcm_open)
     return auroc * 100, aupr * 100, fpr * 100
+
+def cls_auroc_ours(closed_logits, open_logits):
+    closed_num, cate_num = closed_logits.shape
+    open_num, _ = open_logits.shape
+    pos_cate_num = cate_num // 2
+    neg_cate_num = cate_num // 2
+    pred = []
+    labels = np.zeros(closed_num + open_num, dtype=np.int32)
+    labels[:closed_num] += 1
+    pos_total = 0
+    neg_total = 0
+    for i in range(closed_num + open_num):
+        if i >= closed_num:
+            logits = open_logits[i - closed_num]
+        else:
+            logits = closed_logits[i]
+        pos_logtis = logits[:pos_cate_num]
+        neg_logits = logits[pos_cate_num:]
+        pos_sum = torch.sum(pos_logtis)
+        neg_sum = torch.sum(neg_logits)
+        if pos_sum > neg_sum:
+            pred.append(1)
+            pos_total += 1
+        else:
+            pred.append(0)
+            neg_total += 1
+    print(pos_total)
+    print(neg_total)
+    auroc = metrics.roc_auc_score(labels, pred)
+    return auroc
 
 def get_measure(_pos, _neg, recall_level=0.95):
     pos = np.array(_pos[:]).reshape((-1, 1))
@@ -160,6 +248,24 @@ def clip_classifier(classnames, template, clip_model):
         clip_weights = torch.stack(clip_weights, dim=1).cuda()
     return clip_weights
 
+def neg_clip_weights(classnames, neg_template, clip_model):
+    # out-of-domain
+    with torch.no_grad():
+        neg_clip_weights = []
+
+        for classname in classnames:
+            classname = classname.replace('_', ' ')
+            texts = [t.format(classname) for t in neg_template]
+            texts = clip.tokenize(texts).cuda()
+            class_embeddings = clip_model.enconde_text(texts)
+            class_embeddings /= class_embeddings.norm(dim=-1, keepdim=True)
+            class_embeddings = class_embeddings.mean(dim=0)
+            class_embeddings /= class_embeddings.norm()
+            neg_clip_weights.append(class_embeddings)
+
+        neg_clip_weights = torch.stack(neg_clip_weights, dim=1).cuda()
+    return neg_clip_weights
+
 
 def build_cache_model(log, cfg, clip_model, train_loader_cache):
 
@@ -185,7 +291,22 @@ def build_cache_model(log, cfg, clip_model, train_loader_cache):
         cache_keys = torch.cat(cache_keys, dim=0).mean(dim=0)
         cache_keys /= cache_keys.norm(dim=-1, keepdim=True)
         cache_keys = cache_keys.permute(1, 0)
+
+        shots_num = cfg["shots"]
+        _, support_num = cache_keys.shape
+        print(_)
+        print(support_num)
+
+        cate_num = support_num // shots_num
+        print(cate_num)
+
+        for i in range(len(cache_values)):
+            cache_values.append(cache_values[i] + cate_num)
+
+        print(cache_values)
         cache_values = F.one_hot(torch.cat(cache_values, dim=0)).half()
+
+        print(cache_values)
 
         torch.save(cache_keys, cfg['cache_dir'] + '/keys_' + str(cfg['shots']) + "shots.pt")
         torch.save(cache_values, cfg['cache_dir'] + '/values_' + str(cfg['shots']) + "shots.pt")
@@ -256,6 +377,7 @@ def search_hp(cfg, cache_keys, cache_values, features, labels, clip_weights, ada
 
 
 def search_hp_ood(log, cfg, cache_keys, cache_values, id_features, id_labels, ood_features, ood_labels, clip_weights, adapter=None):
+
     if cfg['search_hp'] == True:
 
         beta_list = [i * (cfg['search_scale'][0] - 0.1) / cfg['search_step'][0] + 0.1 for i in

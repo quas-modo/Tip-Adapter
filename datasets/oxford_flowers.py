@@ -8,7 +8,7 @@ from .utils import Datum, DatasetBase, read_json
 
 
 template = ['a photo of a {}, a type of flower.']
-
+neg_template = ['a photo of no {}']
 
 class OxfordFlowers(DatasetBase):
 
@@ -21,6 +21,7 @@ class OxfordFlowers(DatasetBase):
         self.lab2cname_file = os.path.join(self.dataset_dir, 'cat_to_name.json') # 标签到类名的对应
         self.split_path = os.path.join(self.dataset_dir, 'split_zhou_OxfordFlowers.json') # 划分训练集和验证集
         self.template = template
+        self.neg_template = neg_template
 
         train, val, test = OxfordPets.read_split(self.split_path, self.image_dir) # 分别读取train val 和test的数据集
         train = self.generate_fewshot_dataset(train, num_shots=num_shots)

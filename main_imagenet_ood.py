@@ -190,8 +190,8 @@ def main():
     clip_model.eval()
 
     # ImageNet dataset
-    random.seed(1)
-    torch.manual_seed(1)
+    random.seed(id_cfg['seed'])
+    torch.manual_seed(id_cfg['seed'])
 
     log.debug("Preparing ImageNet dataset.")
     imagenet = ImageNet(id_cfg['root_path'], id_cfg['shots'], preprocess)

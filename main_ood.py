@@ -194,6 +194,52 @@ def run_tip_adapter_ood(log, cfg, cache_keys, cache_values, val_features, val_la
     log.debug("**** Tip-Adapter's test auroc, aupr, fpr: {:.2f}, {:.2f}, {:.2f}. ****\n".format(auroc, aupr, fpr))
 
 
+# flowers as example
+def APE(log, cfg, cache_keys, cache_values, val_features, val_labels, test_features, test_labels, clip_weights, neg_clip_weights,
+        open_features, open_labels):
+
+    feat_num, cate_num = clip_weights.shape
+    shot_num = cfg["shots"]
+
+    cfg['w'] = cfg['w_training_free']
+    top_indices, ood_indices = cal_criterion(cfg, clip_weights, cache_keys, only_use_txt=False)
+
+    top_cache_keys = cache_keys[top_indices, :]
+    ood_cache_keys = cache_keys[ood_indices, :]
+    new_cache_keys = torch.cat((top_cache_keys, ood_cache_keys), dim=1)
+
+    top_clip_weights = clip_weights[top_indices, :]
+    ood_clip_weights = neg_clip_weights[top_indices, :]
+    new_clip_weights = torch.cat((top_clip_weights, ood_clip_weights), dim=1)
+
+    new_val_features = val_features[:, top_indices]
+    new_test_features = test_features[:, top_indices]
+    new_open_features = open_features[:, top_indices]
+
+    new_cache_values = cache_values
+
+    clip_logits = 100. * new_test_features @ new_clip_weights
+    zero_shot_acc = cls_acc(clip_logits, test_labels)
+
+    beta, alpha = cfg['init_beta'], cfg['init_alpha']
+    affinity = new_test_features @ new_cache_keys
+    cache_logits = ((-1) * (beta - beta * affinity)).exp() @ new_cache_values
+
+    tip_logits = clip_logits + cache_logits * alpha
+
+    open_logits = 100. * new_open_features @ new_clip_weights
+    open_affinity = new_open_features @ new_cache_keys
+    open_cache_logits = ((-1) * (beta - beta * open_affinity)).exp() @ new_cache_values
+    open_tip_logits = open_logits + open_cache_logits * alpha
+
+
+    auroc, aupr, fpr = cls_auroc_mcm(tip_logits, open_tip_logits, 1)
+    log.debug("**** Tip-Adapter's val auroc, aupr, fpr: {:.2f}, {:.2f}, {:.2f}. ****\n".format(auroc, aupr, fpr))
+
+    auroc = cls_auroc_ours(tip_logits, open_tip_logits)
+    log.debug("**** Our's val auroc: {:.2f}. ****\n".format(auroc))
+
+
 def main():
     # Load config file
     args = get_arguments()
@@ -225,8 +271,8 @@ def main():
     clip_model.eval()
 
     # Prepare dataset
-    random.seed(1)
-    torch.manual_seed(1)
+    random.seed(id_cfg['seed'])
+    torch.manual_seed(id_cfg['seed'])
 
     log.debug("Preparing dataset.")
     # construct dataset and train set
@@ -245,13 +291,14 @@ def main():
 
     train_loader_cache = build_data_loader(data_source=id_dataset.train_x, batch_size=256, tfm=train_tranform,
                                            is_train=True, shuffle=False)
-    train_loader_F = build_data_loader(data_source=id_dataset.train_x, batch_size=256, tfm=train_tranform,
-                                       is_train=True,
-                                       shuffle=True)
+    # train_loader_F = build_data_loader(data_source=id_dataset.train_x, batch_size=256, tfm=train_tranform,
+    #                                    is_train=True,
+    #                                    shuffle=True)
 
     # Textual features
     log.debug("\nGetting textual features as CLIP's classifier.")
     clip_weights = clip_classifier(id_dataset.classnames, id_dataset.template, clip_model)
+    neg_clip_weights = clip_classifier(id_dataset.classnames, id_dataset.neg_template, clip_model)
 
     # Construct the cache model by few-shot training set
     log.debug("\nConstructing cache model by few-shot visual features and labels.")
@@ -278,14 +325,18 @@ def main():
     # ood_features [5714, 1024]
     # ood_labels (5714,)
     # ------------------------------------------ Tip-Adapter ------------------------------------------
-    run_tip_adapter_ood(log, id_cfg, cache_keys, cache_values, val_features, val_labels, test_features, test_labels,
-                        clip_weights, ood_features, ood_labels)
+    # run_tip_adapter_ood(log, id_cfg, cache_keys, cache_values, val_features, val_labels, test_features, test_labels,
+    #                     clip_weights, ood_features, ood_labels)
 
 
 
     # ------------------------------------------ Tip-Adapter-F ------------------------------------------
-    run_tip_adapter_F_ood(log, id_cfg, cache_keys, cache_values, val_features, val_labels, test_features, test_labels,
-                      clip_weights, clip_model, train_loader_F, ood_features, ood_labels)
+    # run_tip_adapter_F_ood(log, id_cfg, cache_keys, cache_values, val_features, val_labels, test_features, test_labels,
+    #                   clip_weights, clip_model, train_loader_F, ood_features, ood_labels)
+
+    # APE
+    APE(log, id_cfg, cache_keys, cache_values, val_features, val_labels, test_features, test_labels, clip_weights, neg_clip_weights,
+        ood_features, ood_labels)
 
 
 if __name__ == '__main__':
