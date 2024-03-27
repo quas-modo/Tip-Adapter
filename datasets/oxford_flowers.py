@@ -8,7 +8,7 @@ from .utils import Datum, DatasetBase, read_json
 
 
 template = ['a photo of a {}, a type of flower.']
-neg_template = ['a photo of no {}']
+neg_template = ['background of {}']
 
 class OxfordFlowers(DatasetBase):
 

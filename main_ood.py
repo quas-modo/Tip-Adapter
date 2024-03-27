@@ -207,27 +207,34 @@ def APE(log, cfg, cache_keys, cache_values, val_features, val_labels, test_featu
     top_cache_keys = cache_keys[top_indices, :]
     ood_cache_keys = cache_keys[ood_indices, :]
     new_cache_keys = torch.cat((top_cache_keys, ood_cache_keys), dim=1)
+    # new_cache_keys = new_cache_keys / new_cache_keys.norm(dim=0, keepdim=True)  # dim=-1, 沿着最后一个维度进行操作
+
 
     top_clip_weights = clip_weights[top_indices, :]
     ood_clip_weights = neg_clip_weights[top_indices, :]
     new_clip_weights = torch.cat((top_clip_weights, ood_clip_weights), dim=1)
+    # new_clip_weights = new_clip_weights / new_clip_weights.norm(dim=0, keepdim=True)
 
     new_val_features = val_features[:, top_indices]
     new_test_features = test_features[:, top_indices]
     new_open_features = open_features[:, top_indices]
+    # new_val_features = new_val_features / new_val_features.norm(dim=-1, keepdim=True)
+    # new_test_features = new_test_features / new_test_features.norm(dim=-1, keepdim=True)
+    # new_open_features = new_open_features / new_open_features.norm(dim=-1, keepdim=True)
 
     new_cache_values = cache_values
 
-    clip_logits = 100. * new_test_features @ new_clip_weights
+    zero_clip_weights = torch.cat((clip_weights, neg_clip_weights), dim=1)
+    clip_logits = 100. * test_features @ zero_clip_weights
     zero_shot_acc = cls_acc(clip_logits, test_labels)
+    print("\n**** Zero-shot CLIP's test accuracy: {:.2f}. ****\n".format(zero_shot_acc))
 
     beta, alpha = cfg['init_beta'], cfg['init_alpha']
     affinity = new_test_features @ new_cache_keys
     cache_logits = ((-1) * (beta - beta * affinity)).exp() @ new_cache_values
-
     tip_logits = clip_logits + cache_logits * alpha
 
-    open_logits = 100. * new_open_features @ new_clip_weights
+    open_logits = 100. * open_features @ zero_clip_weights
     open_affinity = new_open_features @ new_cache_keys
     open_cache_logits = ((-1) * (beta - beta * open_affinity)).exp() @ new_cache_values
     open_tip_logits = open_logits + open_cache_logits * alpha

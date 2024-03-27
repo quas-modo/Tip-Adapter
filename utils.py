@@ -110,18 +110,26 @@ def cls_auroc_ours(closed_logits, open_logits):
             logits = closed_logits[i]
         pos_logtis = logits[:pos_cate_num]
         neg_logits = logits[pos_cate_num:]
-        pos_sum = torch.sum(pos_logtis)
-        neg_sum = torch.sum(neg_logits)
-        if pos_sum > neg_sum:
+        pos_max = torch.max(pos_logtis)
+        neg_max = torch.max(neg_logits)
+        if pos_max > neg_max:
             pred.append(1)
             pos_total += 1
         else:
             pred.append(0)
             neg_total += 1
+        # pos_sum = torch.sum(pos_logtis)
+        # neg_sum = torch.sum(neg_logits)
+        # if pos_sum > neg_sum:
+        #     pred.append(1)
+        #     pos_total += 1
+        # else:
+        #     pred.append(0)
+        #     neg_total += 1
     print(pos_total)
     print(neg_total)
     auroc = metrics.roc_auc_score(labels, pred)
-    return auroc
+    return auroc * 100
 
 def get_measure(_pos, _neg, recall_level=0.95):
     pos = np.array(_pos[:]).reshape((-1, 1))
