@@ -432,3 +432,54 @@ def search_hp_ood(log, cfg, cache_keys, cache_values, id_features, id_labels, oo
         log.debug("\nAfter searching, the best score: {:.2f}, best acc: {:.2f}, best auroc: {:.2f}.\n".format(best_score, best_acc, best_auroc))
 
     return best_beta, best_alpha
+
+
+def search_hp_ape(log, cfg, cache_keys, cache_values, id_features, new_id_features, id_labels,
+                  ood_features, new_ood_features, ood_labels, zero_clip_weights, adapter=None):
+
+    if cfg['search_hp'] == True:
+
+        beta_list = [i * (cfg['search_scale'][0] - 0.1) / cfg['search_step'][0] + 0.1 for i in
+                     range(cfg['search_step'][0])]
+        alpha_list = [i * (cfg['search_scale'][1] - 0.1) / cfg['search_step'][1] + 0.1 for i in
+                      range(cfg['search_step'][1])]
+
+        best_score = 0
+        best_acc = 0
+        best_auroc = 0
+        best_beta, best_alpha = 0, 0
+
+        for beta in beta_list:
+            for alpha in alpha_list:
+                if adapter:
+                    id_affinity = adapter(id_features)
+                    ood_affinity = adapter(ood_features)
+                else:
+                    id_affinity = new_id_features @ cache_keys
+                    ood_affinity = new_ood_features @ cache_keys
+
+                # calculate acc
+                id_clip_logits = 100. * id_features @ zero_clip_weights
+                id_cache_logits = ((-1) * (beta - beta * id_affinity)).exp() @ cache_values
+                id_tip_logits = id_clip_logits + id_cache_logits * alpha
+                acc = cls_acc(id_tip_logits, id_labels)
+
+                # calculate auroc
+                ood_clip_logits = 100. * ood_features @ zero_clip_weights
+                ood_cache_logits = ((-1) * (beta - beta * ood_affinity)).exp() @ cache_values
+                ood_tip_logits = ood_clip_logits + ood_cache_logits * alpha
+                auroc, aupr, fpr = cls_auroc_mcm(id_tip_logits, ood_tip_logits, 1)
+                # todo: 目前暂时未简单地相加
+                score = 0.9 * acc + 0.1 * auroc
+
+                if score > best_score:
+                    log.debug("New best setting, beta: {:.2f}, alpha: {:.2f}; accuracy: {:.2f}, auroc: {:.2f}".format(beta, alpha, acc, auroc))
+                    best_score = score
+                    best_acc = acc
+                    best_auroc = auroc
+                    best_beta = beta
+                    best_alpha = alpha
+
+        log.debug("\nAfter searching, the best score: {:.2f}, best acc: {:.2f}, best auroc: {:.2f}.\n".format(best_score, best_acc, best_auroc))
+
+    return best_beta, best_alpha

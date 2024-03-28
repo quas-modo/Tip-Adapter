@@ -225,12 +225,12 @@ def APE(log, cfg, cache_keys, cache_values, val_features, val_labels, test_featu
     new_cache_values = cache_values
 
     zero_clip_weights = torch.cat((clip_weights, neg_clip_weights), dim=1)
-    clip_logits = 100. * test_features @ zero_clip_weights
-    zero_shot_acc = cls_acc(clip_logits, test_labels)
-    print("\n**** Zero-shot CLIP's test accuracy: {:.2f}. ****\n".format(zero_shot_acc))
+    clip_logits = 100. * val_features @ zero_clip_weights
+    zero_shot_acc = cls_acc(clip_logits, val_labels)
+    print("\n**** Zero-shot CLIP's val accuracy: {:.2f}. ****\n".format(zero_shot_acc))
 
     beta, alpha = cfg['init_beta'], cfg['init_alpha']
-    affinity = new_test_features @ new_cache_keys
+    affinity = new_val_features @ new_cache_keys
     cache_logits = ((-1) * (beta - beta * affinity)).exp() @ new_cache_values
     tip_logits = clip_logits + cache_logits * alpha
 
@@ -239,12 +239,16 @@ def APE(log, cfg, cache_keys, cache_values, val_features, val_labels, test_featu
     open_cache_logits = ((-1) * (beta - beta * open_affinity)).exp() @ new_cache_values
     open_tip_logits = open_logits + open_cache_logits * alpha
 
-
     auroc, aupr, fpr = cls_auroc_mcm(tip_logits, open_tip_logits, 1)
     log.debug("**** Tip-Adapter's val auroc, aupr, fpr: {:.2f}, {:.2f}, {:.2f}. ****\n".format(auroc, aupr, fpr))
 
     auroc = cls_auroc_ours(tip_logits, open_tip_logits)
     log.debug("**** Our's val auroc: {:.2f}. ****\n".format(auroc))
+
+    # Search Hyperparameters
+    best_beta, best_alpha = search_hp_ape(log, cfg, new_cache_keys, new_cache_values, val_features, new_val_features, val_labels,
+                                          open_features, new_open_features, open_labels, zero_clip_weights)
+    log.debug("\n-------- Evaluating on the test set. --------")
 
 
 def main():

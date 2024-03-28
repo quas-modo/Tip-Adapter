@@ -15,7 +15,7 @@ import torchvision.transforms as transforms
 
 from .utils import Datum, DatasetBase, read_json, write_json, build_data_loader
 
-template = ['a photo of {}.']
+template = ['background of {}.']
 
 
 class OutOfDomainDataset:
