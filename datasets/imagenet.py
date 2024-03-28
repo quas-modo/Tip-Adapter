@@ -182,6 +182,8 @@ imagenet_templates = ["itap of a {}.",
                         "art of the {}.",
                         "a photo of the small {}."]
 
+neg_template = ["background of {}"]
+
 
 class ImageNet():
 
@@ -205,6 +207,7 @@ class ImageNet():
         self.test = torchvision.datasets.ImageNet(self.image_dir, split='val', transform=test_preprocess)
         
         self.template = imagenet_templates
+        self.neg_template = neg_template
         self.classnames = imagenet_classes
 
         split_by_label_dict = defaultdict(list)
