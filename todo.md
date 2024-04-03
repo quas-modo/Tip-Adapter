@@ -5,4 +5,8 @@
 5. 新算法的实现(具体来说，创新点在哪里，看看传统fsor的文章找找idea) []
 5. tip-adapter-f的算法跑通[]
 6. 新的数据集创建python类，进行ood处理（读取所有的数据、不用打标签、按照图片、标签对正常格式返回即可）[]
-7. 
+
+```shell
+conda activate chenxy-tip
+CUDA_VISIBLE=0 python main_imagenet_ood.py --id_config configs/imagenet.yaml --ood_config configs/inaturalist.yaml
+```

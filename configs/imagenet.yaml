@@ -1,6 +1,6 @@
 # ------ root_path/dataset_name ------
-root_path: ''
-seed: 1
+root_path: '/home/nfs03/liyh/'
+seed: 3407
 
 # ------ Load Cache and Features ------
 load_cache: False
@@ -14,18 +14,28 @@ load_pre_feat: False
 search_hp: True
 # search_hp: False
 
-search_scale: [7, 3]
-search_step: [200, 20]
+search_scale: [7, 7, 0.5]
+search_step: [200, 20, 5]
 
 init_beta: 1
-init_alpha: 1.17
+init_alpha: 2
+init_gamma: 0.1
+
+eps: 0.001
+training_feat_num: 256
+training_free_feat_num: 256
+
+w_training_free: [0.7, 0.3]
+w_training: [0.2, 0.8]
 
 
 # ------ Basic Config ------
 dataset: 'imagenet'
 shots: 16
-backbone: 'RN50'
+backbone: 'ViT-B/16'
 
 lr: 0.001
 augment_epoch: 10
 train_epoch: 20
+
+data_section: 0
