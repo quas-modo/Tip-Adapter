@@ -94,6 +94,8 @@ def cls_auroc_mcm(closed_logits, open_logits, t=1):
     return auroc * 100, aupr * 100, fpr * 100
 
 def cls_auroc_ours(closed_logits, open_logits):
+    # closed_logits = F.softmax(closed_logits, dim=1)
+    # open_logits = F.softmax(open_logits, dim=1)
     closed_num, cate_num = closed_logits.shape
     open_num, _ = open_logits.shape
     pos_cate_num = cate_num // 2

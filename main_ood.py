@@ -229,6 +229,7 @@ def APE(log, cfg, cache_keys, cache_values, val_features, val_labels, test_featu
     zero_shot_acc = cls_acc(clip_logits, val_labels)
     print("\n**** Zero-shot CLIP's val accuracy: {:.2f}. ****\n".format(zero_shot_acc))
 
+
     beta, alpha = cfg['init_beta'], cfg['init_alpha']
     affinity = new_val_features @ new_cache_keys
     cache_logits = ((-1) * (beta - beta * affinity)).exp() @ new_cache_values
@@ -241,6 +242,9 @@ def APE(log, cfg, cache_keys, cache_values, val_features, val_labels, test_featu
 
     auroc, aupr, fpr = cls_auroc_mcm(tip_logits, open_tip_logits, 1)
     log.debug("**** Tip-Adapter's val auroc, aupr, fpr: {:.2f}, {:.2f}, {:.2f}. ****\n".format(auroc, aupr, fpr))
+
+    auroc = cls_auroc_ours(clip_logits, open_logits)
+    log.debug("**** Our's val auroc: {:.2f}. ****\n".format(auroc))
 
     auroc = cls_auroc_ours(tip_logits, open_tip_logits)
     log.debug("**** Our's val auroc: {:.2f}. ****\n".format(auroc))

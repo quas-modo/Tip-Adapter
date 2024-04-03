@@ -8,5 +8,5 @@
 
 ```shell
 conda activate chenxy-tip
-CUDA_VISIBLE=0 python main_imagenet_ood.py --id_config configs/imagenet.yaml --ood_config configs/inaturalist.yaml
+CUDA_VISIBLE_DEVICES=0 python main_imagenet_ood.py --id_config configs/imagenet.yaml --ood_config configs/inaturalist.yaml
 ```
