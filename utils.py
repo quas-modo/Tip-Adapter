@@ -94,44 +94,39 @@ def cls_auroc_mcm(closed_logits, open_logits, t=1):
     return auroc * 100, aupr * 100, fpr * 100
 
 def cls_auroc_ours(closed_logits, open_logits):
-    # closed_logits = F.softmax(closed_logits, dim=1)
-    # open_logits = F.softmax(open_logits, dim=1)
+    to_np = lambda x: x.data.cpu().numpy()
+
     closed_num, cate_num = closed_logits.shape
     open_num, _ = open_logits.shape
     pos_cate_num = cate_num // 2
     neg_cate_num = cate_num // 2
-    pred = []
-    labels = np.zeros(closed_num + open_num, dtype=np.int32)
-    labels[:closed_num] += 1
-    pos_total = 0
-    neg_total = 0
-    for i in range(closed_num + open_num):
-        if i >= closed_num:
-            logits = open_logits[i - closed_num]
-        else:
-            logits = closed_logits[i]
-        pos_logtis = logits[:pos_cate_num]
-        neg_logits = logits[pos_cate_num:]
-        pos_max = torch.max(pos_logtis)
-        neg_max = torch.max(neg_logits)
-        if pos_max > neg_max:
-            pred.append(1)
-            pos_total += 1
-        else:
-            pred.append(0)
-            neg_total += 1
-        # pos_sum = torch.sum(pos_logtis)
-        # neg_sum = torch.sum(neg_logits)
-        # if pos_sum > neg_sum:
-        #     pred.append(1)
-        #     pos_total += 1
-        # else:
-        #     pred.append(0)
-        #     neg_total += 1
-    print(pos_total)
-    print(neg_total)
-    auroc = metrics.roc_auc_score(labels, pred)
-    return auroc * 100
+
+    closed_logits /= 100.0
+    open_logits /= 100.0
+
+    closed_logits = to_np(F.softmax(closed_logits, dim=1))
+    open_logits = to_np(F.softmax(open_logits, dim=1))
+
+    closed_first_half = np.max(closed_logits[:, :pos_cate_num], axis=1)
+    # closed_second_half = np.max(closed_logits[ : , pos_cate_num:], axis=1)
+    # closed_pred = closed_first_half - closed_second_half
+
+    open_first_half = np.max(open_logits[:, :pos_cate_num], axis=1)
+    # open_seconde_half = np.max(open_logits[:, pos_cate_num:], axis=1)
+    # open_pred = open_first_half - open_seconde_half
+
+    # pred = np.concatenate((closed_pred, open_pred), axis=None)
+
+    # diff_min = np.min(pred)
+    # pred = pred + abs(diff_min)
+
+    # labels = np.zeros(closed_num + open_num, dtype=np.int32)
+    # labels[:closed_num] += 1
+
+    # auroc = metrics.roc_auc_score(labels, pred)
+
+    auroc, _, fpr = get_measure(closed_first_half, open_first_half, 0.95);
+    return auroc * 100, fpr * 100
 
 def get_measure(_pos, _neg, recall_level=0.95):
     pos = np.array(_pos[:]).reshape((-1, 1))
@@ -436,8 +431,8 @@ def search_hp_ood(log, cfg, cache_keys, cache_values, id_features, id_labels, oo
     return best_beta, best_alpha
 
 
-def search_hp_ape(log, cfg, cache_keys, cache_values, id_features, new_id_features, id_labels,
-                  ood_features, new_ood_features, ood_labels, zero_clip_weights, adapter=None):
+def search_hp_ape(log, cfg, new_cache_keys, new_cache_values, test_features, new_test_features, test_labels,
+                  open_features, new_open_features, open_labels, zero_clip_weights, adapter=None):
 
     if cfg['search_hp'] == True:
 
@@ -454,33 +449,31 @@ def search_hp_ape(log, cfg, cache_keys, cache_values, id_features, new_id_featur
         for beta in beta_list:
             for alpha in alpha_list:
                 if adapter:
-                    id_affinity = adapter(id_features)
-                    ood_affinity = adapter(ood_features)
+                    affinity = adapter(test_features)
+                    open_affinity = adapter(open_features)
                 else:
-                    id_affinity = new_id_features @ cache_keys
-                    ood_affinity = new_ood_features @ cache_keys
+                    affinity = new_test_features @ new_cache_keys
+                    open_affinity = new_open_features @ new_cache_keys
 
                 # calculate acc
-                id_clip_logits = 100. * id_features @ zero_clip_weights
-                id_cache_logits = ((-1) * (beta - beta * id_affinity)).exp() @ cache_values
-                id_tip_logits = id_clip_logits + id_cache_logits * alpha
-                acc = cls_acc(id_tip_logits, id_labels)
+                clip_logits = 100. * test_features @ zero_clip_weights
+                cache_logits = ((-1) * (beta - beta * affinity)).exp() @ new_cache_values
+                tip_logits = clip_logits + cache_logits * alpha
+                acc = cls_acc(tip_logits, test_labels)
 
                 # calculate auroc
-                ood_clip_logits = 100. * ood_features @ zero_clip_weights
-                ood_cache_logits = ((-1) * (beta - beta * ood_affinity)).exp() @ cache_values
-                ood_tip_logits = ood_clip_logits + ood_cache_logits * alpha
-                auroc = cls_auroc_ours(id_tip_logits, ood_tip_logits)
-                # todo: 目前暂时未简单地相加
-                score = 0.9 * acc + 0.1 * auroc
+                open_logits = 100. * open_features @ zero_clip_weights
+                open_cache_logits = ((-1) * (beta - beta * open_affinity)).exp() @ new_cache_values
+                open_tip_logits = open_logits + open_cache_logits * alpha
+                auroc, fpr = cls_auroc_ours(tip_logits, open_tip_logits)
+                score = 0.5 * acc + 0.5 * auroc
 
-                if score > best_score:
-                    log.debug("New best setting, beta: {:.2f}, alpha: {:.2f}; accuracy: {:.2f}, auroc: {:.2f}".format(beta, alpha, acc, auroc))
-                    best_score = score
-                    best_acc = acc
-                    best_auroc = auroc
-                    best_beta = beta
-                    best_alpha = alpha
+                log.debug("New best setting, beta: {:.2f}, alpha: {:.2f}; accuracy: {:.2f}, auroc: {:.2f}, fpr: {:.2f}".format(beta, alpha, acc, auroc, fpr))
+                best_score = score
+                best_acc = acc
+                best_auroc = auroc
+                best_beta = beta
+                best_alpha = alpha
 
         log.debug("\nAfter searching, the best score: {:.2f}, best acc: {:.2f}, best auroc: {:.2f}.\n".format(best_score, best_acc, best_auroc))
 
