@@ -1,5 +1,6 @@
 # ------ root_path/dataset_name ------
-root_path: './data'
+root_path: '/home/nfs03/zengtc'
+seed: 3407
 
 # ------ Load Cache and Features ------
 load_cache: False
@@ -10,4 +11,4 @@ load_pre_feat: False
 
 # ------ Basic Config ------
 dataset: 'SUN'
-backbone: 'RN50'
+backbone: 'ViT-B/16'
