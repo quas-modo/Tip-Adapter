@@ -202,8 +202,8 @@ def APE(log, cfg, cache_keys, cache_values,  test_features, test_labels, clip_we
     open_cache_logits = ((-1) * (beta - beta * open_affinity)).exp() @ new_cache_values
     open_tip_logits = open_logits + open_cache_logits * alpha
 
-    auroc, aupr, fpr = cls_auroc_mcm(tip_logits, open_tip_logits, 1)
-    log.debug("**** Tip-Adapter's test auroc, aupr, fpr: {:.2f}, {:.2f}, {:.2f}. ****\n".format(auroc, aupr, fpr))
+    # auroc, aupr, fpr = cls_auroc_mcm(tip_logits, open_tip_logits, 1)
+    # log.debug("**** Tip-Adapter's test auroc, aupr, fpr: {:.2f}, {:.2f}, {:.2f}. ****\n".format(auroc, aupr, fpr))
 
     auroc = cls_auroc_ours(tip_logits, open_tip_logits)
     log.debug("**** Our's test auroc: {:.2f}. ****\n".format(auroc))
