@@ -449,8 +449,8 @@ def search_hp_ape(log, cfg, new_cache_keys, new_cache_values, test_features, new
         for beta in beta_list:
             for alpha in alpha_list:
                 if adapter:
-                    affinity = adapter(test_features)
-                    open_affinity = adapter(open_features)
+                    affinity = adapter(new_test_features)
+                    open_affinity = adapter(new_open_features)
                 else:
                     affinity = new_test_features @ new_cache_keys
                     open_affinity = new_open_features @ new_cache_keys

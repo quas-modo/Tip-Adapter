@@ -162,9 +162,6 @@ def run_tip_adapter_ood(log, cfg, cache_keys, cache_values, test_features, test_
 def APE(log, cfg, cache_keys, cache_values,  test_features, test_labels, clip_weights, neg_clip_weights,
         open_features, open_labels):
 
-    feat_num, cate_num = clip_weights.shape
-    shot_num = cfg["shots"]
-
     cfg['w'] = cfg['w_training_free']
     top_indices, ood_indices = cal_criterion(cfg, clip_weights, cache_keys, only_use_txt=False)
 
@@ -213,6 +210,109 @@ def APE(log, cfg, cache_keys, cache_values,  test_features, test_labels, clip_we
                                           open_features, new_open_features, open_labels, zero_clip_weights)
 
 
+def APE_ood(log, cfg, cache_keys, cache_values, test_features, test_labels, clip_weights, neg_clip_weights, clip_model,
+                      train_loader_F, open_features, open_labels):
+    cfg['w'] = cfg['w_training_free']
+    top_indices, ood_indices = cal_criterion(cfg, clip_weights, cache_keys, only_use_txt=False)
+
+    top_cache_keys = cache_keys[top_indices, :]
+    ood_cache_keys = cache_keys[ood_indices, :]
+    new_cache_keys = torch.cat((top_cache_keys, ood_cache_keys), dim=1)
+
+    zero_clip_weights = torch.cat((clip_weights, neg_clip_weights), dim=1)
+    top_clip_weights = clip_weights[top_indices, :]
+    ood_clip_weights = neg_clip_weights[top_indices, :]
+
+    new_test_features = test_features[:, top_indices]
+    new_open_features = open_features[:, top_indices]
+
+    new_cache_values = cache_values
+
+    # Enable the cached keys to be learnable
+    adapter = nn.Linear(new_cache_keys.shape[0], new_cache_keys.shape[1], bias=False).to(clip_model.dtype).cuda()
+    adapter.weight = nn.Parameter(new_cache_keys.t())
+
+    optimizer = torch.optim.AdamW(adapter.parameters(), lr=cfg['lr'], eps=1e-4)
+    scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(optimizer, cfg['train_epoch'] * len(train_loader_F))
+
+    beta, alpha = cfg['init_beta'], cfg['init_alpha']
+    best_score, best_acc, best_auroc, best_fpr, best_epoch = 0.0, 0.0, 0.0, 0.0, 0
+
+    for train_idx in range(cfg['train_epoch']):
+        # Train
+        adapter.train()
+        correct_samples, all_samples = 0, 0
+        loss_list = []
+        auroc_list = []
+        log.debug('Train Epoch: {:} / {:}'.format(train_idx, cfg['train_epoch']))
+
+        for i, (images, target) in enumerate(tqdm(train_loader_F)):
+            images, target = images.cuda(), target.cuda()
+            with torch.no_grad():
+                image_features = clip_model.encode_image(images)
+                image_features /= image_features.norm(dim=-1, keepdim=True)
+
+            new_image_features = image_features[:, top_indices]
+            affinity = adapter(new_image_features)
+            cache_logits = ((-1) * (beta - beta * affinity)).exp() @ new_cache_values
+            clip_logits = 100. * new_image_features @ zero_clip_weights
+            tip_logits = clip_logits + cache_logits * alpha
+
+            loss = F.cross_entropy(tip_logits, target)
+
+            acc = cls_acc(tip_logits, target)
+            correct_samples += acc / 100 * len(tip_logits)
+            all_samples += len(tip_logits)
+            loss_list.append(loss.item())
+
+            optimizer.zero_grad()
+            loss.backward()
+            optimizer.step()
+            scheduler.step()
+
+        current_lr = scheduler.get_last_lr()[0]
+        log.debug('LR: {:.6f}, Acc: {:.4f} ({:}/{:}), Loss: {:.4f}'.format(current_lr, correct_samples / all_samples,
+                                                                       correct_samples, all_samples,
+                                                                       sum(loss_list) / len(loss_list)))
+
+        # Eval
+        adapter.eval()
+
+        affinity = adapter(new_test_features)
+        cache_logits = ((-1) * (beta - beta * affinity)).exp() @ new_cache_values
+        clip_logits = 100. * new_test_features @ zero_clip_weights
+        tip_logits = clip_logits + cache_logits * alpha
+        acc = cls_acc(tip_logits, test_labels)
+
+        log.debug("**** Tip-Adapter-F's test accuracy: {:.2f}. ****\n".format(acc))
+
+        open_affinity = adapter(new_open_features)
+        open_cache_logits = ((-1) * (beta - beta * open_affinity)).exp() @ new_cache_values
+        open_logits = 100. * new_open_features @ zero_clip_weights
+        open_tip_logits = open_logits + open_cache_logits * alpha
+
+        auroc, fpr = cls_auroc_ours(tip_logits, open_tip_logits)
+        log.debug("**** Tip-Adapter's test auroc, fpr: {:.2f}, {:.2f}. ****\n".format(auroc, fpr))
+
+        score = 0.4 * acc + 0.6 * auroc
+
+        if score > best_score:
+            best_score = score
+            best_acc = acc
+            best_auroc = auroc
+            best_fpr = fpr
+            best_epoch = train_idx
+            torch.save(adapter.weight, cfg['cache_dir'] + "/best_F_" + str(cfg['shots']) + "shots.pt")
+
+    adapter.weight = torch.load(cfg['cache_dir'] + "/best_F_" + str(cfg['shots']) + "shots.pt")
+    log.debug(f"**** After fine-tuning, Tip-Adapter-F's best test score: {best_score:.2f},  "
+              f"acc: {best_acc:.2f}, auroc: {best_auroc:.2f}, fpr: {best_fpr:.2f}"
+              f"at epoch: {best_epoch}. ****\n")
+
+    # Search Hyperparameters
+    # todo: cache_keys? affinity?
+    best_beta, best_alpha = search_hp_ape(log, cfg, new_cache_keys, new_cache_values, test_features, new_test_features, test_labels,
+                                          open_features, new_open_features, open_labels, zero_clip_weights, adapter=adapter)
 
 
 def main():
@@ -283,6 +383,9 @@ def main():
 
     APE(log, id_cfg, cache_keys, cache_values, test_features, test_labels, clip_weights, neg_clip_weights,
         ood_features, ood_labels)
+
+    APE_ood(log, id_cfg, cache_keys, cache_values, test_features, test_labels, clip_weights, neg_clip_weights, clip_model,
+            train_loader_F, ood_features, ood_labels)
 
     # ------------------------------------------ Tip-Adapter ------------------------------------------
     # run_tip_adapter_ood(log, id_cfg, cache_keys, cache_values, test_features, test_labels, clip_weights, ood_features,
