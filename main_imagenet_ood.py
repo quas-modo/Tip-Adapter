@@ -209,6 +209,24 @@ def APE(log, cfg, cache_keys, cache_values,  test_features, test_labels, clip_we
     best_beta, best_alpha = search_hp_ape(log, cfg, new_cache_keys, new_cache_values, test_features, new_test_features, test_labels,
                                           open_features, new_open_features, open_labels, zero_clip_weights)
 
+def cal_loss_auroc(logits, pos_cate_num):
+    to_np = lambda x: x.data.cpu().numpy()
+
+    logits /= 100.0
+    logits = to_np(F.softmax(logits, dim=1))
+    pos_half = np.max(logits[:, :pos_cate_num], axis=1)
+    neg_half = np.max(logits[:, pos_cate_num:], axis=1)
+
+    condition = pos_half < neg_half
+    indices = np.where(condition)[0]
+    print("*** pos_half < neg_half indices")
+    print(indices.shape)
+    p = torch.tensor(neg_half[indices])
+    print("*** torch.tensor(neg_half[indices]): *** ")
+    print(p.shape)
+    if p.shape[0] == 0:
+        return torch.tensor([0]).cuda()
+    return -torch.mean(torch.sum(p * torch.log(p + 1e-5)), 1)
 
 def APE_ood(log, cfg, cache_keys, cache_values, test_features, test_labels, clip_weights, neg_clip_weights, clip_model,
                       train_loader_F, open_features, open_labels):
@@ -252,13 +270,19 @@ def APE_ood(log, cfg, cache_keys, cache_values, test_features, test_labels, clip
                 image_features = clip_model.encode_image(images)
                 image_features /= image_features.norm(dim=-1, keepdim=True)
 
+            # acc loss
             new_image_features = image_features[:, top_indices]
             affinity = adapter(new_image_features)
             cache_logits = ((-1) * (beta - beta * affinity)).exp() @ new_cache_values
             clip_logits = 100. * new_image_features @ zero_clip_weights
             tip_logits = clip_logits + cache_logits * alpha
 
-            loss = F.cross_entropy(tip_logits, target)
+            sample_num, cate_num = tip_logits.shape   
+            pos_cate_num = cate_num // 2
+            
+            loss_acc = F.cross_entropy(tip_logits[:, :pos_cate_num], target)
+            loss_auroc = cal_loss_auroc(tip_logits, pos_cate_num)
+            loss = loss_acc + loss_auroc
 
             acc = cls_acc(tip_logits, target)
             correct_samples += acc / 100 * len(tip_logits)
@@ -296,7 +320,7 @@ def APE_ood(log, cfg, cache_keys, cache_values, test_features, test_labels, clip
 
         score = 0.4 * acc + 0.6 * auroc
 
-        if score > best_score:
+        if auroc > best_auroc:
             best_score = score
             best_acc = acc
             best_auroc = auroc
