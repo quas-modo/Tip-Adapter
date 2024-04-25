@@ -1,0 +1,58 @@
+2024-04-23 07:12:30,648 : #########TRAIN_EVAL_INFO############
+2024-04-23 07:12:30,667 : 
+Running in-domain dataset configs.
+2024-04-23 07:12:30,668 : {'root_path': '/home/nfs03/liyh/', 'seed': 3407, 'load_cache': True, 'load_pre_feat': True, 'search_hp': True, 'search_scale': [7, 7, 0.5], 'search_step': [200, 20, 5], 'init_beta': 1, 'init_alpha': 2, 'init_gamma': 0.1, 'eps': 0.001, 'training_feat_num': 256, 'training_free_feat_num': 256, 'w_training_free': [0.7, 0.3], 'w_training': [0.2, 0.8], 'dataset': 'imagenet', 'shots': 16, 'backbone': 'ViT-B/16', 'lr': 0.001, 'augment_epoch': 10, 'train_epoch': 20, 'data_section': 0, 'cache_dir': '/home/nfs03/zengtc/tip/caches/imagenet'}
+2024-04-23 07:12:37,557 : Preparing ImageNet dataset.
+2024-04-23 07:14:30,433 : Getting textual features as CLIP's classifier.
+2024-04-23 07:14:46,733 : 
+Constructing cache model by few-shot visual features and labels.
+2024-04-23 07:14:46,854 : 
+Loading visual features and labels from test set.
+2024-04-23 07:14:46,883 : 
+Running out-domain dataset configs.
+2024-04-23 07:14:46,884 : {'root_path': '/home/nfs03/zengtc', 'seed': 3407, 'load_cache': True, 'load_pre_feat': True, 'dataset': 'iNaturalist', 'backbone': 'ViT-B/16'}
+2024-04-23 07:14:48,260 : **** Our's test auroc: 91.78, fpr: 42.93. ****
+
+2024-04-23 07:14:48,321 : Train Epoch: 0 / 20
+2024-04-23 07:15:17,400 : LR: 0.000994, Acc: 0.6903 (11044.0/16000), Loss: 1.1188
+2024-04-23 07:15:17,515 : **** Tip-Adapter-F's test accuracy: 68.62. ****
+
+2024-04-23 07:15:18,081 : **** Tip-Adapter's test auroc, fpr: 91.82, 42.47. ****
+
+2024-04-23 07:15:18,451 : Train Epoch: 1 / 20
+2024-04-23 07:15:44,425 : LR: 0.000976, Acc: 0.7035 (11256.0/16000), Loss: 1.0625
+2024-04-23 07:15:44,542 : **** Tip-Adapter-F's test accuracy: 69.19. ****
+
+2024-04-23 07:15:45,114 : **** Tip-Adapter's test auroc, fpr: 91.93, 42.03. ****
+
+2024-04-23 07:15:45,335 : Train Epoch: 2 / 20
+2024-04-23 07:16:11,175 : LR: 0.000946, Acc: 0.7087 (11339.0/16000), Loss: 1.0292
+2024-04-23 07:16:11,290 : **** Tip-Adapter-F's test accuracy: 69.55. ****
+
+2024-04-23 07:16:11,789 : **** Tip-Adapter's test auroc, fpr: 91.97, 41.98. ****
+
+2024-04-23 07:16:12,100 : Train Epoch: 3 / 20
+2024-04-23 07:16:38,097 : LR: 0.000905, Acc: 0.7215 (11544.0/16000), Loss: 1.0068
+2024-04-23 07:16:38,212 : **** Tip-Adapter-F's test accuracy: 69.82. ****
+
+2024-04-23 07:16:38,717 : **** Tip-Adapter's test auroc, fpr: 92.05, 41.87. ****
+
+2024-04-23 07:16:38,933 : Train Epoch: 4 / 20
+2024-04-23 07:17:05,762 : LR: 0.000854, Acc: 0.7248 (11597.0/16000), Loss: 0.9815
+2024-04-23 07:17:05,876 : **** Tip-Adapter-F's test accuracy: 70.00. ****
+
+2024-04-23 07:17:06,377 : **** Tip-Adapter's test auroc, fpr: 92.10, 40.21. ****
+
+2024-04-23 07:17:06,673 : Train Epoch: 5 / 20
+2024-04-23 07:17:35,304 : LR: 0.000794, Acc: 0.7286 (11658.0/16000), Loss: 0.9662
+2024-04-23 07:17:35,421 : **** Tip-Adapter-F's test accuracy: 70.10. ****
+
+2024-04-23 07:17:35,922 : **** Tip-Adapter's test auroc, fpr: 92.15, 40.15. ****
+
+2024-04-23 07:17:36,295 : Train Epoch: 6 / 20
+2024-04-23 07:18:04,467 : LR: 0.000727, Acc: 0.7361 (11777.0/16000), Loss: 0.9422
+2024-04-23 07:18:04,583 : **** Tip-Adapter-F's test accuracy: 70.25. ****
+
+2024-04-23 07:18:05,155 : **** Tip-Adapter's test auroc, fpr: 92.18, 40.35. ****
+
+2024-04-23 07:18:05,440 : Train Epoch: 7 / 20

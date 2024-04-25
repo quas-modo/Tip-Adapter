@@ -202,12 +202,12 @@ def APE(log, cfg, cache_keys, cache_values,  test_features, test_labels, clip_we
     # auroc, aupr, fpr = cls_auroc_mcm(tip_logits, open_tip_logits, 1)
     # log.debug("**** Tip-Adapter's test auroc, aupr, fpr: {:.2f}, {:.2f}, {:.2f}. ****\n".format(auroc, aupr, fpr))
 
-    auroc = cls_auroc_ours(tip_logits, open_tip_logits)
-    log.debug("**** Our's test auroc: {:.2f}. ****\n".format(auroc))
+    auroc, fpr = cls_auroc_ours(tip_logits, open_tip_logits)
+    log.debug("**** Our's test auroc: {:.2f}, fpr: {:.2f}. ****\n".format(auroc, fpr))
 
     # Search Hyperparameters
-    best_beta, best_alpha = search_hp_ape(log, cfg, new_cache_keys, new_cache_values, test_features, new_test_features, test_labels,
-                                          open_features, new_open_features, open_labels, zero_clip_weights)
+    # best_beta, best_alpha = search_hp_ape(log, cfg, new_cache_keys, new_cache_values, test_features, new_test_features, test_labels,
+    #                                       open_features, new_open_features, open_labels, zero_clip_weights)
 
 def cal_loss_auroc(logits, pos_cate_num):
     to_np = lambda x: x.data.cpu().numpy()
@@ -219,14 +219,21 @@ def cal_loss_auroc(logits, pos_cate_num):
 
     condition = pos_half < neg_half
     indices = np.where(condition)[0]
-    print("*** pos_half < neg_half indices")
-    print(indices.shape)
-    p = torch.tensor(neg_half[indices])
-    print("*** torch.tensor(neg_half[indices]): *** ")
-    print(p.shape)
+    # print("*** pos_half < neg_half indices")
+    # print(indices.shape)
+
+    # tmp_condition = pos_half > neg_half
+    # tmp_indices = np.where(tmp_condition)[0]
+    # print("*** pos_half < neg_half  indices")
+    # print(tmp_indices.shape)
+
+    p = torch.tensor(neg_half[indices], dtype=torch.float32)
+    # print("*** torch.tensor(neg_half[indices]): *** ")
+    # print(p.shape)
+    # print(p)
     if p.shape[0] == 0:
         return torch.tensor([0]).cuda()
-    return -torch.mean(torch.sum(p * torch.log(p + 1e-5)), 1)
+    return -torch.mean(torch.sum(p * torch.log(p + 1e-5)), 0)
 
 def APE_ood(log, cfg, cache_keys, cache_values, test_features, test_labels, clip_weights, neg_clip_weights, clip_model,
                       train_loader_F, open_features, open_labels):
@@ -274,15 +281,17 @@ def APE_ood(log, cfg, cache_keys, cache_values, test_features, test_labels, clip
             new_image_features = image_features[:, top_indices]
             affinity = adapter(new_image_features)
             cache_logits = ((-1) * (beta - beta * affinity)).exp() @ new_cache_values
-            clip_logits = 100. * new_image_features @ zero_clip_weights
+            clip_logits = 100. * image_features @ zero_clip_weights
             tip_logits = clip_logits + cache_logits * alpha
 
             sample_num, cate_num = tip_logits.shape   
             pos_cate_num = cate_num // 2
             
             loss_acc = F.cross_entropy(tip_logits[:, :pos_cate_num], target)
-            loss_auroc = cal_loss_auroc(tip_logits, pos_cate_num)
+            # loss_auroc = cal_loss_auroc(tip_logits, pos_cate_num)
+            loss_auroc = 0
             loss = loss_acc + loss_auroc
+            # print("***loss_acc: {:.2f}, loss_auroc: {:.2f}, loss: {:.2f}".format(loss_acc, loss_auroc, loss))
 
             acc = cls_acc(tip_logits, target)
             correct_samples += acc / 100 * len(tip_logits)
@@ -304,7 +313,7 @@ def APE_ood(log, cfg, cache_keys, cache_values, test_features, test_labels, clip
 
         affinity = adapter(new_test_features)
         cache_logits = ((-1) * (beta - beta * affinity)).exp() @ new_cache_values
-        clip_logits = 100. * new_test_features @ zero_clip_weights
+        clip_logits = 100. * test_features @ zero_clip_weights
         tip_logits = clip_logits + cache_logits * alpha
         acc = cls_acc(tip_logits, test_labels)
 
@@ -312,7 +321,7 @@ def APE_ood(log, cfg, cache_keys, cache_values, test_features, test_labels, clip
 
         open_affinity = adapter(new_open_features)
         open_cache_logits = ((-1) * (beta - beta * open_affinity)).exp() @ new_cache_values
-        open_logits = 100. * new_open_features @ zero_clip_weights
+        open_logits = 100. * open_features @ zero_clip_weights
         open_tip_logits = open_logits + open_cache_logits * alpha
 
         auroc, fpr = cls_auroc_ours(tip_logits, open_tip_logits)

@@ -1,0 +1,514 @@
+2024-04-23 07:18:48,484 : #########TRAIN_EVAL_INFO############
+2024-04-23 07:18:48,494 : 
+Running in-domain dataset configs.
+2024-04-23 07:18:48,494 : {'root_path': '/home/nfs03/liyh/', 'seed': 3407, 'load_cache': True, 'load_pre_feat': True, 'search_hp': True, 'search_scale': [7, 7, 0.5], 'search_step': [200, 20, 5], 'init_beta': 1, 'init_alpha': 2, 'init_gamma': 0.1, 'eps': 0.001, 'training_feat_num': 256, 'training_free_feat_num': 256, 'w_training_free': [0.7, 0.3], 'w_training': [0.2, 0.8], 'dataset': 'imagenet', 'shots': 16, 'backbone': 'ViT-B/16', 'lr': 0.001, 'augment_epoch': 10, 'train_epoch': 20, 'data_section': 0, 'cache_dir': '/home/nfs03/zengtc/tip/caches/imagenet'}
+2024-04-23 07:18:55,277 : Preparing ImageNet dataset.
+2024-04-23 07:20:56,010 : Getting textual features as CLIP's classifier.
+2024-04-23 07:21:12,579 : 
+Constructing cache model by few-shot visual features and labels.
+2024-04-23 07:21:12,722 : 
+Loading visual features and labels from test set.
+2024-04-23 07:21:12,762 : 
+Running out-domain dataset configs.
+2024-04-23 07:21:12,762 : {'root_path': '/home/nfs03/zengtc', 'seed': 3407, 'load_cache': True, 'load_pre_feat': True, 'dataset': 'iNaturalist', 'backbone': 'ViT-B/16'}
+2024-04-23 07:21:14,160 : **** Our's test auroc: 91.78, fpr: 42.93. ****
+
+2024-04-23 07:21:14,219 : Train Epoch: 0 / 20
+2024-04-23 07:21:42,510 : LR: 0.000994, Acc: 0.6903 (11044.0/16000), Loss: 1.1188
+2024-04-23 07:21:42,624 : **** Tip-Adapter-F's test accuracy: 68.62. ****
+
+2024-04-23 07:21:43,121 : **** Tip-Adapter's test auroc, fpr: 91.82, 42.47. ****
+
+2024-04-23 07:21:43,438 : Train Epoch: 1 / 20
+2024-04-23 07:22:12,624 : LR: 0.000976, Acc: 0.7035 (11256.0/16000), Loss: 1.0625
+2024-04-23 07:22:12,739 : **** Tip-Adapter-F's test accuracy: 69.19. ****
+
+2024-04-23 07:22:13,232 : **** Tip-Adapter's test auroc, fpr: 91.93, 42.03. ****
+
+2024-04-23 07:22:13,522 : Train Epoch: 2 / 20
+2024-04-23 07:22:40,108 : LR: 0.000946, Acc: 0.7087 (11339.0/16000), Loss: 1.0292
+2024-04-23 07:22:40,225 : **** Tip-Adapter-F's test accuracy: 69.55. ****
+
+2024-04-23 07:22:40,793 : **** Tip-Adapter's test auroc, fpr: 91.97, 41.98. ****
+
+2024-04-23 07:22:41,098 : Train Epoch: 3 / 20
+2024-04-23 07:23:09,206 : LR: 0.000905, Acc: 0.7215 (11544.0/16000), Loss: 1.0068
+2024-04-23 07:23:09,321 : **** Tip-Adapter-F's test accuracy: 69.82. ****
+
+2024-04-23 07:23:09,819 : **** Tip-Adapter's test auroc, fpr: 92.05, 41.87. ****
+
+2024-04-23 07:23:10,085 : Train Epoch: 4 / 20
+2024-04-23 07:23:37,905 : LR: 0.000854, Acc: 0.7248 (11597.0/16000), Loss: 0.9815
+2024-04-23 07:23:38,020 : **** Tip-Adapter-F's test accuracy: 70.00. ****
+
+2024-04-23 07:23:38,588 : **** Tip-Adapter's test auroc, fpr: 92.10, 40.21. ****
+
+2024-04-23 07:23:38,836 : Train Epoch: 5 / 20
+2024-04-23 07:24:05,489 : LR: 0.000794, Acc: 0.7286 (11658.0/16000), Loss: 0.9662
+2024-04-23 07:24:05,604 : **** Tip-Adapter-F's test accuracy: 70.10. ****
+
+2024-04-23 07:24:06,095 : **** Tip-Adapter's test auroc, fpr: 92.15, 40.15. ****
+
+2024-04-23 07:24:06,390 : Train Epoch: 6 / 20
+2024-04-23 07:24:32,924 : LR: 0.000727, Acc: 0.7361 (11777.0/16000), Loss: 0.9422
+2024-04-23 07:24:33,041 : **** Tip-Adapter-F's test accuracy: 70.25. ****
+
+2024-04-23 07:24:33,539 : **** Tip-Adapter's test auroc, fpr: 92.18, 40.35. ****
+
+2024-04-23 07:24:33,761 : Train Epoch: 7 / 20
+2024-04-23 07:24:59,663 : LR: 0.000655, Acc: 0.7378 (11804.0/16000), Loss: 0.9347
+2024-04-23 07:24:59,780 : **** Tip-Adapter-F's test accuracy: 70.31. ****
+
+2024-04-23 07:25:00,355 : **** Tip-Adapter's test auroc, fpr: 92.23, 40.26. ****
+
+2024-04-23 07:25:00,643 : Train Epoch: 8 / 20
+2024-04-23 07:25:27,409 : LR: 0.000578, Acc: 0.7416 (11866.0/16000), Loss: 0.9173
+2024-04-23 07:25:27,526 : **** Tip-Adapter-F's test accuracy: 70.31. ****
+
+2024-04-23 07:25:28,088 : **** Tip-Adapter's test auroc, fpr: 92.25, 40.35. ****
+
+2024-04-23 07:25:28,346 : Train Epoch: 9 / 20
+2024-04-23 07:25:54,905 : LR: 0.000500, Acc: 0.7448 (11916.0/16000), Loss: 0.9051
+2024-04-23 07:25:55,020 : **** Tip-Adapter-F's test accuracy: 70.41. ****
+
+2024-04-23 07:25:55,516 : **** Tip-Adapter's test auroc, fpr: 92.27, 40.39. ****
+
+2024-04-23 07:25:55,799 : Train Epoch: 10 / 20
+2024-04-23 07:26:22,509 : LR: 0.000422, Acc: 0.7498 (11996.0/16000), Loss: 0.8836
+2024-04-23 07:26:22,628 : **** Tip-Adapter-F's test accuracy: 70.45. ****
+
+2024-04-23 07:26:23,192 : **** Tip-Adapter's test auroc, fpr: 92.29, 38.90. ****
+
+2024-04-23 07:26:23,477 : Train Epoch: 11 / 20
+2024-04-23 07:26:49,681 : LR: 0.000345, Acc: 0.7529 (12046.0/16000), Loss: 0.8766
+2024-04-23 07:26:49,796 : **** Tip-Adapter-F's test accuracy: 70.50. ****
+
+2024-04-23 07:26:50,293 : **** Tip-Adapter's test auroc, fpr: 92.30, 38.96. ****
+
+2024-04-23 07:26:50,588 : Train Epoch: 12 / 20
+2024-04-23 07:27:17,058 : LR: 0.000273, Acc: 0.7511 (12018.0/16000), Loss: 0.8793
+2024-04-23 07:27:17,173 : **** Tip-Adapter-F's test accuracy: 70.53. ****
+
+2024-04-23 07:27:17,749 : **** Tip-Adapter's test auroc, fpr: 92.32, 38.97. ****
+
+2024-04-23 07:27:18,038 : Train Epoch: 13 / 20
+2024-04-23 07:27:44,220 : LR: 0.000206, Acc: 0.7564 (12102.0/16000), Loss: 0.8727
+2024-04-23 07:27:44,337 : **** Tip-Adapter-F's test accuracy: 70.56. ****
+
+2024-04-23 07:27:44,850 : **** Tip-Adapter's test auroc, fpr: 92.32, 39.02. ****
+
+2024-04-23 07:27:45,142 : Train Epoch: 14 / 20
+2024-04-23 07:28:11,144 : LR: 0.000146, Acc: 0.7582 (12131.0/16000), Loss: 0.8681
+2024-04-23 07:28:11,262 : **** Tip-Adapter-F's test accuracy: 70.58. ****
+
+2024-04-23 07:28:11,795 : **** Tip-Adapter's test auroc, fpr: 92.33, 39.03. ****
+
+2024-04-23 07:28:12,036 : Train Epoch: 15 / 20
+2024-04-23 07:28:38,869 : LR: 0.000095, Acc: 0.7598 (12157.0/16000), Loss: 0.8643
+2024-04-23 07:28:38,988 : **** Tip-Adapter-F's test accuracy: 70.59. ****
+
+2024-04-23 07:28:39,482 : **** Tip-Adapter's test auroc, fpr: 92.33, 39.04. ****
+
+2024-04-23 07:28:39,733 : Train Epoch: 16 / 20
+2024-04-23 07:29:05,814 : LR: 0.000054, Acc: 0.7597 (12155.0/16000), Loss: 0.8682
+2024-04-23 07:29:05,929 : **** Tip-Adapter-F's test accuracy: 70.59. ****
+
+2024-04-23 07:29:06,518 : **** Tip-Adapter's test auroc, fpr: 92.33, 39.04. ****
+
+2024-04-23 07:29:06,518 : Train Epoch: 17 / 20
+2024-04-23 07:29:32,221 : LR: 0.000024, Acc: 0.7592 (12147.0/16000), Loss: 0.8609
+2024-04-23 07:29:32,336 : **** Tip-Adapter-F's test accuracy: 70.59. ****
+
+2024-04-23 07:29:32,840 : **** Tip-Adapter's test auroc, fpr: 92.33, 39.03. ****
+
+2024-04-23 07:29:32,840 : Train Epoch: 18 / 20
+2024-04-23 07:29:58,747 : LR: 0.000006, Acc: 0.7614 (12182.0/16000), Loss: 0.8606
+2024-04-23 07:29:58,866 : **** Tip-Adapter-F's test accuracy: 70.60. ****
+
+2024-04-23 07:29:59,364 : **** Tip-Adapter's test auroc, fpr: 92.33, 39.03. ****
+
+2024-04-23 07:29:59,364 : Train Epoch: 19 / 20
+2024-04-23 07:30:25,783 : LR: 0.000000, Acc: 0.7599 (12158.0/16000), Loss: 0.8571
+2024-04-23 07:30:25,902 : **** Tip-Adapter-F's test accuracy: 70.60. ****
+
+2024-04-23 07:30:26,415 : **** Tip-Adapter's test auroc, fpr: 92.33, 39.03. ****
+
+2024-04-23 07:30:26,714 : **** After fine-tuning, Tip-Adapter-F's best test score: 83.64,  acc: 70.59, auroc: 92.33, fpr: 39.04at epoch: 15. ****
+
+2024-04-23 07:30:27,390 : New best setting, beta: 0.10, alpha: 0.10; accuracy: 62.62, auroc: 92.05, fpr: 40.74
+2024-04-23 07:30:28,070 : New best setting, beta: 0.10, alpha: 0.45; accuracy: 63.21, auroc: 92.07, fpr: 41.27
+2024-04-23 07:30:28,737 : New best setting, beta: 0.10, alpha: 0.79; accuracy: 63.70, auroc: 92.09, fpr: 41.67
+2024-04-23 07:30:29,390 : New best setting, beta: 0.10, alpha: 1.14; accuracy: 64.21, auroc: 92.10, fpr: 40.50
+2024-04-23 07:30:30,046 : New best setting, beta: 0.10, alpha: 1.48; accuracy: 64.77, auroc: 92.12, fpr: 40.96
+2024-04-23 07:30:30,700 : New best setting, beta: 0.10, alpha: 1.83; accuracy: 65.23, auroc: 92.14, fpr: 41.46
+2024-04-23 07:30:31,398 : New best setting, beta: 0.10, alpha: 2.17; accuracy: 65.66, auroc: 92.15, fpr: 40.16
+2024-04-23 07:30:32,055 : New best setting, beta: 0.10, alpha: 2.52; accuracy: 66.12, auroc: 92.16, fpr: 40.76
+2024-04-23 07:30:32,713 : New best setting, beta: 0.10, alpha: 2.86; accuracy: 66.54, auroc: 92.18, fpr: 39.48
+2024-04-23 07:30:33,376 : New best setting, beta: 0.10, alpha: 3.21; accuracy: 66.95, auroc: 92.19, fpr: 39.96
+2024-04-23 07:30:34,032 : New best setting, beta: 0.10, alpha: 3.55; accuracy: 67.26, auroc: 92.21, fpr: 40.56
+2024-04-23 07:30:34,729 : New best setting, beta: 0.10, alpha: 3.90; accuracy: 67.68, auroc: 92.21, fpr: 39.41
+2024-04-23 07:30:35,426 : New best setting, beta: 0.10, alpha: 4.24; accuracy: 68.02, auroc: 92.23, fpr: 39.78
+2024-04-23 07:30:36,121 : New best setting, beta: 0.10, alpha: 4.58; accuracy: 68.31, auroc: 92.24, fpr: 40.39
+2024-04-23 07:30:36,778 : New best setting, beta: 0.10, alpha: 4.93; accuracy: 68.61, auroc: 92.25, fpr: 39.22
+2024-04-23 07:30:37,433 : New best setting, beta: 0.10, alpha: 5.27; accuracy: 68.86, auroc: 92.26, fpr: 39.70
+2024-04-23 07:30:38,091 : New best setting, beta: 0.10, alpha: 5.62; accuracy: 69.06, auroc: 92.27, fpr: 40.39
+2024-04-23 07:30:38,749 : New best setting, beta: 0.10, alpha: 5.96; accuracy: 69.26, auroc: 92.28, fpr: 39.25
+2024-04-23 07:30:39,439 : New best setting, beta: 0.10, alpha: 6.31; accuracy: 69.48, auroc: 92.28, fpr: 39.81
+2024-04-23 07:30:40,130 : New best setting, beta: 0.10, alpha: 6.65; accuracy: 69.61, auroc: 92.29, fpr: 38.81
+2024-04-23 07:30:40,827 : New best setting, beta: 0.13, alpha: 0.10; accuracy: 62.62, auroc: 92.05, fpr: 40.84
+2024-04-23 07:30:41,516 : New best setting, beta: 0.13, alpha: 0.45; accuracy: 63.41, auroc: 92.07, fpr: 41.46
+2024-04-23 07:30:42,172 : New best setting, beta: 0.13, alpha: 0.79; accuracy: 64.05, auroc: 92.10, fpr: 40.32
+2024-04-23 07:30:42,838 : New best setting, beta: 0.13, alpha: 1.14; accuracy: 64.71, auroc: 92.12, fpr: 40.94
+2024-04-23 07:30:43,534 : New best setting, beta: 0.13, alpha: 1.48; accuracy: 65.36, auroc: 92.14, fpr: 39.86
+2024-04-23 07:30:44,229 : New best setting, beta: 0.13, alpha: 1.83; accuracy: 65.91, auroc: 92.16, fpr: 40.48
+2024-04-23 07:30:44,930 : New best setting, beta: 0.13, alpha: 2.17; accuracy: 66.44, auroc: 92.18, fpr: 39.52
+2024-04-23 07:30:45,626 : New best setting, beta: 0.13, alpha: 2.52; accuracy: 66.96, auroc: 92.20, fpr: 40.17
+2024-04-23 07:30:46,318 : New best setting, beta: 0.13, alpha: 2.86; accuracy: 67.46, auroc: 92.21, fpr: 40.95
+2024-04-23 07:30:47,017 : New best setting, beta: 0.13, alpha: 3.21; accuracy: 67.90, auroc: 92.23, fpr: 39.67
+2024-04-23 07:30:47,700 : New best setting, beta: 0.13, alpha: 3.55; accuracy: 68.34, auroc: 92.24, fpr: 40.48
+2024-04-23 07:30:48,320 : New best setting, beta: 0.13, alpha: 3.90; accuracy: 68.70, auroc: 92.26, fpr: 39.57
+2024-04-23 07:30:48,920 : New best setting, beta: 0.13, alpha: 4.24; accuracy: 69.00, auroc: 92.27, fpr: 40.24
+2024-04-23 07:30:49,534 : New best setting, beta: 0.13, alpha: 4.58; accuracy: 69.27, auroc: 92.28, fpr: 39.36
+2024-04-23 07:30:50,134 : New best setting, beta: 0.13, alpha: 4.93; accuracy: 69.50, auroc: 92.28, fpr: 40.08
+2024-04-23 07:30:50,749 : New best setting, beta: 0.13, alpha: 5.27; accuracy: 69.77, auroc: 92.30, fpr: 39.15
+2024-04-23 07:30:51,361 : New best setting, beta: 0.13, alpha: 5.62; accuracy: 70.04, auroc: 92.29, fpr: 39.97
+2024-04-23 07:30:51,975 : New best setting, beta: 0.13, alpha: 5.96; accuracy: 70.26, auroc: 92.30, fpr: 39.18
+2024-04-23 07:30:52,593 : New best setting, beta: 0.13, alpha: 6.31; accuracy: 70.44, auroc: 92.31, fpr: 40.07
+2024-04-23 07:30:53,206 : New best setting, beta: 0.13, alpha: 6.65; accuracy: 70.65, auroc: 92.31, fpr: 39.27
+2024-04-23 07:30:53,843 : New best setting, beta: 0.17, alpha: 0.10; accuracy: 62.71, auroc: 92.05, fpr: 40.93
+2024-04-23 07:30:54,543 : New best setting, beta: 0.17, alpha: 0.45; accuracy: 63.61, auroc: 92.08, fpr: 41.59
+2024-04-23 07:30:55,242 : New best setting, beta: 0.17, alpha: 0.79; accuracy: 64.37, auroc: 92.11, fpr: 40.65
+2024-04-23 07:30:55,862 : New best setting, beta: 0.17, alpha: 1.14; accuracy: 65.18, auroc: 92.14, fpr: 41.43
+2024-04-23 07:30:56,471 : New best setting, beta: 0.17, alpha: 1.48; accuracy: 65.89, auroc: 92.16, fpr: 40.40
+2024-04-23 07:30:57,069 : New best setting, beta: 0.17, alpha: 1.83; accuracy: 66.53, auroc: 92.19, fpr: 39.55
+2024-04-23 07:30:57,659 : New best setting, beta: 0.17, alpha: 2.17; accuracy: 67.11, auroc: 92.21, fpr: 40.36
+2024-04-23 07:30:58,248 : New best setting, beta: 0.17, alpha: 2.52; accuracy: 67.74, auroc: 92.22, fpr: 39.48
+2024-04-23 07:30:58,838 : New best setting, beta: 0.17, alpha: 2.86; accuracy: 68.27, auroc: 92.24, fpr: 40.28
+2024-04-23 07:30:59,461 : New best setting, beta: 0.17, alpha: 3.21; accuracy: 68.71, auroc: 92.26, fpr: 39.61
+2024-04-23 07:31:00,077 : New best setting, beta: 0.17, alpha: 3.55; accuracy: 69.09, auroc: 92.27, fpr: 40.43
+2024-04-23 07:31:00,685 : New best setting, beta: 0.17, alpha: 3.90; accuracy: 69.38, auroc: 92.28, fpr: 39.53
+2024-04-23 07:31:01,387 : New best setting, beta: 0.17, alpha: 4.24; accuracy: 69.65, auroc: 92.29, fpr: 39.02
+2024-04-23 07:31:02,048 : New best setting, beta: 0.17, alpha: 4.58; accuracy: 69.98, auroc: 92.30, fpr: 39.93
+2024-04-23 07:31:02,730 : New best setting, beta: 0.17, alpha: 4.93; accuracy: 70.28, auroc: 92.30, fpr: 39.38
+2024-04-23 07:31:03,377 : New best setting, beta: 0.17, alpha: 5.27; accuracy: 70.53, auroc: 92.30, fpr: 40.20
+2024-04-23 07:31:04,075 : New best setting, beta: 0.17, alpha: 5.62; accuracy: 70.77, auroc: 92.31, fpr: 39.75
+2024-04-23 07:31:04,775 : New best setting, beta: 0.17, alpha: 5.96; accuracy: 70.98, auroc: 92.30, fpr: 39.13
+2024-04-23 07:31:05,469 : New best setting, beta: 0.17, alpha: 6.31; accuracy: 71.05, auroc: 92.31, fpr: 39.97
+2024-04-23 07:31:06,126 : New best setting, beta: 0.17, alpha: 6.65; accuracy: 71.29, auroc: 92.31, fpr: 39.50
+2024-04-23 07:31:06,830 : New best setting, beta: 0.20, alpha: 0.10; accuracy: 62.74, auroc: 92.05, fpr: 41.00
+2024-04-23 07:31:07,545 : New best setting, beta: 0.20, alpha: 0.45; accuracy: 63.78, auroc: 92.09, fpr: 40.00
+2024-04-23 07:31:08,201 : New best setting, beta: 0.20, alpha: 0.79; accuracy: 64.70, auroc: 92.12, fpr: 40.94
+2024-04-23 07:31:08,900 : New best setting, beta: 0.20, alpha: 1.14; accuracy: 65.58, auroc: 92.15, fpr: 40.10
+2024-04-23 07:31:09,599 : New best setting, beta: 0.20, alpha: 1.48; accuracy: 66.32, auroc: 92.18, fpr: 41.06
+2024-04-23 07:31:10,222 : New best setting, beta: 0.20, alpha: 1.83; accuracy: 67.01, auroc: 92.20, fpr: 40.28
+2024-04-23 07:31:10,921 : New best setting, beta: 0.20, alpha: 2.17; accuracy: 67.74, auroc: 92.23, fpr: 39.43
+2024-04-23 07:31:11,619 : New best setting, beta: 0.20, alpha: 2.52; accuracy: 68.41, auroc: 92.25, fpr: 40.47
+2024-04-23 07:31:12,315 : New best setting, beta: 0.20, alpha: 2.86; accuracy: 68.89, auroc: 92.26, fpr: 39.83
+2024-04-23 07:31:13,008 : New best setting, beta: 0.20, alpha: 3.21; accuracy: 69.28, auroc: 92.28, fpr: 39.19
+2024-04-23 07:31:13,705 : New best setting, beta: 0.20, alpha: 3.55; accuracy: 69.58, auroc: 92.29, fpr: 40.36
+2024-04-23 07:31:14,341 : New best setting, beta: 0.20, alpha: 3.90; accuracy: 69.93, auroc: 92.30, fpr: 39.90
+2024-04-23 07:31:14,952 : New best setting, beta: 0.20, alpha: 4.24; accuracy: 70.31, auroc: 92.30, fpr: 39.25
+2024-04-23 07:31:15,569 : New best setting, beta: 0.20, alpha: 4.58; accuracy: 70.55, auroc: 92.31, fpr: 38.79
+2024-04-23 07:31:16,162 : New best setting, beta: 0.20, alpha: 4.93; accuracy: 70.82, auroc: 92.32, fpr: 39.90
+2024-04-23 07:31:16,774 : New best setting, beta: 0.20, alpha: 5.27; accuracy: 71.02, auroc: 92.31, fpr: 39.50
+2024-04-23 07:31:17,384 : New best setting, beta: 0.20, alpha: 5.62; accuracy: 71.23, auroc: 92.30, fpr: 39.09
+2024-04-23 07:31:18,017 : New best setting, beta: 0.20, alpha: 5.96; accuracy: 71.39, auroc: 92.30, fpr: 38.80
+2024-04-23 07:31:18,605 : New best setting, beta: 0.20, alpha: 6.31; accuracy: 71.53, auroc: 92.30, fpr: 39.92
+2024-04-23 07:31:19,214 : New best setting, beta: 0.20, alpha: 6.65; accuracy: 71.60, auroc: 92.30, fpr: 39.59
+2024-04-23 07:31:19,827 : New best setting, beta: 0.24, alpha: 0.10; accuracy: 62.82, auroc: 92.05, fpr: 41.05
+2024-04-23 07:31:20,440 : New best setting, beta: 0.24, alpha: 0.45; accuracy: 63.91, auroc: 92.10, fpr: 40.21
+2024-04-23 07:31:21,049 : New best setting, beta: 0.24, alpha: 0.79; accuracy: 64.97, auroc: 92.13, fpr: 41.27
+2024-04-23 07:31:21,657 : New best setting, beta: 0.24, alpha: 1.14; accuracy: 65.90, auroc: 92.16, fpr: 40.45
+2024-04-23 07:31:22,269 : New best setting, beta: 0.24, alpha: 1.48; accuracy: 66.72, auroc: 92.19, fpr: 39.76
+2024-04-23 07:31:22,885 : New best setting, beta: 0.24, alpha: 1.83; accuracy: 67.51, auroc: 92.22, fpr: 39.08
+2024-04-23 07:31:23,496 : New best setting, beta: 0.24, alpha: 2.17; accuracy: 68.25, auroc: 92.24, fpr: 40.27
+2024-04-23 07:31:24,104 : New best setting, beta: 0.24, alpha: 2.52; accuracy: 68.85, auroc: 92.26, fpr: 39.72
+2024-04-23 07:31:24,765 : New best setting, beta: 0.24, alpha: 2.86; accuracy: 69.28, auroc: 92.28, fpr: 39.26
+2024-04-23 07:31:25,480 : New best setting, beta: 0.24, alpha: 3.21; accuracy: 69.68, auroc: 92.29, fpr: 38.81
+2024-04-23 07:31:26,073 : New best setting, beta: 0.24, alpha: 3.55; accuracy: 70.09, auroc: 92.30, fpr: 40.20
+2024-04-23 07:31:26,666 : New best setting, beta: 0.24, alpha: 3.90; accuracy: 70.44, auroc: 92.31, fpr: 39.88
+2024-04-23 07:31:27,282 : New best setting, beta: 0.24, alpha: 4.24; accuracy: 70.71, auroc: 92.32, fpr: 39.58
+2024-04-23 07:31:27,980 : New best setting, beta: 0.24, alpha: 4.58; accuracy: 71.00, auroc: 92.31, fpr: 39.22
+2024-04-23 07:31:28,678 : New best setting, beta: 0.24, alpha: 4.93; accuracy: 71.19, auroc: 92.31, fpr: 38.95
+2024-04-23 07:31:29,372 : New best setting, beta: 0.24, alpha: 5.27; accuracy: 71.42, auroc: 92.31, fpr: 40.33
+2024-04-23 07:31:30,077 : New best setting, beta: 0.24, alpha: 5.62; accuracy: 71.49, auroc: 92.30, fpr: 40.08
+2024-04-23 07:31:30,743 : New best setting, beta: 0.24, alpha: 5.96; accuracy: 71.63, auroc: 92.29, fpr: 39.87
+2024-04-23 07:31:31,370 : New best setting, beta: 0.24, alpha: 6.31; accuracy: 71.65, auroc: 92.28, fpr: 39.68
+2024-04-23 07:31:31,967 : New best setting, beta: 0.24, alpha: 6.65; accuracy: 71.63, auroc: 92.27, fpr: 39.56
+2024-04-23 07:31:32,578 : New best setting, beta: 0.27, alpha: 0.10; accuracy: 62.81, auroc: 92.06, fpr: 41.02
+2024-04-23 07:31:33,192 : New best setting, beta: 0.27, alpha: 0.45; accuracy: 64.04, auroc: 92.10, fpr: 40.36
+2024-04-23 07:31:33,832 : New best setting, beta: 0.27, alpha: 0.79; accuracy: 65.22, auroc: 92.14, fpr: 41.53
+2024-04-23 07:31:34,518 : New best setting, beta: 0.27, alpha: 1.14; accuracy: 66.19, auroc: 92.18, fpr: 40.84
+2024-04-23 07:31:35,117 : New best setting, beta: 0.27, alpha: 1.48; accuracy: 67.15, auroc: 92.21, fpr: 40.31
+2024-04-23 07:31:35,711 : New best setting, beta: 0.27, alpha: 1.83; accuracy: 67.92, auroc: 92.23, fpr: 39.76
+2024-04-23 07:31:36,356 : New best setting, beta: 0.27, alpha: 2.17; accuracy: 68.65, auroc: 92.25, fpr: 39.41
+2024-04-23 07:31:37,017 : New best setting, beta: 0.27, alpha: 2.52; accuracy: 69.21, auroc: 92.28, fpr: 38.97
+2024-04-23 07:31:37,715 : New best setting, beta: 0.27, alpha: 2.86; accuracy: 69.64, auroc: 92.29, fpr: 38.61
+2024-04-23 07:31:38,409 : New best setting, beta: 0.27, alpha: 3.21; accuracy: 70.07, auroc: 92.31, fpr: 40.22
+2024-04-23 07:31:39,035 : New best setting, beta: 0.27, alpha: 3.55; accuracy: 70.47, auroc: 92.31, fpr: 39.93
+2024-04-23 07:31:39,645 : New best setting, beta: 0.27, alpha: 3.90; accuracy: 70.79, auroc: 92.31, fpr: 39.80
+2024-04-23 07:31:40,277 : New best setting, beta: 0.27, alpha: 4.24; accuracy: 71.04, auroc: 92.32, fpr: 39.61
+2024-04-23 07:31:40,864 : New best setting, beta: 0.27, alpha: 4.58; accuracy: 71.30, auroc: 92.31, fpr: 39.52
+2024-04-23 07:31:41,454 : New best setting, beta: 0.27, alpha: 4.93; accuracy: 71.46, auroc: 92.31, fpr: 39.47
+2024-04-23 07:31:42,045 : New best setting, beta: 0.27, alpha: 5.27; accuracy: 71.56, auroc: 92.30, fpr: 39.51
+2024-04-23 07:31:42,632 : New best setting, beta: 0.27, alpha: 5.62; accuracy: 71.63, auroc: 92.28, fpr: 39.45
+2024-04-23 07:31:43,242 : New best setting, beta: 0.27, alpha: 5.96; accuracy: 71.61, auroc: 92.27, fpr: 39.46
+2024-04-23 07:31:43,880 : New best setting, beta: 0.27, alpha: 6.31; accuracy: 71.59, auroc: 92.25, fpr: 39.47
+2024-04-23 07:31:44,597 : New best setting, beta: 0.27, alpha: 6.65; accuracy: 71.59, auroc: 92.24, fpr: 39.38
+2024-04-23 07:31:45,209 : New best setting, beta: 0.31, alpha: 0.10; accuracy: 62.83, auroc: 92.06, fpr: 41.05
+2024-04-23 07:31:45,819 : New best setting, beta: 0.31, alpha: 0.45; accuracy: 64.21, auroc: 92.11, fpr: 40.48
+2024-04-23 07:31:46,435 : New best setting, beta: 0.31, alpha: 0.79; accuracy: 65.43, auroc: 92.15, fpr: 39.88
+2024-04-23 07:31:47,043 : New best setting, beta: 0.31, alpha: 1.14; accuracy: 66.46, auroc: 92.19, fpr: 39.54
+2024-04-23 07:31:47,656 : New best setting, beta: 0.31, alpha: 1.48; accuracy: 67.46, auroc: 92.22, fpr: 40.92
+2024-04-23 07:31:48,268 : New best setting, beta: 0.31, alpha: 1.83; accuracy: 68.32, auroc: 92.25, fpr: 40.37
+2024-04-23 07:31:48,888 : New best setting, beta: 0.31, alpha: 2.17; accuracy: 69.00, auroc: 92.27, fpr: 40.05
+2024-04-23 07:31:49,504 : New best setting, beta: 0.31, alpha: 2.52; accuracy: 69.49, auroc: 92.29, fpr: 39.94
+2024-04-23 07:31:50,116 : New best setting, beta: 0.31, alpha: 2.86; accuracy: 69.95, auroc: 92.30, fpr: 39.86
+2024-04-23 07:31:50,706 : New best setting, beta: 0.31, alpha: 3.21; accuracy: 70.42, auroc: 92.31, fpr: 39.93
+2024-04-23 07:31:51,297 : New best setting, beta: 0.31, alpha: 3.55; accuracy: 70.76, auroc: 92.32, fpr: 39.73
+2024-04-23 07:31:51,904 : New best setting, beta: 0.31, alpha: 3.90; accuracy: 71.09, auroc: 92.32, fpr: 39.65
+2024-04-23 07:31:52,512 : New best setting, beta: 0.31, alpha: 4.24; accuracy: 71.33, auroc: 92.31, fpr: 39.71
+2024-04-23 07:31:53,107 : New best setting, beta: 0.31, alpha: 4.58; accuracy: 71.50, auroc: 92.31, fpr: 39.81
+2024-04-23 07:31:53,717 : New best setting, beta: 0.31, alpha: 4.93; accuracy: 71.60, auroc: 92.29, fpr: 39.90
+2024-04-23 07:31:54,331 : New best setting, beta: 0.31, alpha: 5.27; accuracy: 71.68, auroc: 92.28, fpr: 39.98
+2024-04-23 07:31:54,939 : New best setting, beta: 0.31, alpha: 5.62; accuracy: 71.58, auroc: 92.27, fpr: 38.65
+2024-04-23 07:31:55,555 : New best setting, beta: 0.31, alpha: 5.96; accuracy: 71.60, auroc: 92.24, fpr: 38.94
+2024-04-23 07:31:56,165 : New best setting, beta: 0.31, alpha: 6.31; accuracy: 71.48, auroc: 92.22, fpr: 38.94
+2024-04-23 07:31:56,754 : New best setting, beta: 0.31, alpha: 6.65; accuracy: 71.35, auroc: 92.19, fpr: 39.47
+2024-04-23 07:31:57,361 : New best setting, beta: 0.34, alpha: 0.10; accuracy: 62.92, auroc: 92.06, fpr: 41.17
+2024-04-23 07:31:57,977 : New best setting, beta: 0.34, alpha: 0.45; accuracy: 64.30, auroc: 92.11, fpr: 40.61
+2024-04-23 07:31:58,586 : New best setting, beta: 0.34, alpha: 0.79; accuracy: 65.63, auroc: 92.15, fpr: 40.10
+2024-04-23 07:31:59,201 : New best setting, beta: 0.34, alpha: 1.14; accuracy: 66.71, auroc: 92.19, fpr: 39.83
+2024-04-23 07:31:59,791 : New best setting, beta: 0.34, alpha: 1.48; accuracy: 67.77, auroc: 92.23, fpr: 39.46
+2024-04-23 07:32:00,381 : New best setting, beta: 0.34, alpha: 1.83; accuracy: 68.61, auroc: 92.26, fpr: 39.35
+2024-04-23 07:32:00,992 : New best setting, beta: 0.34, alpha: 2.17; accuracy: 69.22, auroc: 92.28, fpr: 39.08
+2024-04-23 07:32:01,599 : New best setting, beta: 0.34, alpha: 2.52; accuracy: 69.72, auroc: 92.30, fpr: 39.09
+2024-04-23 07:32:02,210 : New best setting, beta: 0.34, alpha: 2.86; accuracy: 70.24, auroc: 92.31, fpr: 39.23
+2024-04-23 07:32:02,826 : New best setting, beta: 0.34, alpha: 3.21; accuracy: 70.68, auroc: 92.32, fpr: 39.29
+2024-04-23 07:32:03,435 : New best setting, beta: 0.34, alpha: 3.55; accuracy: 71.03, auroc: 92.32, fpr: 39.33
+2024-04-23 07:32:04,044 : New best setting, beta: 0.34, alpha: 3.90; accuracy: 71.30, auroc: 92.32, fpr: 39.43
+2024-04-23 07:32:04,656 : New best setting, beta: 0.34, alpha: 4.24; accuracy: 71.50, auroc: 92.31, fpr: 39.70
+2024-04-23 07:32:05,269 : New best setting, beta: 0.34, alpha: 4.58; accuracy: 71.60, auroc: 92.30, fpr: 39.79
+2024-04-23 07:32:05,876 : New best setting, beta: 0.34, alpha: 4.93; accuracy: 71.64, auroc: 92.28, fpr: 40.12
+2024-04-23 07:32:06,464 : New best setting, beta: 0.34, alpha: 5.27; accuracy: 71.61, auroc: 92.27, fpr: 38.92
+2024-04-23 07:32:07,105 : New best setting, beta: 0.34, alpha: 5.62; accuracy: 71.58, auroc: 92.24, fpr: 39.32
+2024-04-23 07:32:07,823 : New best setting, beta: 0.34, alpha: 5.96; accuracy: 71.44, auroc: 92.22, fpr: 39.66
+2024-04-23 07:32:08,437 : New best setting, beta: 0.34, alpha: 6.31; accuracy: 71.26, auroc: 92.19, fpr: 40.14
+2024-04-23 07:32:09,049 : New best setting, beta: 0.34, alpha: 6.65; accuracy: 71.05, auroc: 92.15, fpr: 40.70
+2024-04-23 07:32:09,670 : New best setting, beta: 0.38, alpha: 0.10; accuracy: 62.92, auroc: 92.06, fpr: 41.07
+2024-04-23 07:32:10,284 : New best setting, beta: 0.38, alpha: 0.45; accuracy: 64.46, auroc: 92.11, fpr: 40.76
+2024-04-23 07:32:10,893 : New best setting, beta: 0.38, alpha: 0.79; accuracy: 65.81, auroc: 92.16, fpr: 40.43
+2024-04-23 07:32:11,482 : New best setting, beta: 0.38, alpha: 1.14; accuracy: 66.96, auroc: 92.20, fpr: 40.10
+2024-04-23 07:32:12,078 : New best setting, beta: 0.38, alpha: 1.48; accuracy: 68.03, auroc: 92.23, fpr: 39.84
+2024-04-23 07:32:12,690 : New best setting, beta: 0.38, alpha: 1.83; accuracy: 68.87, auroc: 92.27, fpr: 39.83
+2024-04-23 07:32:13,283 : New best setting, beta: 0.38, alpha: 2.17; accuracy: 69.43, auroc: 92.29, fpr: 39.76
+2024-04-23 07:32:13,873 : New best setting, beta: 0.38, alpha: 2.52; accuracy: 70.02, auroc: 92.30, fpr: 39.92
+2024-04-23 07:32:14,467 : New best setting, beta: 0.38, alpha: 2.86; accuracy: 70.47, auroc: 92.32, fpr: 40.13
+2024-04-23 07:32:15,079 : New best setting, beta: 0.38, alpha: 3.21; accuracy: 70.83, auroc: 92.32, fpr: 38.66
+2024-04-23 07:32:15,687 : New best setting, beta: 0.38, alpha: 3.55; accuracy: 71.22, auroc: 92.31, fpr: 39.00
+2024-04-23 07:32:16,302 : New best setting, beta: 0.38, alpha: 3.90; accuracy: 71.45, auroc: 92.31, fpr: 39.25
+2024-04-23 07:32:16,921 : New best setting, beta: 0.38, alpha: 4.24; accuracy: 71.62, auroc: 92.30, fpr: 39.61
+2024-04-23 07:32:17,535 : New best setting, beta: 0.38, alpha: 4.58; accuracy: 71.63, auroc: 92.29, fpr: 39.97
+2024-04-23 07:32:18,148 : New best setting, beta: 0.38, alpha: 4.93; accuracy: 71.60, auroc: 92.27, fpr: 38.77
+2024-04-23 07:32:18,762 : New best setting, beta: 0.38, alpha: 5.27; accuracy: 71.55, auroc: 92.24, fpr: 39.36
+2024-04-23 07:32:19,382 : New best setting, beta: 0.38, alpha: 5.62; accuracy: 71.41, auroc: 92.21, fpr: 39.71
+2024-04-23 07:32:19,971 : New best setting, beta: 0.38, alpha: 5.96; accuracy: 71.18, auroc: 92.18, fpr: 40.46
+2024-04-23 07:32:20,580 : New best setting, beta: 0.38, alpha: 6.31; accuracy: 70.94, auroc: 92.14, fpr: 39.61
+2024-04-23 07:32:21,196 : New best setting, beta: 0.38, alpha: 6.65; accuracy: 70.79, auroc: 92.10, fpr: 40.49
+2024-04-23 07:32:21,820 : New best setting, beta: 0.41, alpha: 0.10; accuracy: 62.96, auroc: 92.06, fpr: 41.17
+2024-04-23 07:32:22,406 : New best setting, beta: 0.41, alpha: 0.45; accuracy: 64.57, auroc: 92.12, fpr: 40.81
+2024-04-23 07:32:22,995 : New best setting, beta: 0.41, alpha: 0.79; accuracy: 65.96, auroc: 92.17, fpr: 40.60
+2024-04-23 07:32:23,589 : New best setting, beta: 0.41, alpha: 1.14; accuracy: 67.18, auroc: 92.21, fpr: 40.49
+2024-04-23 07:32:24,206 : New best setting, beta: 0.41, alpha: 1.48; accuracy: 68.25, auroc: 92.25, fpr: 40.31
+2024-04-23 07:32:24,817 : New best setting, beta: 0.41, alpha: 1.83; accuracy: 69.06, auroc: 92.27, fpr: 40.34
+2024-04-23 07:32:25,426 : New best setting, beta: 0.41, alpha: 2.17; accuracy: 69.63, auroc: 92.30, fpr: 38.73
+2024-04-23 07:32:26,046 : New best setting, beta: 0.41, alpha: 2.52; accuracy: 70.19, auroc: 92.31, fpr: 39.04
+2024-04-23 07:32:26,658 : New best setting, beta: 0.41, alpha: 2.86; accuracy: 70.68, auroc: 92.32, fpr: 39.35
+2024-04-23 07:32:27,267 : New best setting, beta: 0.41, alpha: 3.21; accuracy: 71.10, auroc: 92.32, fpr: 39.69
+2024-04-23 07:32:27,881 : New best setting, beta: 0.41, alpha: 3.55; accuracy: 71.37, auroc: 92.31, fpr: 39.93
+2024-04-23 07:32:28,501 : New best setting, beta: 0.41, alpha: 3.90; accuracy: 71.56, auroc: 92.31, fpr: 38.84
+2024-04-23 07:32:29,111 : New best setting, beta: 0.41, alpha: 4.24; accuracy: 71.62, auroc: 92.29, fpr: 39.40
+2024-04-23 07:32:29,726 : New best setting, beta: 0.41, alpha: 4.58; accuracy: 71.65, auroc: 92.28, fpr: 39.83
+2024-04-23 07:32:30,338 : New best setting, beta: 0.41, alpha: 4.93; accuracy: 71.61, auroc: 92.25, fpr: 38.95
+2024-04-23 07:32:30,954 : New best setting, beta: 0.41, alpha: 5.27; accuracy: 71.46, auroc: 92.22, fpr: 39.48
+2024-04-23 07:32:31,566 : New best setting, beta: 0.41, alpha: 5.62; accuracy: 71.21, auroc: 92.18, fpr: 40.37
+2024-04-23 07:32:32,173 : New best setting, beta: 0.41, alpha: 5.96; accuracy: 70.90, auroc: 92.14, fpr: 39.57
+2024-04-23 07:32:32,789 : New best setting, beta: 0.41, alpha: 6.31; accuracy: 70.68, auroc: 92.10, fpr: 40.32
+2024-04-23 07:32:33,402 : New best setting, beta: 0.41, alpha: 6.65; accuracy: 70.44, auroc: 92.05, fpr: 41.41
+2024-04-23 07:32:34,013 : New best setting, beta: 0.44, alpha: 0.10; accuracy: 62.97, auroc: 92.06, fpr: 41.16
+2024-04-23 07:32:34,621 : New best setting, beta: 0.44, alpha: 0.45; accuracy: 64.64, auroc: 92.12, fpr: 40.91
+2024-04-23 07:32:35,233 : New best setting, beta: 0.44, alpha: 0.79; accuracy: 66.07, auroc: 92.17, fpr: 40.68
+2024-04-23 07:32:35,844 : New best setting, beta: 0.44, alpha: 1.14; accuracy: 67.38, auroc: 92.22, fpr: 40.67
+2024-04-23 07:32:36,453 : New best setting, beta: 0.44, alpha: 1.48; accuracy: 68.47, auroc: 92.25, fpr: 40.67
+2024-04-23 07:32:37,042 : New best setting, beta: 0.44, alpha: 1.83; accuracy: 69.23, auroc: 92.28, fpr: 38.98
+2024-04-23 07:32:37,633 : New best setting, beta: 0.44, alpha: 2.17; accuracy: 69.82, auroc: 92.30, fpr: 39.39
+2024-04-23 07:32:38,248 : New best setting, beta: 0.44, alpha: 2.52; accuracy: 70.38, auroc: 92.32, fpr: 39.84
+2024-04-23 07:32:38,859 : New best setting, beta: 0.44, alpha: 2.86; accuracy: 70.84, auroc: 92.32, fpr: 40.24
+2024-04-23 07:32:39,468 : New best setting, beta: 0.44, alpha: 3.21; accuracy: 71.18, auroc: 92.32, fpr: 38.95
+2024-04-23 07:32:40,082 : New best setting, beta: 0.44, alpha: 3.55; accuracy: 71.48, auroc: 92.31, fpr: 39.50
+2024-04-23 07:32:40,692 : New best setting, beta: 0.44, alpha: 3.90; accuracy: 71.60, auroc: 92.30, fpr: 39.93
+2024-04-23 07:32:41,301 : New best setting, beta: 0.44, alpha: 4.24; accuracy: 71.64, auroc: 92.29, fpr: 39.03
+2024-04-23 07:32:41,909 : New best setting, beta: 0.44, alpha: 4.58; accuracy: 71.61, auroc: 92.26, fpr: 39.71
+2024-04-23 07:32:42,543 : New best setting, beta: 0.44, alpha: 4.93; accuracy: 71.46, auroc: 92.23, fpr: 39.02
+2024-04-23 07:32:43,243 : New best setting, beta: 0.44, alpha: 5.27; accuracy: 71.26, auroc: 92.20, fpr: 39.77
+2024-04-23 07:32:43,936 : New best setting, beta: 0.44, alpha: 5.62; accuracy: 70.98, auroc: 92.15, fpr: 40.69
+2024-04-23 07:32:44,537 : New best setting, beta: 0.44, alpha: 5.96; accuracy: 70.75, auroc: 92.11, fpr: 40.11
+2024-04-23 07:32:45,129 : New best setting, beta: 0.44, alpha: 6.31; accuracy: 70.49, auroc: 92.05, fpr: 41.28
+2024-04-23 07:32:45,724 : New best setting, beta: 0.44, alpha: 6.65; accuracy: 70.18, auroc: 92.00, fpr: 40.83
+2024-04-23 07:32:46,314 : New best setting, beta: 0.48, alpha: 0.10; accuracy: 62.99, auroc: 92.06, fpr: 41.24
+2024-04-23 07:32:46,905 : New best setting, beta: 0.48, alpha: 0.45; accuracy: 64.75, auroc: 92.12, fpr: 41.06
+2024-04-23 07:32:47,518 : New best setting, beta: 0.48, alpha: 0.79; accuracy: 66.24, auroc: 92.18, fpr: 40.91
+2024-04-23 07:32:48,133 : New best setting, beta: 0.48, alpha: 1.14; accuracy: 67.54, auroc: 92.22, fpr: 39.10
+2024-04-23 07:32:48,742 : New best setting, beta: 0.48, alpha: 1.48; accuracy: 68.63, auroc: 92.26, fpr: 39.34
+2024-04-23 07:32:49,357 : New best setting, beta: 0.48, alpha: 1.83; accuracy: 69.37, auroc: 92.29, fpr: 39.48
+2024-04-23 07:32:49,970 : New best setting, beta: 0.48, alpha: 2.17; accuracy: 70.02, auroc: 92.31, fpr: 39.90
+2024-04-23 07:32:50,579 : New best setting, beta: 0.48, alpha: 2.52; accuracy: 70.54, auroc: 92.32, fpr: 38.82
+2024-04-23 07:32:51,189 : New best setting, beta: 0.48, alpha: 2.86; accuracy: 71.00, auroc: 92.32, fpr: 39.25
+2024-04-23 07:32:51,826 : New best setting, beta: 0.48, alpha: 3.21; accuracy: 71.28, auroc: 92.32, fpr: 39.72
+2024-04-23 07:32:52,523 : New best setting, beta: 0.48, alpha: 3.55; accuracy: 71.53, auroc: 92.31, fpr: 38.82
+2024-04-23 07:32:53,213 : New best setting, beta: 0.48, alpha: 3.90; accuracy: 71.66, auroc: 92.30, fpr: 39.36
+2024-04-23 07:32:53,909 : New best setting, beta: 0.48, alpha: 4.24; accuracy: 71.57, auroc: 92.27, fpr: 38.69
+2024-04-23 07:32:54,614 : New best setting, beta: 0.48, alpha: 4.58; accuracy: 71.57, auroc: 92.24, fpr: 39.54
+2024-04-23 07:32:55,268 : New best setting, beta: 0.48, alpha: 4.93; accuracy: 71.35, auroc: 92.21, fpr: 40.25
+2024-04-23 07:32:55,959 : New best setting, beta: 0.48, alpha: 5.27; accuracy: 71.07, auroc: 92.17, fpr: 39.82
+2024-04-23 07:32:56,657 : New best setting, beta: 0.48, alpha: 5.62; accuracy: 70.76, auroc: 92.12, fpr: 40.86
+2024-04-23 07:32:57,319 : New best setting, beta: 0.48, alpha: 5.96; accuracy: 70.58, auroc: 92.07, fpr: 40.61
+2024-04-23 07:32:57,975 : New best setting, beta: 0.48, alpha: 6.31; accuracy: 70.19, auroc: 92.01, fpr: 41.81
+2024-04-23 07:32:58,675 : New best setting, beta: 0.48, alpha: 6.65; accuracy: 69.74, auroc: 91.94, fpr: 41.61
+2024-04-23 07:32:59,374 : New best setting, beta: 0.51, alpha: 0.10; accuracy: 63.02, auroc: 92.06, fpr: 41.16
+2024-04-23 07:33:00,034 : New best setting, beta: 0.51, alpha: 0.45; accuracy: 64.87, auroc: 92.13, fpr: 41.17
+2024-04-23 07:33:00,694 : New best setting, beta: 0.51, alpha: 0.79; accuracy: 66.33, auroc: 92.18, fpr: 41.07
+2024-04-23 07:33:01,351 : New best setting, beta: 0.51, alpha: 1.14; accuracy: 67.71, auroc: 92.23, fpr: 39.36
+2024-04-23 07:33:02,003 : New best setting, beta: 0.51, alpha: 1.48; accuracy: 68.77, auroc: 92.27, fpr: 39.49
+2024-04-23 07:33:02,695 : New best setting, beta: 0.51, alpha: 1.83; accuracy: 69.49, auroc: 92.29, fpr: 39.90
+2024-04-23 07:33:03,333 : New best setting, beta: 0.51, alpha: 2.17; accuracy: 70.17, auroc: 92.31, fpr: 38.81
+2024-04-23 07:33:04,033 : New best setting, beta: 0.51, alpha: 2.52; accuracy: 70.65, auroc: 92.32, fpr: 39.29
+2024-04-23 07:33:04,749 : New best setting, beta: 0.51, alpha: 2.86; accuracy: 71.12, auroc: 92.32, fpr: 39.85
+2024-04-23 07:33:05,369 : New best setting, beta: 0.51, alpha: 3.21; accuracy: 71.40, auroc: 92.32, fpr: 39.04
+2024-04-23 07:33:05,980 : New best setting, beta: 0.51, alpha: 3.55; accuracy: 71.52, auroc: 92.31, fpr: 39.48
+2024-04-23 07:33:06,677 : New best setting, beta: 0.51, alpha: 3.90; accuracy: 71.61, auroc: 92.29, fpr: 38.84
+2024-04-23 07:33:07,321 : New best setting, beta: 0.51, alpha: 4.24; accuracy: 71.56, auroc: 92.26, fpr: 39.66
+2024-04-23 07:33:07,954 : New best setting, beta: 0.51, alpha: 4.58; accuracy: 71.47, auroc: 92.23, fpr: 39.12
+2024-04-23 07:33:08,578 : New best setting, beta: 0.51, alpha: 4.93; accuracy: 71.21, auroc: 92.19, fpr: 40.04
+2024-04-23 07:33:09,190 : New best setting, beta: 0.51, alpha: 5.27; accuracy: 70.91, auroc: 92.14, fpr: 39.76
+2024-04-23 07:33:09,806 : New best setting, beta: 0.51, alpha: 5.62; accuracy: 70.63, auroc: 92.09, fpr: 40.93
+2024-04-23 07:33:10,445 : New best setting, beta: 0.51, alpha: 5.96; accuracy: 70.31, auroc: 92.03, fpr: 40.97
+2024-04-23 07:33:11,141 : New best setting, beta: 0.51, alpha: 6.31; accuracy: 69.87, auroc: 91.96, fpr: 42.05
+2024-04-23 07:33:11,851 : New best setting, beta: 0.51, alpha: 6.65; accuracy: 69.46, auroc: 91.90, fpr: 41.97
+2024-04-23 07:33:12,460 : New best setting, beta: 0.55, alpha: 0.10; accuracy: 63.03, auroc: 92.06, fpr: 41.17
+2024-04-23 07:33:13,078 : New best setting, beta: 0.55, alpha: 0.45; accuracy: 64.90, auroc: 92.13, fpr: 41.12
+2024-04-23 07:33:13,693 : New best setting, beta: 0.55, alpha: 0.79; accuracy: 66.43, auroc: 92.19, fpr: 39.53
+2024-04-23 07:33:14,325 : New best setting, beta: 0.55, alpha: 1.14; accuracy: 67.82, auroc: 92.23, fpr: 39.55
+2024-04-23 07:33:14,943 : New best setting, beta: 0.55, alpha: 1.48; accuracy: 68.89, auroc: 92.27, fpr: 39.88
+2024-04-23 07:33:15,540 : New best setting, beta: 0.55, alpha: 1.83; accuracy: 69.57, auroc: 92.30, fpr: 40.38
+2024-04-23 07:33:16,136 : New best setting, beta: 0.55, alpha: 2.17; accuracy: 70.24, auroc: 92.31, fpr: 39.20
+2024-04-23 07:33:16,747 : New best setting, beta: 0.55, alpha: 2.52; accuracy: 70.77, auroc: 92.32, fpr: 39.84
+2024-04-23 07:33:17,407 : New best setting, beta: 0.55, alpha: 2.86; accuracy: 71.20, auroc: 92.32, fpr: 38.91
+2024-04-23 07:33:18,111 : New best setting, beta: 0.55, alpha: 3.21; accuracy: 71.49, auroc: 92.32, fpr: 39.58
+2024-04-23 07:33:18,805 : New best setting, beta: 0.55, alpha: 3.55; accuracy: 71.58, auroc: 92.31, fpr: 38.96
+2024-04-23 07:33:19,504 : New best setting, beta: 0.55, alpha: 3.90; accuracy: 71.61, auroc: 92.28, fpr: 39.78
+2024-04-23 07:33:20,207 : New best setting, beta: 0.55, alpha: 4.24; accuracy: 71.55, auroc: 92.25, fpr: 39.22
+2024-04-23 07:33:20,900 : New best setting, beta: 0.55, alpha: 4.58; accuracy: 71.33, auroc: 92.21, fpr: 40.18
+2024-04-23 07:33:21,587 : New best setting, beta: 0.55, alpha: 4.93; accuracy: 71.05, auroc: 92.17, fpr: 39.96
+2024-04-23 07:33:22,251 : New best setting, beta: 0.55, alpha: 5.27; accuracy: 70.77, auroc: 92.12, fpr: 41.21
+2024-04-23 07:33:22,909 : New best setting, beta: 0.55, alpha: 5.62; accuracy: 70.50, auroc: 92.06, fpr: 41.06
+2024-04-23 07:33:23,601 : New best setting, beta: 0.55, alpha: 5.96; accuracy: 70.09, auroc: 91.99, fpr: 40.96
+2024-04-23 07:33:24,257 : New best setting, beta: 0.55, alpha: 6.31; accuracy: 69.64, auroc: 91.93, fpr: 42.47
+2024-04-23 07:33:24,959 : New best setting, beta: 0.55, alpha: 6.65; accuracy: 69.12, auroc: 91.85, fpr: 42.52
+2024-04-23 07:33:25,618 : New best setting, beta: 0.58, alpha: 0.10; accuracy: 63.04, auroc: 92.06, fpr: 41.25
+2024-04-23 07:33:26,309 : New best setting, beta: 0.58, alpha: 0.45; accuracy: 64.99, auroc: 92.13, fpr: 41.19
+2024-04-23 07:33:26,930 : New best setting, beta: 0.58, alpha: 0.79; accuracy: 66.58, auroc: 92.19, fpr: 39.59
+2024-04-23 07:33:27,553 : New best setting, beta: 0.58, alpha: 1.14; accuracy: 67.95, auroc: 92.24, fpr: 39.67
+2024-04-23 07:33:28,159 : New best setting, beta: 0.58, alpha: 1.48; accuracy: 68.99, auroc: 92.28, fpr: 40.06
+2024-04-23 07:33:28,745 : New best setting, beta: 0.58, alpha: 1.83; accuracy: 69.69, auroc: 92.30, fpr: 38.95
+2024-04-23 07:33:29,430 : New best setting, beta: 0.58, alpha: 2.17; accuracy: 70.37, auroc: 92.32, fpr: 39.63
+2024-04-23 07:33:30,128 : New best setting, beta: 0.58, alpha: 2.52; accuracy: 70.88, auroc: 92.32, fpr: 40.30
+2024-04-23 07:33:30,771 : New best setting, beta: 0.58, alpha: 2.86; accuracy: 71.22, auroc: 92.32, fpr: 39.45
+2024-04-23 07:33:31,424 : New best setting, beta: 0.58, alpha: 3.21; accuracy: 71.53, auroc: 92.31, fpr: 38.70
+2024-04-23 07:33:32,043 : New best setting, beta: 0.58, alpha: 3.55; accuracy: 71.64, auroc: 92.30, fpr: 39.55
+2024-04-23 07:33:32,654 : New best setting, beta: 0.58, alpha: 3.90; accuracy: 71.57, auroc: 92.26, fpr: 38.91
+2024-04-23 07:33:33,277 : New best setting, beta: 0.58, alpha: 4.24; accuracy: 71.48, auroc: 92.24, fpr: 40.00
+2024-04-23 07:33:33,979 : New best setting, beta: 0.58, alpha: 4.58; accuracy: 71.21, auroc: 92.20, fpr: 39.76
+2024-04-23 07:33:34,598 : New best setting, beta: 0.58, alpha: 4.93; accuracy: 70.88, auroc: 92.15, fpr: 39.43
+2024-04-23 07:33:35,211 : New best setting, beta: 0.58, alpha: 5.27; accuracy: 70.66, auroc: 92.09, fpr: 40.89
+2024-04-23 07:33:35,851 : New best setting, beta: 0.58, alpha: 5.62; accuracy: 70.24, auroc: 92.03, fpr: 40.92
+2024-04-23 07:33:36,551 : New best setting, beta: 0.58, alpha: 5.96; accuracy: 69.81, auroc: 91.96, fpr: 40.91
+2024-04-23 07:33:37,242 : New best setting, beta: 0.58, alpha: 6.31; accuracy: 69.36, auroc: 91.88, fpr: 42.55
+2024-04-23 07:33:37,935 : New best setting, beta: 0.58, alpha: 6.65; accuracy: 68.81, auroc: 91.80, fpr: 42.94
+2024-04-23 07:33:38,627 : New best setting, beta: 0.62, alpha: 0.10; accuracy: 63.05, auroc: 92.06, fpr: 41.22
+2024-04-23 07:33:39,288 : New best setting, beta: 0.62, alpha: 0.45; accuracy: 65.03, auroc: 92.14, fpr: 41.28
+2024-04-23 07:33:39,888 : New best setting, beta: 0.62, alpha: 0.79; accuracy: 66.63, auroc: 92.19, fpr: 39.67
+2024-04-23 07:33:40,498 : New best setting, beta: 0.62, alpha: 1.14; accuracy: 68.05, auroc: 92.24, fpr: 39.88
+2024-04-23 07:33:41,113 : New best setting, beta: 0.62, alpha: 1.48; accuracy: 69.07, auroc: 92.28, fpr: 40.35
+2024-04-23 07:33:41,721 : New best setting, beta: 0.62, alpha: 1.83; accuracy: 69.81, auroc: 92.31, fpr: 39.25
+2024-04-23 07:33:42,309 : New best setting, beta: 0.62, alpha: 2.17; accuracy: 70.43, auroc: 92.32, fpr: 40.02
+2024-04-23 07:33:42,920 : New best setting, beta: 0.62, alpha: 2.52; accuracy: 70.98, auroc: 92.33, fpr: 39.07
+2024-04-23 07:33:43,514 : New best setting, beta: 0.62, alpha: 2.86; accuracy: 71.31, auroc: 92.32, fpr: 39.89
+2024-04-23 07:33:44,105 : New best setting, beta: 0.62, alpha: 3.21; accuracy: 71.54, auroc: 92.31, fpr: 39.22
+2024-04-23 07:33:44,691 : New best setting, beta: 0.62, alpha: 3.55; accuracy: 71.62, auroc: 92.29, fpr: 38.72
+2024-04-23 07:33:45,279 : New best setting, beta: 0.62, alpha: 3.90; accuracy: 71.53, auroc: 92.26, fpr: 39.71
+2024-04-23 07:33:45,867 : New best setting, beta: 0.62, alpha: 4.24; accuracy: 71.40, auroc: 92.22, fpr: 39.32
+2024-04-23 07:33:46,480 : New best setting, beta: 0.62, alpha: 4.58; accuracy: 71.09, auroc: 92.18, fpr: 40.66
+2024-04-23 07:33:47,087 : New best setting, beta: 0.62, alpha: 4.93; accuracy: 70.80, auroc: 92.13, fpr: 40.37
+2024-04-23 07:33:47,676 : New best setting, beta: 0.62, alpha: 5.27; accuracy: 70.49, auroc: 92.07, fpr: 40.70
+2024-04-23 07:33:48,272 : New best setting, beta: 0.62, alpha: 5.62; accuracy: 70.06, auroc: 92.00, fpr: 42.08
+2024-04-23 07:33:48,885 : New best setting, beta: 0.62, alpha: 5.96; accuracy: 69.58, auroc: 91.93, fpr: 42.39
+2024-04-23 07:33:49,475 : New best setting, beta: 0.62, alpha: 6.31; accuracy: 69.10, auroc: 91.85, fpr: 42.60
+2024-04-23 07:33:50,085 : New best setting, beta: 0.62, alpha: 6.65; accuracy: 68.52, auroc: 91.75, fpr: 44.33
+2024-04-23 07:33:50,730 : New best setting, beta: 0.65, alpha: 0.10; accuracy: 63.06, auroc: 92.07, fpr: 41.26
+2024-04-23 07:33:51,424 : New best setting, beta: 0.65, alpha: 0.45; accuracy: 65.08, auroc: 92.14, fpr: 41.34
+2024-04-23 07:33:52,113 : New best setting, beta: 0.65, alpha: 0.79; accuracy: 66.70, auroc: 92.20, fpr: 39.79
+2024-04-23 07:33:52,773 : New best setting, beta: 0.65, alpha: 1.14; accuracy: 68.14, auroc: 92.25, fpr: 40.07
+2024-04-23 07:33:53,384 : New best setting, beta: 0.65, alpha: 1.48; accuracy: 69.16, auroc: 92.29, fpr: 38.81
+2024-04-23 07:33:53,976 : New best setting, beta: 0.65, alpha: 1.83; accuracy: 69.90, auroc: 92.31, fpr: 39.54
+2024-04-23 07:33:54,564 : New best setting, beta: 0.65, alpha: 2.17; accuracy: 70.53, auroc: 92.32, fpr: 38.69
+2024-04-23 07:33:55,176 : New best setting, beta: 0.65, alpha: 2.52; accuracy: 71.02, auroc: 92.33, fpr: 39.40
+2024-04-23 07:33:55,763 : New best setting, beta: 0.65, alpha: 2.86; accuracy: 71.38, auroc: 92.32, fpr: 38.74
+2024-04-23 07:33:56,349 : New best setting, beta: 0.65, alpha: 3.21; accuracy: 71.56, auroc: 92.31, fpr: 39.76
+2024-04-23 07:33:56,962 : New best setting, beta: 0.65, alpha: 3.55; accuracy: 71.58, auroc: 92.29, fpr: 39.14
+2024-04-23 07:33:57,597 : New best setting, beta: 0.65, alpha: 3.90; accuracy: 71.55, auroc: 92.26, fpr: 38.88
+2024-04-23 07:33:58,313 : New best setting, beta: 0.65, alpha: 4.24; accuracy: 71.31, auroc: 92.22, fpr: 40.01
+2024-04-23 07:33:58,931 : New best setting, beta: 0.65, alpha: 4.58; accuracy: 70.97, auroc: 92.17, fpr: 39.95
+2024-04-23 07:33:59,522 : New best setting, beta: 0.65, alpha: 4.93; accuracy: 70.67, auroc: 92.11, fpr: 39.92
+2024-04-23 07:34:00,113 : New best setting, beta: 0.65, alpha: 5.27; accuracy: 70.37, auroc: 92.05, fpr: 41.59
+2024-04-23 07:34:00,723 : New best setting, beta: 0.65, alpha: 5.62; accuracy: 69.88, auroc: 91.98, fpr: 41.76
+2024-04-23 07:34:01,330 : New best setting, beta: 0.65, alpha: 5.96; accuracy: 69.38, auroc: 91.90, fpr: 41.94
+2024-04-23 07:34:01,941 : New best setting, beta: 0.65, alpha: 6.31; accuracy: 68.81, auroc: 91.81, fpr: 42.51
+2024-04-23 07:34:02,555 : New best setting, beta: 0.65, alpha: 6.65; accuracy: 68.29, auroc: 91.72, fpr: 44.12
+2024-04-23 07:34:03,166 : New best setting, beta: 0.69, alpha: 0.10; accuracy: 63.08, auroc: 92.07, fpr: 41.26
+2024-04-23 07:34:03,774 : New best setting, beta: 0.69, alpha: 0.45; accuracy: 65.13, auroc: 92.14, fpr: 41.32
+2024-04-23 07:34:04,383 : New best setting, beta: 0.69, alpha: 0.79; accuracy: 66.81, auroc: 92.20, fpr: 39.86
+2024-04-23 07:34:05,001 : New best setting, beta: 0.69, alpha: 1.14; accuracy: 68.22, auroc: 92.25, fpr: 40.22
+2024-04-23 07:34:05,613 : New best setting, beta: 0.69, alpha: 1.48; accuracy: 69.21, auroc: 92.29, fpr: 39.01
+2024-04-23 07:34:06,224 : New best setting, beta: 0.69, alpha: 1.83; accuracy: 69.99, auroc: 92.31, fpr: 39.75
+2024-04-23 07:34:06,835 : New best setting, beta: 0.69, alpha: 2.17; accuracy: 70.58, auroc: 92.32, fpr: 39.03
+2024-04-23 07:34:07,449 : New best setting, beta: 0.69, alpha: 2.52; accuracy: 71.09, auroc: 92.33, fpr: 39.84
+2024-04-23 07:34:08,057 : New best setting, beta: 0.69, alpha: 2.86; accuracy: 71.44, auroc: 92.32, fpr: 39.24
+2024-04-23 07:34:08,667 : New best setting, beta: 0.69, alpha: 3.21; accuracy: 71.58, auroc: 92.31, fpr: 38.68
+2024-04-23 07:34:09,281 : New best setting, beta: 0.69, alpha: 3.55; accuracy: 71.57, auroc: 92.28, fpr: 39.79
+2024-04-23 07:34:09,882 : New best setting, beta: 0.69, alpha: 3.90; accuracy: 71.51, auroc: 92.25, fpr: 39.53
+2024-04-23 07:34:10,469 : New best setting, beta: 0.69, alpha: 4.24; accuracy: 71.23, auroc: 92.21, fpr: 39.25
+2024-04-23 07:34:11,078 : New best setting, beta: 0.69, alpha: 4.58; accuracy: 70.90, auroc: 92.16, fpr: 40.64
+2024-04-23 07:34:11,694 : New best setting, beta: 0.69, alpha: 4.93; accuracy: 70.62, auroc: 92.10, fpr: 40.82
+2024-04-23 07:34:12,282 : New best setting, beta: 0.69, alpha: 5.27; accuracy: 70.23, auroc: 92.03, fpr: 41.05
+2024-04-23 07:34:12,874 : New best setting, beta: 0.69, alpha: 5.62; accuracy: 69.72, auroc: 91.95, fpr: 41.35
+2024-04-23 07:34:13,481 : New best setting, beta: 0.69, alpha: 5.96; accuracy: 69.22, auroc: 91.87, fpr: 43.16
+2024-04-23 07:34:14,123 : New best setting, beta: 0.69, alpha: 6.31; accuracy: 68.61, auroc: 91.78, fpr: 43.57
+2024-04-23 07:34:14,789 : New best setting, beta: 0.69, alpha: 6.65; accuracy: 68.07, auroc: 91.69, fpr: 43.99
+2024-04-23 07:34:15,387 : New best setting, beta: 0.72, alpha: 0.10; accuracy: 63.11, auroc: 92.07, fpr: 41.21
+2024-04-23 07:34:16,000 : New best setting, beta: 0.72, alpha: 0.45; accuracy: 65.18, auroc: 92.14, fpr: 41.37
+2024-04-23 07:34:16,619 : New best setting, beta: 0.72, alpha: 0.79; accuracy: 66.88, auroc: 92.20, fpr: 39.97
+2024-04-23 07:34:17,230 : New best setting, beta: 0.72, alpha: 1.14; accuracy: 68.32, auroc: 92.25, fpr: 40.28
+2024-04-23 07:34:17,844 : New best setting, beta: 0.72, alpha: 1.48; accuracy: 69.25, auroc: 92.29, fpr: 39.16
+2024-04-23 07:34:18,457 : New best setting, beta: 0.72, alpha: 1.83; accuracy: 70.05, auroc: 92.31, fpr: 39.95
+2024-04-23 07:34:19,137 : New best setting, beta: 0.72, alpha: 2.17; accuracy: 70.62, auroc: 92.33, fpr: 39.25
+2024-04-23 07:34:19,845 : New best setting, beta: 0.72, alpha: 2.52; accuracy: 71.17, auroc: 92.33, fpr: 40.04
+2024-04-23 07:34:20,540 : New best setting, beta: 0.72, alpha: 2.86; accuracy: 71.48, auroc: 92.32, fpr: 39.54
+2024-04-23 07:34:21,239 : New best setting, beta: 0.72, alpha: 3.21; accuracy: 71.59, auroc: 92.31, fpr: 39.03
+2024-04-23 07:34:21,901 : New best setting, beta: 0.72, alpha: 3.55; accuracy: 71.57, auroc: 92.28, fpr: 38.75
+2024-04-23 07:34:22,564 : New best setting, beta: 0.72, alpha: 3.90; accuracy: 71.44, auroc: 92.24, fpr: 39.91
+2024-04-23 07:34:23,178 : New best setting, beta: 0.72, alpha: 4.24; accuracy: 71.12, auroc: 92.20, fpr: 39.90
+2024-04-23 07:34:23,775 : New best setting, beta: 0.72, alpha: 4.58; accuracy: 70.81, auroc: 92.14, fpr: 39.94
+2024-04-23 07:34:24,387 : New best setting, beta: 0.72, alpha: 4.93; accuracy: 70.51, auroc: 92.08, fpr: 40.11
+2024-04-23 07:34:25,000 : New best setting, beta: 0.72, alpha: 5.27; accuracy: 70.11, auroc: 92.01, fpr: 41.80
+2024-04-23 07:34:25,616 : New best setting, beta: 0.72, alpha: 5.62; accuracy: 69.54, auroc: 91.93, fpr: 42.15
