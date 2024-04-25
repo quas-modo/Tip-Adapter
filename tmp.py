@@ -1,7 +1,8 @@
 import torch
 
-p = torch.tensor([0.0005, 0.0006, 0.0005, 0.0006, 0.0006, 0.0006, 0.0006])
+p = torch.randn(3, 5, dtype=float)
 
-ans = torch.mean(torch.sum(p * torch.log(p + 1e-5)), 0)
+result = 1 - p
 
-print(ans)
+print(p)
+print(result)

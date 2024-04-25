@@ -159,53 +159,75 @@ def run_tip_adapter_ood(log, cfg, cache_keys, cache_values, test_features, test_
     #                  clip_weights)
 
 
-def APE(log, cfg, cache_keys, cache_values,  test_features, test_labels, clip_weights, neg_clip_weights,
+def cal_dual_logits(features, pos_clip_weights, neg_clip_weights, cache_keys, cache_values, 
+                    top_indices, ood_indices, cfg):
+    beta, alpha = cfg['init_beta'], cfg['init_alpha']
+    pos_cache_keys = cache_keys[top_indices, :]
+    neg_cache_keys = cache_keys[ood_indices, :]
+
+    pos_features = features[:, top_indices]
+    neg_features = features[:, ood_indices]
+
+    # tip pos adapter
+    pos_zero_logits = 100. * features @ pos_clip_weights
+    pos_affinity = pos_features @ pos_cache_keys
+    pos_tip_logits = ((-1) * (beta - beta * pos_affinity)).exp() @ cache_values
+    pos_id_logits = pos_zero_logits + pos_tip_logits  * alpha
+
+    # tip neg adapter
+    # todo: mean value scaling parameter
+    neg_zero_logits = 1 - 100. * features @ neg_clip_weights
+    neg_affinity = neg_features @ neg_cache_keys
+    neg_tip_logits = ((-1) * beta * neg_affinity).exp() @ cache_values
+    neg_id_logits = neg_zero_logits + neg_tip_logits * alpha
+
+    logits = pos_id_logits + neg_id_logits
+    return logits
+
+def APE(log, cfg, cache_keys, cache_values,  test_features, test_labels, pos_clip_weights, neg_clip_weights,
         open_features, open_labels):
 
     cfg['w'] = cfg['w_training_free']
-    top_indices, ood_indices = cal_criterion(cfg, clip_weights, cache_keys, only_use_txt=False)
+    top_indices, ood_indices = cal_criterion(cfg, pos_clip_weights, cache_keys, only_use_txt=False)
 
-    top_cache_keys = cache_keys[top_indices, :]
-    ood_cache_keys = cache_keys[ood_indices, :]
-    new_cache_keys = torch.cat((top_cache_keys, ood_cache_keys), dim=1)
+    # pos_cache_keys = cache_keys[top_indices, :]
+    # neg_cache_keys = cache_keys[ood_indices, :]
+    # new_cache_keys = torch.cat((top_cache_keys, ood_cache_keys), dim=1)
     # new_cache_keys = new_cache_keys / new_cache_keys.norm(dim=0, keepdim=True)  # dim=-1, 沿着最后一个维度进行操作
 
-
-    top_clip_weights = clip_weights[top_indices, :]
-    ood_clip_weights = neg_clip_weights[top_indices, :]
-    new_clip_weights = torch.cat((top_clip_weights, ood_clip_weights), dim=1)
-    # new_clip_weights = new_clip_weights / new_clip_weights.norm(dim=0, keepdim=True)
-
-    new_test_features = test_features[:, top_indices]
-    new_open_features = open_features[:, top_indices]
+    # pos_test_features = test_features[:, top_indices]
+    # neg_test_features = test_features[:, ood_indices]
+    # pos_open_features = open_features[:, top_indices]
+    # neg_test_features = open_features[:, ood_indices]
 
     # new_test_features = new_test_features / new_test_features.norm(dim=-1, keepdim=True)
     # new_open_features = new_open_features / new_open_features.norm(dim=-1, keepdim=True)
 
-    new_cache_values = cache_values
+    # beta, alpha = cfg['init_beta'], cfg['init_alpha']
 
-    zero_clip_weights = torch.cat((clip_weights, neg_clip_weights), dim=1)
-    clip_logits = 100. * test_features @ zero_clip_weights
-    zero_shot_acc = cls_acc(clip_logits, test_labels)
-    print("\n**** Zero-shot CLIP's test accuracy: {:.2f}. ****\n".format(zero_shot_acc))
+    # tip pos adapter
+    # pos_zero_logits = 100. * test_features @ pos_clip_weights
+    # pos_affinity = pos_test_features @ pos_cache_keys
+    # pos_tip_logits = ((-1) * (beta - beta * pos_affinity)).exp() @ cache_values
+    # pos_id_logits = pos_zero_logits + pos_tip_logits  * alpha
 
-    beta, alpha = cfg['init_beta'], cfg['init_alpha']
-    affinity = new_test_features @ new_cache_keys
-    cache_logits = ((-1) * (beta - beta * affinity)).exp() @ new_cache_values
-    tip_logits = clip_logits + cache_logits * alpha
+    # tip neg adapter
+    # todo: mean value scaling parameter
+    # neg_zero_logits = 1 - 100. * test_features @ neg_clip_weights
+    # neg_affinity = neg_test_features @ neg_cache_keys
+    # neg_tip_logits = ((-1) * beta * neg_affinity).exp() @ cache_values
+    # neg_id_logits = neg_zero_logits + neg_tip_logits * alpha
 
-    open_logits = 100. * open_features @ zero_clip_weights
-    open_affinity = new_open_features @ new_cache_keys
-    open_cache_logits = ((-1) * (beta - beta * open_affinity)).exp() @ new_cache_values
-    open_tip_logits = open_logits + open_cache_logits * alpha
+    # id_logits = pos_id_logits + neg_id_logits
 
-    # auroc, aupr, fpr = cls_auroc_mcm(tip_logits, open_tip_logits, 1)
-    # log.debug("**** Tip-Adapter's test auroc, aupr, fpr: {:.2f}, {:.2f}, {:.2f}. ****\n".format(auroc, aupr, fpr))
-
-    auroc, fpr = cls_auroc_ours(tip_logits, open_tip_logits)
+    id_logits = cal_dual_logits(test_features, pos_clip_weights, neg_clip_weights, cache_keys, cache_values,
+                                top_indices, ood_indices, cfg)
+    ood_logits = cal_dual_logits(open_features, pos_clip_weights, neg_clip_weights, cache_keys, cache_values,
+                                top_indices, ood_indices, cfg)
+    
+    auroc, fpr = cls_auroc_ours(id_logits, ood_logits)
     log.debug("**** Our's test auroc: {:.2f}, fpr: {:.2f}. ****\n".format(auroc, fpr))
 
-    # Search Hyperparameters
     # best_beta, best_alpha = search_hp_ape(log, cfg, new_cache_keys, new_cache_values, test_features, new_test_features, test_labels,
     #                                       open_features, new_open_features, open_labels, zero_clip_weights)
 

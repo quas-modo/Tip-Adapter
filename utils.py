@@ -299,19 +299,13 @@ def build_cache_model(log, cfg, clip_model, train_loader_cache):
 
         shots_num = cfg["shots"]
         _, support_num = cache_keys.shape
-        # log.debug(_)
-        # log.debug(support_num)
 
         cate_num = support_num // shots_num
-        # log.debug(cate_num)
 
-        for i in range(len(cache_values)):
-            cache_values.append(cache_values[i] + cate_num)
+        # for i in range(len(cache_values)):
+        #     cache_values.append(cache_values[i] + cate_num)
 
-        # log.debug(cache_values)
         cache_values = F.one_hot(torch.cat(cache_values, dim=0)).half()
-
-        # log.debug(cache_values)
 
         torch.save(cache_keys, cfg['cache_dir'] + '/keys_' + str(cfg['shots']) + "shots.pt")
         torch.save(cache_values, cfg['cache_dir'] + '/values_' + str(cfg['shots']) + "shots.pt")
