@@ -244,35 +244,62 @@ def APE(log, cfg, cache_keys, cache_values,  test_features, test_labels, pos_cli
 
     auroc, _, fpr = cls_auroc_mcm(id_pos_logits - id_neg_logits, ood_pos_logits - ood_neg_logits)
     log.debug("**** Our's test dual auroc: {:.2f}, fpr: {:.2f}. ****\n".format(auroc, fpr))
+
+    id_logits = torch.cat([id_pos_logits, id_neg_logits], dim=1)
+    ood_logits = torch.cat([ood_pos_logits, ood_neg_logits], dim=1)
+
+    id_logits /= 100
+    id_logits = F.softmax(id_logits, dim=1)
+    our_acc = cls_acc(id_logits, test_labels)
+    log.debug("**** our dual test accuracy: {:.2f}. ****\n".format(our_acc))
+
+    id_logits = torch.cat([id_pos_logits, id_neg_logits], dim=1)
+    ood_logits = torch.cat([ood_pos_logits, ood_neg_logits], dim=1)
+
+    auroc, fpr = cls_auroc_ours(id_logits, ood_logits)
+    log.debug("**** Our's test dual-ours auroc : {:.2f}, fpr: {:.2f}. ****\n".format(auroc, fpr))
+
+
+
+
     
-    for i in range(100):
-        id_logits = id_pos_logits - 0.1 * i * id_neg_logits
-        ood_logits = ood_pos_logits - 0.1 * i * ood_neg_logits
-        i_acc = cls_acc(id_logits, test_labels)
-        log.debug("**** dual acc {:.2f}: {:.2f}".format(i * 0.1, i_acc))
-        auroc, _, fpr = cls_auroc_mcm(id_logits, ood_logits)
-        log.debug("**** Our's test dual auroc {:.2f}: {:.2f}, fpr: {:.2f}. ****\n".format(i * 0.1, auroc, fpr))
+    # for i in range(100):
+    #     id_logits = id_pos_logits - 0.1 * i * id_neg_logits
+    #     ood_logits = ood_pos_logits - 0.1 * i * ood_neg_logits
+    #     i_acc = cls_acc(id_logits, test_labels)
+    #     log.debug("**** dual acc {:.2f}: {:.2f}".format(i * 0.1, i_acc))
+    #     auroc, _, fpr = cls_auroc_mcm(id_logits, ood_logits)
+    #     log.debug("**** Our's test dual auroc {:.2f}: {:.2f}, fpr: {:.2f}. ****\n".format(i * 0.1, auroc, fpr))
 
-    idex = torch.argmax(id_pos_logits, -1).unsqueeze(-1)
-    yesno = torch.cat([id_pos_logits.unsqueeze(-1), id_neg_logits.unsqueeze(-1)], -1)
-    yesno = torch.softmax(yesno, dim=-1)[:,:,0]
-    yesno_s = torch.gather(yesno, dim=1, index=idex)
-    ind_ctw = list(yesno_s.detach().cpu().numpy())
-    ind_atd = list((yesno * torch.softmax(id_pos_logits, -1)).sum(1).detach().cpu().numpy())
     
-    o_idex = torch.argmax(ood_pos_logits, -1).unsqueeze(-1)
-    o_yesno = torch.cat([ood_pos_logits.unsqueeze(-1), ood_neg_logits.unsqueeze(-1)], -1)
-    o_yesno = torch.softmax(o_yesno, dim=-1)[:,:,0]
-    o_yesno_s = torch.gather(o_yesno, dim=1, index=o_idex)
 
-    ood_ctw = list(o_yesno_s.detach().cpu().numpy())
-    ood_atd = list((o_yesno * torch.softmax(ood_pos_logits, -1) ).sum(1).detach().cpu().numpy())
 
-    ctw_auroc, _, fpr = cal_auc_fpr(ind_ctw, ood_ctw)
-    log.debug("**** Our's test ctw auroc: {:.2f}, fpr: {:.2f}. ****\n".format(ctw_auroc, fpr))
+    #  clipn trial
 
-    atd_auroc, _, fpr = cal_auc_fpr(ind_atd, ood_atd)
-    log.debug("**** Our's test atd auroc: {:.2f}, fpr: {:.2f}. ****\n".format(atd_auroc, fpr))
+    # idex = torch.argmax(id_pos_logits, -1).unsqueeze(-1)
+    # yesno = torch.cat([id_pos_logits.unsqueeze(-1), id_neg_logits.unsqueeze(-1)], -1)
+    # yesno = torch.softmax(yesno, dim=-1)[:,:,0]
+    # yesno_s = torch.gather(yesno, dim=1, index=idex)
+    # ind_ctw = list(yesno_s.detach().cpu().numpy())
+    # ind_atd = list((yesno * torch.softmax(id_pos_logits, -1)).sum(1).detach().cpu().numpy())
+    
+    # o_idex = torch.argmax(ood_pos_logits, -1).unsqueeze(-1)
+    # o_yesno = torch.cat([ood_pos_logits.unsqueeze(-1), ood_neg_logits.unsqueeze(-1)], -1)
+    # o_yesno = torch.softmax(o_yesno, dim=-1)[:,:,0]
+    # o_yesno_s = torch.gather(o_yesno, dim=1, index=o_idex)
+
+    # ood_ctw = list(o_yesno_s.detach().cpu().numpy())
+    # ood_atd = list((o_yesno * torch.softmax(ood_pos_logits, -1) ).sum(1).detach().cpu().numpy())
+
+    # ctw_auroc, fpr = cal_auc_fpr(ind_ctw, ood_ctw)
+    # log.debug("**** Our's test ctw auroc: {:.2f}, fpr: {:.2f}. ****\n".format(ctw_auroc, fpr))
+
+    # atd_auroc, fpr = cal_auc_fpr(ind_atd, ood_atd)
+    # log.debug("**** Our's test atd auroc: {:.2f}, fpr: {:.2f}. ****\n".format(atd_auroc, fpr))
+
+
+
+    # softmax trial
 
     # print(id_pos_logits)
     # print(id_neg_logits)
