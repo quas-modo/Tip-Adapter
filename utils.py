@@ -82,16 +82,46 @@ def cls_auroc_mcm(closed_logits, open_logits, t=1):
     to_np = lambda x: x.data.cpu().numpy()
     concat = lambda x: np.concatenate(x, axis=0)
 
-    closed_logits /= 100.0
-    smax_closed = to_np(F.softmax(closed_logits/t, dim=1))
+    closed_logits_norm = closed_logits / 100.0
+    smax_closed = to_np(F.softmax(closed_logits_norm/t, dim=1))
     mcm_closed = np.max(smax_closed, axis=1)
 
-    open_logits /= 100.0
-    smax_open = to_np(F.softmax(open_logits/t, dim=-1))
+    open_logits_norm = open_logits / 100.0
+    smax_open = to_np(F.softmax(open_logits_norm/t, dim=-1))
     mcm_open = np.max(smax_open, axis=1)
 
     auroc, aupr, fpr = get_measure(mcm_closed, mcm_open)
     return auroc * 100, aupr * 100, fpr * 100
+
+def cal_auc_fpr(ind_conf, ood_conf):
+    conf = np.concatenate((ind_conf, ood_conf))
+    ind_indicator = np.concatenate((np.ones_like(ind_conf), np.zeros_like(ood_conf)))
+    auroc = metrics.roc_auc_score(ind_indicator, conf)
+    fpr,tpr,thresh = Roc(ind_indicator, conf, pos_label=1)
+    fpr = float(interpolate.interp1d(tpr, fpr)(0.95))
+    return auroc, fpr
+
+def cls_auroc_dual(pos_id_logits, neg_id_logits, pos_ood_logits, neg_ood_logits, t=1):
+    to_np = lambda x: x.data.cpu().numpy()
+    pos_id_logits /= 100.0
+    smax_pid = to_np(F.softmax(pos_id_logits/t, dim=1))
+    smax_pid = np.max(smax_pid, axis=1)
+
+    neg_id_logits /= 100.0
+    smax_nid = to_np(F.softmax(neg_id_logits/t, dim=1))
+    smax_nid = np.max(smax_nid, axis=1)
+
+    pos_ood_logits /= 100.0
+    omax_pid = to_np(F.softmax(pos_ood_logits/t, dim=1))
+    omax_pid = np.max(omax_pid, axis=1)
+
+    neg_ood_logits /= 100.0
+    omax_nid = to_np(F.softmax(neg_ood_logits/t, dim=1))
+    omax_nid = np.max(omax_nid, axis=1)
+
+    auroc, aupr, fpr = get_measure(smax_pid + smax_nid, omax_pid + omax_nid) 
+    return auroc, aupr, fpr
+
 
 def cls_auroc_ours(closed_logits, open_logits):
     to_np = lambda x: x.data.cpu().numpy()

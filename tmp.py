@@ -1,8 +1,8 @@
 import torch
+import torch.nn.functional as F
 
-p = torch.randn(3, 5, dtype=float)
+tensor = torch.tensor([[1.0, 2.0, 3.0],
+                        [4.0, 5.0, 6.0]])
 
-result = 1 - p
-
-print(p)
-print(result)
+normalized_tensor = F.normalize(tensor, dim=0)
+print(normalized_tensor)

@@ -1,0 +1,17 @@
+2024-04-25 16:54:30,443 : #########TRAIN_EVAL_INFO############
+2024-04-25 16:54:30,447 : 
+Running in-domain dataset configs.
+2024-04-25 16:54:30,447 : {'root_path': '/home/nfs03/liyh/', 'seed': 3407, 'load_cache': True, 'load_pre_feat': True, 'search_hp': True, 'search_scale': [7, 7, 0.5], 'search_step': [200, 20, 5], 'init_beta': 1, 'init_alpha': 2, 'init_gamma': 0.1, 'eps': 0.001, 'training_feat_num': 256, 'training_free_feat_num': 256, 'w_training_free': [0.7, 0.3], 'w_training': [0.2, 0.8], 'dataset': 'imagenet', 'shots': 16, 'backbone': 'ViT-B/16', 'lr': 0.001, 'augment_epoch': 10, 'train_epoch': 20, 'data_section': 0, 'cache_dir': '/home/nfs03/zengtc/tip/caches/imagenet'}
+2024-04-25 16:54:36,860 : Preparing ImageNet dataset.
+2024-04-25 16:57:05,408 : Getting textual features as CLIP's classifier.
+2024-04-25 16:57:21,428 : 
+Constructing cache model by few-shot visual features and labels.
+2024-04-25 16:57:21,462 : 
+Loading visual features and labels from test set.
+2024-04-25 16:57:21,503 : 
+Running out-domain dataset configs.
+2024-04-25 16:57:21,503 : {'root_path': '/home/nfs03/zengtc', 'seed': 3407, 'load_cache': False, 'load_pre_feat': False, 'dataset': 'iNaturalist', 'backbone': 'ViT-B/16'}
+2024-04-25 16:57:43,325 : **** Our's test dual auroc: 90.80, fpr: 48.22. ****
+
+2024-04-25 16:57:43,711 : **** Our's test dual auroc: 83.82, fpr: 56.47. ****
+

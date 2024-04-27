@@ -1,0 +1,223 @@
+2024-04-26 10:51:39,046 : #########TRAIN_EVAL_INFO############
+2024-04-26 10:51:39,050 : 
+Running in-domain dataset configs.
+2024-04-26 10:51:39,050 : {'root_path': '/home/nfs03/liyh/', 'seed': 3407, 'load_cache': True, 'load_pre_feat': True, 'search_hp': True, 'search_scale': [7, 7, 0.5], 'search_step': [200, 20, 5], 'init_beta': 1, 'init_alpha': 2, 'init_gamma': 0.1, 'eps': 0.001, 'training_feat_num': 256, 'training_free_feat_num': 256, 'w_training_free': [0.7, 0.3], 'w_training': [0.2, 0.8], 'dataset': 'imagenet', 'shots': 16, 'backbone': 'ViT-B/16', 'lr': 0.001, 'augment_epoch': 10, 'train_epoch': 20, 'data_section': 0, 'cache_dir': '/home/nfs03/zengtc/tip/caches/imagenet'}
+2024-04-26 10:51:45,053 : Preparing ImageNet dataset.
+2024-04-26 10:54:22,117 : Getting textual features as CLIP's classifier.
+2024-04-26 10:54:38,334 : 
+Constructing cache model by few-shot visual features and labels.
+2024-04-26 10:54:38,464 : 
+Loading visual features and labels from test set.
+2024-04-26 10:54:38,495 : 
+Running out-domain dataset configs.
+2024-04-26 10:54:38,495 : {'root_path': '/home/nfs03/zengtc', 'seed': 3407, 'load_cache': False, 'load_pre_feat': False, 'dataset': 'iNaturalist', 'backbone': 'ViT-B/16'}
+2024-04-26 10:55:00,801 : **** pos test accuracy: 69.42. ****
+
+2024-04-26 10:55:00,810 : **** neg test accuracy: 61.30. ****
+
+2024-04-26 10:55:01,155 : **** Our's test pos auroc: 91.72, fpr: 43.48. ****
+
+2024-04-26 10:55:01,462 : **** Our's test neg auroc: 88.18, fpr: 61.66. ****
+
+2024-04-26 10:55:01,825 : **** Our's test dual auroc: 90.80, fpr: 48.20. ****
+
+2024-04-26 10:55:02,131 : **** Our's test dual auroc 0.00: 91.72, fpr: 43.48. ****
+
+2024-04-26 10:55:02,495 : **** Our's test dual auroc 0.10: 91.77, fpr: 42.80. ****
+
+2024-04-26 10:55:02,856 : **** Our's test dual auroc 0.20: 91.78, fpr: 42.63. ****
+
+2024-04-26 10:55:03,220 : **** Our's test dual auroc 0.30: 91.68, fpr: 43.60. ****
+
+2024-04-26 10:55:03,581 : **** Our's test dual auroc 0.40: 91.39, fpr: 46.22. ****
+
+2024-04-26 10:55:03,939 : **** Our's test dual auroc 0.50: 90.59, fpr: 49.29. ****
+
+2024-04-26 10:55:04,299 : **** Our's test dual auroc 0.60: 88.47, fpr: 58.54. ****
+
+2024-04-26 10:55:04,659 : **** Our's test dual auroc 0.70: 83.53, fpr: 69.01. ****
+
+2024-04-26 10:55:05,016 : **** Our's test dual auroc 0.80: 74.41, fpr: 84.76. ****
+
+2024-04-26 10:55:05,375 : **** Our's test dual auroc 0.90: 63.50, fpr: 95.19. ****
+
+2024-04-26 10:55:05,735 : **** Our's test dual auroc 1.00: 55.21, fpr: 97.65. ****
+
+2024-04-26 10:55:06,093 : **** Our's test dual auroc 1.10: 49.71, fpr: 98.09. ****
+
+2024-04-26 10:55:06,451 : **** Our's test dual auroc 1.20: 45.68, fpr: 98.63. ****
+
+2024-04-26 10:55:06,809 : **** Our's test dual auroc 1.30: 43.00, fpr: 98.71. ****
+
+2024-04-26 10:55:07,165 : **** Our's test dual auroc 1.40: 41.73, fpr: 98.51. ****
+
+2024-04-26 10:55:07,524 : **** Our's test dual auroc 1.50: 42.00, fpr: 97.97. ****
+
+2024-04-26 10:55:07,892 : **** Our's test dual auroc 1.60: 43.28, fpr: 97.43. ****
+
+2024-04-26 10:55:08,249 : **** Our's test dual auroc 1.70: 45.26, fpr: 97.28. ****
+
+2024-04-26 10:55:08,609 : **** Our's test dual auroc 1.80: 47.42, fpr: 96.65. ****
+
+2024-04-26 10:55:08,968 : **** Our's test dual auroc 1.90: 49.47, fpr: 96.18. ****
+
+2024-04-26 10:55:09,328 : **** Our's test dual auroc 2.00: 51.33, fpr: 95.65. ****
+
+2024-04-26 10:55:09,688 : **** Our's test dual auroc 2.10: 52.97, fpr: 95.43. ****
+
+2024-04-26 10:55:10,047 : **** Our's test dual auroc 2.20: 54.34, fpr: 94.61. ****
+
+2024-04-26 10:55:10,407 : **** Our's test dual auroc 2.30: 55.52, fpr: 94.47. ****
+
+2024-04-26 10:55:10,766 : **** Our's test dual auroc 2.40: 56.55, fpr: 94.05. ****
+
+2024-04-26 10:55:11,125 : **** Our's test dual auroc 2.50: 57.38, fpr: 93.63. ****
+
+2024-04-26 10:55:11,487 : **** Our's test dual auroc 2.60: 58.09, fpr: 93.27. ****
+
+2024-04-26 10:55:11,848 : **** Our's test dual auroc 2.70: 58.73, fpr: 92.90. ****
+
+2024-04-26 10:55:12,208 : **** Our's test dual auroc 2.80: 59.21, fpr: 92.69. ****
+
+2024-04-26 10:55:12,568 : **** Our's test dual auroc 2.90: 59.66, fpr: 92.67. ****
+
+2024-04-26 10:55:12,928 : **** Our's test dual auroc 3.00: 60.04, fpr: 92.52. ****
+
+2024-04-26 10:55:13,288 : **** Our's test dual auroc 3.10: 60.36, fpr: 91.78. ****
+
+2024-04-26 10:55:13,649 : **** Our's test dual auroc 3.20: 60.60, fpr: 91.80. ****
+
+2024-04-26 10:55:14,008 : **** Our's test dual auroc 3.30: 60.83, fpr: 91.33. ****
+
+2024-04-26 10:55:14,369 : **** Our's test dual auroc 3.40: 61.04, fpr: 91.40. ****
+
+2024-04-26 10:55:14,730 : **** Our's test dual auroc 3.50: 61.22, fpr: 90.90. ****
+
+2024-04-26 10:55:15,091 : **** Our's test dual auroc 3.60: 61.35, fpr: 91.00. ****
+
+2024-04-26 10:55:15,453 : **** Our's test dual auroc 3.70: 61.49, fpr: 90.55. ****
+
+2024-04-26 10:55:15,813 : **** Our's test dual auroc 3.80: 61.61, fpr: 90.45. ****
+
+2024-04-26 10:55:16,173 : **** Our's test dual auroc 3.90: 61.72, fpr: 90.45. ****
+
+2024-04-26 10:55:16,535 : **** Our's test dual auroc 4.00: 61.80, fpr: 90.32. ****
+
+2024-04-26 10:55:16,897 : **** Our's test dual auroc 4.10: 61.88, fpr: 90.15. ****
+
+2024-04-26 10:55:17,257 : **** Our's test dual auroc 4.20: 61.95, fpr: 89.90. ****
+
+2024-04-26 10:55:17,618 : **** Our's test dual auroc 4.30: 61.99, fpr: 89.86. ****
+
+2024-04-26 10:55:17,979 : **** Our's test dual auroc 4.40: 62.08, fpr: 89.79. ****
+
+2024-04-26 10:55:18,342 : **** Our's test dual auroc 4.50: 62.10, fpr: 89.61. ****
+
+2024-04-26 10:55:18,704 : **** Our's test dual auroc 4.60: 62.16, fpr: 89.73. ****
+
+2024-04-26 10:55:19,065 : **** Our's test dual auroc 4.70: 62.20, fpr: 89.65. ****
+
+2024-04-26 10:55:19,427 : **** Our's test dual auroc 4.80: 62.21, fpr: 89.38. ****
+
+2024-04-26 10:55:19,789 : **** Our's test dual auroc 4.90: 62.26, fpr: 89.28. ****
+
+2024-04-26 10:55:20,150 : **** Our's test dual auroc 5.00: 62.27, fpr: 89.38. ****
+
+2024-04-26 10:55:20,512 : **** Our's test dual auroc 5.10: 62.31, fpr: 89.13. ****
+
+2024-04-26 10:55:20,873 : **** Our's test dual auroc 5.20: 62.32, fpr: 89.03. ****
+
+2024-04-26 10:55:21,235 : **** Our's test dual auroc 5.30: 62.35, fpr: 88.93. ****
+
+2024-04-26 10:55:21,601 : **** Our's test dual auroc 5.40: 62.37, fpr: 88.77. ****
+
+2024-04-26 10:55:21,963 : **** Our's test dual auroc 5.50: 62.39, fpr: 88.89. ****
+
+2024-04-26 10:55:22,325 : **** Our's test dual auroc 5.60: 62.40, fpr: 88.77. ****
+
+2024-04-26 10:55:22,691 : **** Our's test dual auroc 5.70: 62.43, fpr: 88.91. ****
+
+2024-04-26 10:55:23,053 : **** Our's test dual auroc 5.80: 62.42, fpr: 88.86. ****
+
+2024-04-26 10:55:23,415 : **** Our's test dual auroc 5.90: 62.42, fpr: 88.77. ****
+
+2024-04-26 10:55:23,778 : **** Our's test dual auroc 6.00: 62.44, fpr: 88.57. ****
+
+2024-04-26 10:55:24,140 : **** Our's test dual auroc 6.10: 62.44, fpr: 88.46. ****
+
+2024-04-26 10:55:24,504 : **** Our's test dual auroc 6.20: 62.45, fpr: 88.31. ****
+
+2024-04-26 10:55:24,868 : **** Our's test dual auroc 6.30: 62.46, fpr: 88.42. ****
+
+2024-04-26 10:55:25,262 : **** Our's test dual auroc 6.40: 62.46, fpr: 88.40. ****
+
+2024-04-26 10:55:25,626 : **** Our's test dual auroc 6.50: 62.47, fpr: 88.24. ****
+
+2024-04-26 10:55:25,989 : **** Our's test dual auroc 6.60: 62.47, fpr: 88.06. ****
+
+2024-04-26 10:55:26,351 : **** Our's test dual auroc 6.70: 62.47, fpr: 88.32. ****
+
+2024-04-26 10:55:26,715 : **** Our's test dual auroc 6.80: 62.48, fpr: 88.14. ****
+
+2024-04-26 10:55:27,080 : **** Our's test dual auroc 6.90: 62.49, fpr: 88.21. ****
+
+2024-04-26 10:55:27,446 : **** Our's test dual auroc 7.00: 62.49, fpr: 87.89. ****
+
+2024-04-26 10:55:27,812 : **** Our's test dual auroc 7.10: 62.48, fpr: 88.01. ****
+
+2024-04-26 10:55:28,175 : **** Our's test dual auroc 7.20: 62.48, fpr: 88.11. ****
+
+2024-04-26 10:55:28,537 : **** Our's test dual auroc 7.30: 62.48, fpr: 87.99. ****
+
+2024-04-26 10:55:28,898 : **** Our's test dual auroc 7.40: 62.49, fpr: 87.88. ****
+
+2024-04-26 10:55:29,262 : **** Our's test dual auroc 7.50: 62.49, fpr: 87.82. ****
+
+2024-04-26 10:55:29,625 : **** Our's test dual auroc 7.60: 62.47, fpr: 87.93. ****
+
+2024-04-26 10:55:29,987 : **** Our's test dual auroc 7.70: 62.50, fpr: 87.77. ****
+
+2024-04-26 10:55:30,349 : **** Our's test dual auroc 7.80: 62.47, fpr: 87.86. ****
+
+2024-04-26 10:55:30,712 : **** Our's test dual auroc 7.90: 62.48, fpr: 87.64. ****
+
+2024-04-26 10:55:31,076 : **** Our's test dual auroc 8.00: 62.47, fpr: 87.86. ****
+
+2024-04-26 10:55:31,442 : **** Our's test dual auroc 8.10: 62.47, fpr: 87.87. ****
+
+2024-04-26 10:55:31,807 : **** Our's test dual auroc 8.20: 62.47, fpr: 87.72. ****
+
+2024-04-26 10:55:32,169 : **** Our's test dual auroc 8.30: 62.47, fpr: 87.72. ****
+
+2024-04-26 10:55:32,531 : **** Our's test dual auroc 8.40: 62.47, fpr: 87.65. ****
+
+2024-04-26 10:55:32,895 : **** Our's test dual auroc 8.50: 62.46, fpr: 87.68. ****
+
+2024-04-26 10:55:33,259 : **** Our's test dual auroc 8.60: 62.45, fpr: 87.68. ****
+
+2024-04-26 10:55:33,621 : **** Our's test dual auroc 8.70: 62.45, fpr: 87.63. ****
+
+2024-04-26 10:55:33,985 : **** Our's test dual auroc 8.80: 62.46, fpr: 87.45. ****
+
+2024-04-26 10:55:34,350 : **** Our's test dual auroc 8.90: 62.44, fpr: 87.78. ****
+
+2024-04-26 10:55:34,713 : **** Our's test dual auroc 9.00: 62.45, fpr: 87.68. ****
+
+2024-04-26 10:55:35,076 : **** Our's test dual auroc 9.10: 62.44, fpr: 87.53. ****
+
+2024-04-26 10:55:35,438 : **** Our's test dual auroc 9.20: 62.44, fpr: 87.42. ****
+
+2024-04-26 10:55:35,800 : **** Our's test dual auroc 9.30: 62.44, fpr: 87.44. ****
+
+2024-04-26 10:55:36,162 : **** Our's test dual auroc 9.40: 62.44, fpr: 87.52. ****
+
+2024-04-26 10:55:36,524 : **** Our's test dual auroc 9.50: 62.41, fpr: 87.41. ****
+
+2024-04-26 10:55:36,887 : **** Our's test dual auroc 9.60: 62.42, fpr: 87.49. ****
+
+2024-04-26 10:55:37,251 : **** Our's test dual auroc 9.70: 62.41, fpr: 87.44. ****
+
+2024-04-26 10:55:37,614 : **** Our's test dual auroc 9.80: 62.40, fpr: 87.35. ****
+
+2024-04-26 10:55:37,979 : **** Our's test dual auroc 9.90: 62.41, fpr: 87.39. ****
+

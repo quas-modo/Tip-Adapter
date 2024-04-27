@@ -182,7 +182,7 @@ imagenet_templates = ["itap of a {}.",
                         "art of the {}.",
                         "a photo of the small {}."]
 
-neg_template = ["background of {}"]
+neg_template = ["a photo of  no {}"]
 
 
 class ImageNet():
