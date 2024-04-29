@@ -124,19 +124,19 @@ def cls_auroc_dual(pos_id_logits, neg_id_logits, pos_ood_logits, neg_ood_logits,
     return auroc, aupr, fpr
 
 
-def cls_auroc_ours(closed_logits, open_logits):
+def cls_auroc_ours(closed_logits_t, open_logits_t, t=1):
     to_np = lambda x: x.data.cpu().numpy()
 
-    closed_num, cate_num = closed_logits.shape
-    open_num, _ = open_logits.shape
+    closed_num, cate_num = closed_logits_t.shape
+    open_num, _ = open_logits_t.shape
     pos_cate_num = cate_num // 2
     neg_cate_num = cate_num // 2
 
-    closed_logits /= 100.0
-    open_logits /= 100.0
+    closed_logits = closed_logits_t / 100.0
+    open_logits = open_logits_t / 100.0
 
-    closed_logits = to_np(F.softmax(closed_logits, dim=1))
-    open_logits = to_np(F.softmax(open_logits, dim=1))
+    closed_logits = to_np(F.softmax(closed_logits/t, dim=1))
+    open_logits = to_np(F.softmax(open_logits/t, dim=1))
 
     closed_first_half = np.max(closed_logits[:, :pos_cate_num], axis=1)
     # closed_second_half = np.max(closed_logits[ : , pos_cate_num:], axis=1)

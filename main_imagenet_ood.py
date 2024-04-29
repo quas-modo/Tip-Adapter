@@ -165,83 +165,71 @@ def cal_dual_logits(features, pos_clip_weights, neg_clip_weights, cache_keys, ca
     pos_cache_keys = cache_keys[top_indices, :]
     neg_cache_keys = cache_keys[ood_indices, :]
 
-    pos_features = features[:, top_indices]
-    neg_features = features[:, ood_indices]
+    # pos_features = features[:, top_indices]
+    # neg_features = features[:, ood_indices]
+
+    max_pool = nn.MaxPool1d(2, stride=2)
+    pos_features = max_pool(features)
+    pos_features = pos_features.view(-1, 256)
+    pos_features /= pos_features.norm(p=2, dim=1, keepdim=True)
 
     # tip pos adapter
     pos_zero_logits = 100. * features @ pos_clip_weights
-    # print('pos_zero_logits')
-    # print(pos_zero_logits)
     pos_affinity = pos_features @ pos_cache_keys
-    # print('pos_affinity')
-    # print(pos_affinity)
     pos_tip_logits = ((-1) * (beta - beta * pos_affinity)).exp() @ cache_values
-    # print('pos_tip_logits')
-    # print(pos_tip_logits)
     pos_logits = pos_zero_logits + pos_tip_logits  * alpha
-    # print('pos_logits')
-    # print(pos_logits)
 
     # tip neg adapter
-    # todo: mean value scaling parameter
-    neg_zero_logits = 100. * (1 - features @ neg_clip_weights)
-    zero_scale = pos_zero_logits.mean() / neg_zero_logits.mean()
-    neg_zero_logits = neg_zero_logits * zero_scale
-    # print('neg_zero_logits')
-    # print(neg_zero_logits)
-    neg_affinity = neg_features @ neg_cache_keys
-    # print('neg_affinity')
-    # print(neg_affinity)
-    neg_tip_logits = ((-1) * beta * neg_affinity).exp() @ cache_values
-    tip_scale = pos_tip_logits.mean() / neg_tip_logits
-    neg_tip_logits = neg_tip_logits * tip_scale
-    
-    # print('neg_tip_logits')
-    # print(neg_tip_logits)
+    # neg_zero_logits = 100. * (1 - features @ neg_clip_weights)
+    # neg_affinity = neg_features @ neg_cache_keys
+    # neg_tip_logits = ((-1) * beta * neg_affinity).exp() @ cache_values
+    # neg_logits = neg_zero_logits + neg_tip_logits * alpha
+
+    neg_zero_logits = 100. * features @ neg_clip_weights
+    neg_affinity = pos_features @ neg_cache_keys
+    neg_tip_logits = ((-1) * (beta - beta * neg_affinity)).exp() @ cache_values
     neg_logits = neg_zero_logits + neg_tip_logits * alpha
-    # print('neg_logits')
-    # print(neg_logits)
-
-    # scaling
-    # mean_pos = pos_logits.mean()
-    # std_pos = pos_logits.std()
-    # mean_neg = neg_logits.mean()
-    # std_neg = neg_logits.std()
-
-    # scale_factor = std_pos / std_neg
-    # offset = mean_pos - (mean_neg * scale_factor)
-
-    # neg_logits = (neg_logits * scale_factor) + offset
-
-    # logits = F.softmax(pos_logits) + F.softmax(neg_logits)
 
     return pos_logits, neg_logits
 
 def cal_dual_logits_ab(features, pos_clip_weights, neg_clip_weights, cache_keys, cache_values, 
-                    top_indices, ood_indices, cfg, alpha, beta):
+                    top_indices, ood_indices):
     pos_cache_keys = cache_keys[top_indices, :]
     neg_cache_keys = cache_keys[ood_indices, :]
 
-    pos_features = features[:, top_indices]
-    neg_features = features[:, ood_indices]
+    # pos_features = features[:, top_indices]
+    # neg_features = features[:, ood_indices]
+
+    max_pool = nn.MaxPool1d(2, stride=2)
+    pos_features = max_pool(features)
+    pos_features = pos_features.view(-1, 256)
+    pos_features /= pos_features.norm(p=2, dim=1, keepdim=True)
 
     # tip pos adapter
     pos_zero_logits = 100. * features @ pos_clip_weights
     pos_affinity = pos_features @ pos_cache_keys
-    pos_tip_logits = ((-1) * (beta - beta * pos_affinity)).exp() @ cache_values
-    pos_logits = pos_zero_logits + pos_tip_logits  * alpha
+    # pos_tip_logits = ((-1) * (beta - beta * pos_affinity)).exp() @ cache_values
+    # pos_logits = pos_zero_logits + pos_tip_logits  * alpha
 
-    neg_zero_logits = 100. * (1 - features @ neg_clip_weights)
-    zero_scale = pos_zero_logits.mean() / neg_zero_logits.mean()
-    neg_zero_logits = neg_zero_logits * zero_scale
-    neg_affinity = neg_features @ neg_cache_keys
-    neg_tip_logits = ((-1) * beta * neg_affinity).exp() @ cache_values
-    tip_scale = pos_tip_logits.mean() / neg_tip_logits
-    neg_tip_logits = neg_tip_logits * tip_scale
-    
-    neg_logits = neg_zero_logits + neg_tip_logits * alpha
+    # neg_zero_logits = 100. * (1 - features @ neg_clip_weights)
+    # zero_scale = pos_zero_logits.mean() / neg_zero_logits.mean()
+    # neg_zero_logits = neg_zero_logits * zero_scale
+    # neg_affinity = neg_features @ neg_cache_keys
+    # neg_tip_logits = ((-1) * beta * neg_affinity).exp() @ cache_values
+    # tip_scale = pos_tip_logits.mean() / neg_tip_logits
+    # neg_tip_logits = neg_tip_logits * tip_scale
+    # neg_logits = neg_zero_logits + neg_tip_logits * alpha
 
-    return pos_logits, neg_logits
+    neg_zero_logits = 100. * features @ neg_clip_weights
+    # zero_scale = pos_zero_logits.mean() / neg_zero_logits.mean()
+    # neg_zero_logits = neg_zero_logits * zero_scale
+    neg_affinity = pos_features @ neg_cache_keys
+    # aff_scale = pos_affinity.mean() / neg_affinity.mean()
+    # neg_affinity = neg_affinity * aff_scale
+    # neg_tip_logits = ((-1) * (beta - beta * neg_affinity)).exp() @ cache_values
+    # neg_logits = neg_zero_logits + neg_tip_logits * alpha
+
+    return pos_zero_logits, pos_affinity, neg_zero_logits, neg_affinity
 
 def cal_loss_auroc(logits, pos_cate_num):
     to_np = lambda x: x.data.cpu().numpy()
@@ -286,6 +274,8 @@ def APE(log, cfg, cache_keys, cache_values,  test_features, test_labels, pos_cli
     log.debug("**** pos test accuracy: {:.2f}. ****\n".format(pos_acc))
     neg_acc = cls_acc(- id_neg_logits, test_labels)
     log.debug("**** neg test accuracy: {:.2f}. ****\n".format(neg_acc))
+    neg_acc = cls_acc(id_neg_logits, test_labels)
+    log.debug("**** neg test accuracy: {:.2f}. ****\n".format(neg_acc))
     dual_acc = cls_acc(id_pos_logits - id_neg_logits, test_labels)
     log.debug("**** dual test accuracy: {:.2f}. ****\n".format(dual_acc))
     
@@ -293,7 +283,10 @@ def APE(log, cfg, cache_keys, cache_values,  test_features, test_labels, pos_cli
     log.debug("**** Our's test pos auroc: {:.2f}, fpr: {:.2f}. ****\n".format(auroc, fpr))
 
     auroc, _ , fpr = cls_auroc_mcm(- id_neg_logits, - ood_neg_logits)
-    log.debug("**** Our's test neg auroc: {:.2f}, fpr: {:.2f}. ****\n".format(auroc, fpr))
+    log.debug("**** Our's test neg(-) auroc: {:.2f}, fpr: {:.2f}. ****\n".format(auroc, fpr))
+
+    auroc, _ , fpr = cls_auroc_mcm(id_neg_logits, ood_neg_logits)
+    log.debug("**** Our's test neg(+) auroc: {:.2f}, fpr: {:.2f}. ****\n".format(auroc, fpr))
 
     auroc, _, fpr = cls_auroc_mcm(id_pos_logits - id_neg_logits, ood_pos_logits - ood_neg_logits)
     log.debug("**** Our's test dual auroc: {:.2f}, fpr: {:.2f}. ****\n".format(auroc, fpr))
@@ -301,10 +294,10 @@ def APE(log, cfg, cache_keys, cache_values,  test_features, test_labels, pos_cli
     id_logits = torch.cat([id_pos_logits, id_neg_logits], dim=1)
     ood_logits = torch.cat([ood_pos_logits, ood_neg_logits], dim=1)
 
-    id_logits /= 100
-    id_logits = F.softmax(id_logits, dim=1)
-    our_acc = cls_acc(id_logits, test_labels)
-    log.debug("**** our dual test accuracy: {:.2f}. ****\n".format(our_acc))
+    # id_logits /= 100
+    # id_logits = F.softmax(id_logits, dim=1)
+    # our_acc = cls_acc(id_logits, test_labels)
+    # log.debug("**** our dual test accuracy: {:.2f}. ****\n".format(our_acc))
 
     id_logits = torch.cat([id_pos_logits, id_neg_logits], dim=1)
     ood_logits = torch.cat([ood_pos_logits, ood_neg_logits], dim=1)
@@ -312,31 +305,40 @@ def APE(log, cfg, cache_keys, cache_values,  test_features, test_labels, pos_cli
     auroc, fpr = cls_auroc_ours(id_logits, ood_logits)
     log.debug("**** Our's test dual-ours auroc : {:.2f}, fpr: {:.2f}. ****\n".format(auroc, fpr))
 
-    beta_list = [i * (cfg['search_scale'][0] - 0.1) / cfg['search_step'][0] + 0.1 for i in
-                     range(cfg['search_step'][0])]
-    alpha_list = [i * (cfg['search_scale'][1] - 0.1) / cfg['search_step'][1] + 0.1 for i in
-                    range(cfg['search_step'][1])]
+    # beta_list = [i * (cfg['search_scale'][0] - 0.1) / cfg['search_step'][0] + 0.1 for i in
+    #                  range(cfg['search_step'][0])]
+    # alpha_list = [i * (cfg['search_scale'][1] - 0.1) / cfg['search_step'][1] + 0.1 for i in
+    #                 range(cfg['search_step'][1])]
+    
+    # id_pzero, id_paff, id_nzero, id_naff = cal_dual_logits_ab(test_features, pos_clip_weights, neg_clip_weights, cache_keys, cache_values,
+    #                 top_indices, ood_indices)
+    # ood_pzero, ood_paff, ood_nzero, ood_naff = cal_dual_logits_ab(open_features, pos_clip_weights, neg_clip_weights, cache_keys, cache_values,
+    #                     top_indices, ood_indices)
 
-    for beta in beta_list:
-        for alpha in alpha_list:
-            id_pos_logits, id_neg_logits = cal_dual_logits_ab(test_features, pos_clip_weights, neg_clip_weights, cache_keys, cache_values,
-                                top_indices, ood_indices, cfg, alpha=alpha, beta=beta)
-            ood_pos_logits, ood_neg_logits = cal_dual_logits_ab(open_features, pos_clip_weights, neg_clip_weights, cache_keys, cache_values,
-                                top_indices, ood_indices, cfg, alpha=alpha, beta=beta)
+    # for beta in beta_list:
+    #     for alpha in alpha_list:
 
-            pos_auroc, _ , fpr = cls_auroc_mcm(id_pos_logits, ood_pos_logits)
-            neg_auroc, _ , fpr = cls_auroc_mcm(- id_neg_logits, - ood_neg_logits)
-            dual_auroc, _, fpr = cls_auroc_mcm(id_pos_logits - id_neg_logits, ood_pos_logits - ood_neg_logits)
+    #         id_pos_logits = id_pzero + alpha * (((-1) * (beta - beta * id_paff)).exp() @ cache_values)
+    #         id_neg_logits = id_nzero + alpha * (((-1) * (beta - beta * id_naff)).exp() @ cache_values)
+    #         ood_pos_logits = ood_pzero + alpha * (((-1) * (beta - beta * ood_paff)).exp() @ cache_values)
+    #         ood_neg_logits = ood_nzero + alpha *  (((-1) * (beta - beta * ood_naff)).exp() @ cache_values)
 
-            id_logits = torch.cat([id_pos_logits, id_neg_logits], dim=1)
-            ood_logits = torch.cat([ood_pos_logits, ood_neg_logits], dim=1)
+    #         # print(id_pos_logits[:2, :100])
+    #         # print(id_neg_logits[:2, :100])
+    #         # print(ood_pos_logits[:2, :100])
+    #         # print(ood_neg_logits[:2, :100])
 
-            id_logits = torch.cat([id_pos_logits, id_neg_logits], dim=1)
-            ood_logits = torch.cat([ood_pos_logits, ood_neg_logits], dim=1)
+    #         id_logits = torch.cat([id_pos_logits, id_neg_logits], dim=1)
+    #         ood_logits = torch.cat([ood_pos_logits, ood_neg_logits], dim=1)
 
-            dual_auroc_ours, fpr = cls_auroc_ours(id_logits, ood_logits)
-            log.debug("alpha: {:.2f}, beta: {:.2f}, pos_auroc: {:.2f}, neg_auroc: {:.2f}, dual_auroc: {:.2f}, dual_auroc_ours:{:.2f}".format(alpha, beta, pos_auroc, 
-                                                                neg_auroc, dual_auroc, dual_auroc_ours))
+    #         t_list = [0.03, 0.05, 0.07, 0.1, 0.3, 0.5, 1, 2, 3, 5, 10]
+    #         for i in t_list:
+    #             pos_auroc, _ , fpr = cls_auroc_mcm(id_pos_logits, ood_pos_logits, t = i)
+    #             neg_auroc, _ , fpr = cls_auroc_mcm(120 - id_neg_logits, 120 - ood_neg_logits, t = i)
+    #             dual_auroc, _, fpr = cls_auroc_mcm(120 + id_pos_logits - id_neg_logits, 120 + ood_pos_logits - ood_neg_logits, t = i)
+    #             dual_auroc_ours, fpr = cls_auroc_ours(id_logits, ood_logits, t = i)
+    #             log.debug("temperature: {:.2f}, alpha: {:.2f}, beta: {:.2f}, pos_auroc: {:.2f}, neg_auroc: {:.2f}, dual_auroc: {:.2f}, dual_auroc_ours:{:.2f}, auroc_fpr:{:.2f}".format(i, alpha, beta, pos_auroc, 
+    #                                                 neg_auroc, dual_auroc, dual_auroc_ours, fpr))
 
 
     # for i in range(100):
@@ -346,8 +348,6 @@ def APE(log, cfg, cache_keys, cache_values,  test_features, test_labels, pos_cli
     #     log.debug("**** dual acc {:.2f}: {:.2f}".format(i * 0.1, i_acc))
     #     auroc, _, fpr = cls_auroc_mcm(id_logits, ood_logits)
     #     log.debug("**** Our's test dual auroc {:.2f}: {:.2f}, fpr: {:.2f}. ****\n".format(i * 0.1, auroc, fpr))
-
-    
 
 
     #  clipn trial
@@ -423,11 +423,20 @@ def APE_ood(log, cfg, cache_keys, cache_values, test_features, test_labels, pos_
     pos_cache_keys = cache_keys[top_indices,:]
     neg_cache_keys = cache_keys[ood_indices,:]
 
-    pos_test_features = test_features[:, top_indices]
-    neg_test_features = test_features[:, ood_indices]
+    # pos_test_features = test_features[:, top_indices]
+    # neg_test_features = test_features[:, ood_indices]
 
-    pos_open_features = open_features[:, top_indices]
-    neg_open_features = open_features[:, ood_indices]
+    # pos_open_features = open_features[:, top_indices]
+    # neg_open_features = open_features[:, ood_indices]
+
+    max_pool = nn.MaxPool1d(2, stride=2)
+    pos_test_features = max_pool(test_features)
+    pos_test_features = pos_test_features.view(-1, 256)
+    pos_test_features /= pos_test_features.norm(p=2, dim=1, keepdim=True)
+
+    pos_open_features = max_pool(open_features)
+    pos_open_features = pos_open_features.view(-1, 256)
+    pos_open_features /= pos_open_features.norm(p=2, dim=1, keepdim=True)
 
     pos_adapter = nn.Linear(pos_cache_keys.shape[0], pos_cache_keys.shape[1], bias=False).to(clip_model.dtype).cuda()
     pos_adapter.weight = nn.Parameter(pos_cache_keys.t())
@@ -458,16 +467,23 @@ def APE_ood(log, cfg, cache_keys, cache_values, test_features, test_labels, pos_
                 image_features = clip_model.encode_image(images)
                 image_features /= image_features.norm(dim=-1, keepdim=True)
 
-            neg_image_features = image_features[:, ood_indices]
+            pos_image_features = max_pool(image_features)
+            pos_image_features = pos_image_features.view(-1, 256)
+            pos_image_features /= pos_image_features.norm(p=2, dim=1, keepdim=True)
 
-            neg_zero_logits = 100. * (1 - image_features @ neg_clip_weights)
-            neg_affinity = neg_adapter(neg_image_features)
-            neg_tip_logits =  ((-1) * beta * neg_affinity).exp() @ cache_values
+            # neg_zero_logits = 100. * (1 - image_features @ neg_clip_weights)
+            # neg_affinity = neg_adapter(neg_image_features)
+            # neg_tip_logits =  ((-1) * beta * neg_affinity).exp() @ cache_values
+            # neg_logits = neg_zero_logits + neg_tip_logits * alpha
+            # neg_logits_re = 150 - neg_logits 
+
+            neg_zero_logits = 100. * image_features @ neg_clip_weights
+            neg_affinity = neg_adapter(pos_image_features)
+            neg_tip_logits = ((-1) * (beta - beta * neg_affinity)).exp() @ cache_values
             neg_logits = neg_zero_logits + neg_tip_logits * alpha
-            neg_logits_re = 150 - neg_logits 
 
-            loss_neg_acc = F.cross_entropy(neg_logits_re, target)
-            neg_acc = cls_acc(neg_logits_re, target)
+            loss_neg_acc = F.cross_entropy(neg_logits, target)
+            neg_acc = cls_acc(neg_logits, target)
 
             neg_optimizer.zero_grad()
             loss_neg_acc.backward()
@@ -485,12 +501,16 @@ def APE_ood(log, cfg, cache_keys, cache_values, test_features, test_labels, pos_
 
         # Eval
         neg_adapter.eval()
-        neg_zero_logits = 100. * (1 - test_features @ neg_clip_weights)
-        neg_affinity = neg_adapter(neg_test_features)
-        neg_tip_logits = ((-1) * beta * neg_affinity).exp() @ cache_values
+        # neg_zero_logits = 100. * (1 - test_features @ neg_clip_weights)
+        # neg_affinity = neg_adapter(neg_test_features)
+        # neg_tip_logits = ((-1) * beta * neg_affinity).exp() @ cache_values
+        # neg_logits = neg_zero_logits + neg_tip_logits * alpha
+        # neg_logits_re = 120 - neg_logits 
+        neg_zero_logits = 100. * test_features @ neg_clip_weights
+        neg_affinity = neg_adapter(pos_test_features)
+        neg_tip_logits = ((-1) * (beta - beta * neg_affinity)).exp() @ cache_values
         neg_logits = neg_zero_logits + neg_tip_logits * alpha
-        neg_logits_re = 120 - neg_logits 
-        neg_acc = cls_acc(neg_logits_re, test_labels)
+        neg_acc = cls_acc(neg_logits, test_labels)
         log.debug("**** Dual-F's neg test accuracy: {:.2f}. ****\n".format(neg_acc))
 
     for train_idx in range(cfg['train_epoch']):
@@ -507,8 +527,10 @@ def APE_ood(log, cfg, cache_keys, cache_values, test_features, test_labels, pos_
                 image_features = clip_model.encode_image(images)
                 image_features /= image_features.norm(dim=-1, keepdim=True)
 
-            pos_image_features = image_features[:, top_indices]
-            neg_image_features = image_features[:, ood_indices]
+            # pos_image_features = image_features[:, top_indices]
+            pos_image_features = max_pool(image_features)
+            pos_image_features = pos_image_features.view(-1, 256)
+            pos_image_features /= pos_image_features.norm(p=2, dim=1, keepdim=True)
 
             pos_zero_logits = 100. * image_features @ pos_clip_weights
             pos_affinity = pos_adapter(pos_image_features)
@@ -546,23 +568,18 @@ def APE_ood(log, cfg, cache_keys, cache_values, test_features, test_labels, pos_
     pos_tip_logits = ((-1) * (beta - beta * pos_affinity)).exp() @ cache_values
     pos_logits = pos_zero_logits + pos_tip_logits * alpha
 
-    neg_zero_logits = 100. * (1 - test_features @ neg_clip_weights)
-    # zero_scale = pos_zero_logits.mean() / neg_zero_logits.mean()
-    # neg_zero_logits = neg_zero_logits * zero_scale
-    neg_affinity = neg_adapter(neg_test_features)
-    neg_tip_logits = ((-1) * beta * neg_affinity).exp() @ cache_values
-    # tip_scale = pos_tip_logits.mean() / neg_tip_logits.mean()
-    # neg_tip_logits = neg_tip_logits * tip_scale
+    neg_zero_logits = 100. * test_features @ neg_clip_weights
+    neg_affinity = neg_adapter(pos_test_features)
+    neg_tip_logits = ((-1) * (beta - beta * neg_affinity)).exp() @ cache_values
     neg_logits = neg_zero_logits + neg_tip_logits * alpha
-    neg_logits_re = 120 - neg_logits
 
     pos_acc = cls_acc(pos_logits, test_labels)
     log.debug("**** Dual's pos test accuracy: {:.2f}. ****\n".format(pos_acc))
 
-    neg_acc = cls_acc(neg_logits_re, test_labels)
+    neg_acc = cls_acc(neg_logits, test_labels)
     log.debug("**** Dual's neg test accuracy: {:.2f}. ****\n".format(neg_acc))
 
-    dual_acc = cls_acc(pos_logits + neg_logits_re, test_labels)
+    dual_acc = cls_acc(pos_logits + neg_logits, test_labels)
     log.debug("**** Dual's dual test accuracy: {:.2f}. ****\n".format(dual_acc))
 
     open_pos_zero_logits = 100. * open_features @ pos_clip_weights
@@ -570,35 +587,22 @@ def APE_ood(log, cfg, cache_keys, cache_values, test_features, test_labels, pos_
     open_pos_tip_logits = ((-1) * (beta - beta * open_pos_affinity)).exp() @ cache_values
     open_pos_logits = open_pos_zero_logits + open_pos_tip_logits * alpha
 
-    open_neg_zero_logits = 100. * (1 - open_features @ neg_clip_weights)
-    # open_zero_scale = open_pos_zero_logits.mean() / open_neg_zero_logits.mean()
-    # open_neg_zero_logits = open_neg_zero_logits * open_zero_scale
-    open_neg_affinity = neg_adapter(neg_open_features)
-    open_neg_tip_logits = ((-1) * beta * open_neg_affinity).exp() @ cache_values
-    # open_tip_scale = open_pos_tip_logits.mean() / open_neg_tip_logits.mean()
-    # open_neg_tip_logits = open_neg_tip_logits * open_tip_scale
+    open_neg_zero_logits = 100. * open_features @ neg_clip_weights
+    open_neg_affinity = neg_adapter(pos_open_features)
+    open_neg_tip_logits = ((-1) * (beta - beta * open_neg_affinity)).exp() @ cache_values
     open_neg_logits = open_neg_zero_logits + open_neg_tip_logits * alpha
-    open_neg_logits_re = 120 - open_neg_logits
-
-    print(pos_logits)
-    print(neg_logits_re)
-    print(open_pos_logits)
-    print(open_neg_logits_re)
 
     auroc, _ , fpr = cls_auroc_mcm(pos_logits, open_pos_logits)
     log.debug("**** Our's test pos auroc: {:.2f}, fpr: {:.2f}. ****\n".format(auroc, fpr))
 
-    auroc, _ , fpr = cls_auroc_mcm(neg_logits_re, open_neg_logits_re)
+    auroc, _ , fpr = cls_auroc_mcm(neg_logits, open_neg_logits)
     log.debug("**** Our's test neg auroc: {:.2f}, fpr: {:.2f}. ****\n".format(auroc, fpr))
 
-    auroc, _, fpr = cls_auroc_mcm(pos_logits + neg_logits_re, open_pos_logits + open_neg_logits_re)
+    auroc, _, fpr = cls_auroc_mcm(pos_logits + neg_logits, open_pos_logits + open_neg_logits)
     log.debug("**** Our's test dual auroc: {:.2f}, fpr: {:.2f}. ****\n".format(auroc, fpr))
 
-    id_logits = torch.cat([pos_logits, 120 - neg_logits], dim=1)
-    ood_logits = torch.cat([open_pos_logits, 120 - open_neg_logits], dim=1)
-
-    print(id_logits)
-    print(ood_logits)
+    id_logits = torch.cat([pos_logits, neg_logits], dim=1)
+    ood_logits = torch.cat([open_pos_logits, open_neg_logits], dim=1)
 
     auroc, fpr = cls_auroc_ours(id_logits, ood_logits)
     log.debug("**** Our's test dual-ours auroc : {:.2f}, fpr: {:.2f}. ****\n".format(auroc, fpr))
@@ -609,26 +613,7 @@ def APE_ood(log, cfg, cache_keys, cache_values, test_features, test_labels, pos_
                     range(cfg['search_step'][1])]
     
 
-    #     score = 0.4 * acc + 0.6 * auroc
-
-    #     if auroc > best_auroc:
-    #         best_score = score
-    #         best_acc = acc
-    #         best_auroc = auroc
-    #         best_fpr = fpr
-    #         best_epoch = train_idx
-    #         torch.save(adapter.weight, cfg['cache_dir'] + "/best_F_" + str(cfg['shots']) + "shots.pt")
-
-    # adapter.weight = torch.load(cfg['cache_dir'] + "/best_F_" + str(cfg['shots']) + "shots.pt")
-    # log.debug(f"**** After fine-tuning, Tip-Adapter-F's best test score: {best_score:.2f},  "
-    #           f"acc: {best_acc:.2f}, auroc: {best_auroc:.2f}, fpr: {best_fpr:.2f}"
-    #           f"at epoch: {best_epoch}. ****\n")
-
-    # # Search Hyperparameters
-    # # todo: cache_keys? affinity?
-    # best_beta, best_alpha = search_hp_ape(log, cfg, new_cache_keys, new_cache_values, test_features, new_test_features, test_labels,
-    #                                       open_features, new_open_features, open_labels, zero_clip_weights, adapter=adapter)
-
+    
 
 def main():
     # Load config file
