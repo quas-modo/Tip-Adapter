@@ -270,12 +270,14 @@ def APE(log, cfg, cache_keys, cache_values,  test_features, test_labels, pos_cli
     ood_pos_logits, ood_neg_logits = cal_dual_logits(open_features, pos_clip_weights, neg_clip_weights, cache_keys, cache_values,
                                 top_indices, ood_indices, cfg)
     
+    
+    
     pos_acc = cls_acc(id_pos_logits, test_labels)
     log.debug("**** pos test accuracy: {:.2f}. ****\n".format(pos_acc))
     neg_acc = cls_acc(- id_neg_logits, test_labels)
-    log.debug("**** neg test accuracy: {:.2f}. ****\n".format(neg_acc))
+    log.debug("**** neg test(-) accuracy: {:.2f}. ****\n".format(neg_acc))
     neg_acc = cls_acc(id_neg_logits, test_labels)
-    log.debug("**** neg test accuracy: {:.2f}. ****\n".format(neg_acc))
+    log.debug("**** neg test(+) accuracy: {:.2f}. ****\n".format(neg_acc))
     dual_acc = cls_acc(id_pos_logits - id_neg_logits, test_labels)
     log.debug("**** dual test accuracy: {:.2f}. ****\n".format(dual_acc))
     
@@ -305,15 +307,15 @@ def APE(log, cfg, cache_keys, cache_values,  test_features, test_labels, pos_cli
     auroc, fpr = cls_auroc_ours(id_logits, ood_logits)
     log.debug("**** Our's test dual-ours auroc : {:.2f}, fpr: {:.2f}. ****\n".format(auroc, fpr))
 
-    # beta_list = [i * (cfg['search_scale'][0] - 0.1) / cfg['search_step'][0] + 0.1 for i in
-    #                  range(cfg['search_step'][0])]
-    # alpha_list = [i * (cfg['search_scale'][1] - 0.1) / cfg['search_step'][1] + 0.1 for i in
-    #                 range(cfg['search_step'][1])]
+    beta_list = [i * (cfg['search_scale'][0] - 0.1) / cfg['search_step'][0] + 0.1 for i in
+                     range(cfg['search_step'][0])]
+    alpha_list = [i * (cfg['search_scale'][1] - 0.1) / cfg['search_step'][1] + 0.1 for i in
+                    range(cfg['search_step'][1])]
     
-    # id_pzero, id_paff, id_nzero, id_naff = cal_dual_logits_ab(test_features, pos_clip_weights, neg_clip_weights, cache_keys, cache_values,
-    #                 top_indices, ood_indices)
-    # ood_pzero, ood_paff, ood_nzero, ood_naff = cal_dual_logits_ab(open_features, pos_clip_weights, neg_clip_weights, cache_keys, cache_values,
-    #                     top_indices, ood_indices)
+    id_pzero, id_paff, id_nzero, id_naff = cal_dual_logits_ab(test_features, pos_clip_weights, neg_clip_weights, cache_keys, cache_values,
+                    top_indices, ood_indices)
+    ood_pzero, ood_paff, ood_nzero, ood_naff = cal_dual_logits_ab(open_features, pos_clip_weights, neg_clip_weights, cache_keys, cache_values,
+                        top_indices, ood_indices)
 
     # for beta in beta_list:
     #     for alpha in alpha_list:
@@ -540,6 +542,17 @@ def APE_ood(log, cfg, cache_keys, cache_values, test_features, test_labels, pos_
             loss_pos_acc = F.cross_entropy(pos_logits, target)
             pos_acc = cls_acc(pos_logits, target)
 
+            neg_zero_logits = 100. * image_features @ neg_clip_weights
+            neg_affinity = neg_adapter(pos_image_features)
+            neg_tip_logits = ((-1) * (beta - beta * neg_affinity)).exp() @ cache_values
+            neg_logits = neg_zero_logits + neg_tip_logits * alpha
+
+            logits = torch.cat([pos_logits, neg_logits], dim=1)
+            pos_cate = pos_logits.shape[1]
+
+            # loss_auroc = cal_loss_auroc(logits, pos_cate)
+            # loss = loss_pos_acc + loss_auroc
+
             pos_optimizer.zero_grad()
             loss_pos_acc.backward()
             pos_optimizer.step()
@@ -612,6 +625,35 @@ def APE_ood(log, cfg, cache_keys, cache_values, test_features, test_labels, pos_
     alpha_list = [i * (cfg['search_scale'][1] - 0.1) / cfg['search_step'][1] + 0.1 for i in
                     range(cfg['search_step'][1])]
     
+    id_pzero = 100. * test_features @ pos_clip_weights
+    id_paff = pos_adapter(pos_test_features)
+    id_nzero = 100. * test_features @ neg_clip_weights
+    id_naff = neg_adapter(pos_test_features)
+
+    ood_pzero = 100. * open_features @ pos_clip_weights
+    ood_paff = pos_adapter(pos_open_features)
+    ood_nzero = 100. * open_features @ neg_clip_weights
+    ood_naff = neg_adapter(pos_open_features)
+
+    for beta in beta_list:
+            for alpha in alpha_list:
+                id_pos_logits = id_pzero + alpha * (((-1) * (beta - beta * id_paff)).exp() @ cache_values)
+                id_neg_logits = id_nzero + alpha * (((-1) * (beta - beta * id_naff)).exp() @ cache_values)
+                ood_pos_logits = ood_pzero + alpha * (((-1) * (beta - beta * ood_paff)).exp() @ cache_values)
+                ood_neg_logits = ood_nzero + alpha *  (((-1) * (beta - beta * ood_naff)).exp() @ cache_values)
+
+                id_logits = torch.cat([id_pos_logits, id_neg_logits], dim=1)
+                ood_logits = torch.cat([ood_pos_logits, ood_neg_logits], dim=1)
+
+                t_list = [0.03, 0.05, 0.07, 0.1, 0.3, 0.5, 1, 2, 3, 5, 10]
+                for i in t_list:
+                    pos_auroc, _ , fpr = cls_auroc_mcm(id_pos_logits, ood_pos_logits, t = i)
+                    neg_auroc, _ , fpr = cls_auroc_mcm(id_neg_logits, ood_neg_logits, t = i)
+                    dual_auroc, _, fpr = cls_auroc_mcm(id_pos_logits + id_neg_logits,ood_pos_logits + ood_neg_logits, t = i)
+                    dual_auroc_ours, fpr = cls_auroc_ours(id_logits, ood_logits, t = i)
+                    log.debug("temperature: {:.2f}, alpha: {:.2f}, beta: {:.2f}, pos_auroc: {:.2f}, neg_auroc: {:.2f}, dual_auroc: {:.2f}, dual_auroc_ours:{:.2f}, auroc_fpr:{:.2f}".format(i, alpha, beta, pos_auroc, 
+                                                        neg_auroc, dual_auroc, dual_auroc_ours, fpr))
+        
 
     
 

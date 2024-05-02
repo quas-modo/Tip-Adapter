@@ -14,8 +14,11 @@ load_pre_feat: True
 search_hp: True
 # search_hp: False
 
-search_scale: [7, 7, 0.5]
-search_step: [200, 20, 5]
+# search_scale: [7, 7, 0.5]
+# search_step: [200, 20, 5]
+
+search_scale: [30, 30, 60]
+search_step: [200, 30, 40]
 
 init_beta: 1
 init_alpha: 2

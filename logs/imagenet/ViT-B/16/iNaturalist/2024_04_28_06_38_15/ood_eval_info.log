@@ -1,0 +1,517 @@
+2024-04-28 06:38:15,830 : #########TRAIN_EVAL_INFO############
+2024-04-28 06:38:15,844 : 
+Running in-domain dataset configs.
+2024-04-28 06:38:15,844 : {'root_path': '/home/nfs03/liyh/', 'seed': 3407, 'load_cache': True, 'load_pre_feat': True, 'search_hp': True, 'search_scale': [7, 7, 0.5], 'search_step': [200, 20, 5], 'init_beta': 1, 'init_alpha': 2, 'init_gamma': 0.1, 'eps': 0.001, 'training_feat_num': 256, 'training_free_feat_num': 256, 'w_training_free': [0.7, 0.3], 'w_training': [0.2, 0.8], 'dataset': 'imagenet', 'shots': 16, 'backbone': 'ViT-B/16', 'lr': 0.001, 'augment_epoch': 10, 'train_epoch': 20, 'data_section': 0, 'cache_dir': '/home/nfs03/zengtc/tip/caches/imagenet'}
+2024-04-28 06:38:21,958 : Preparing ImageNet dataset.
+2024-04-28 06:40:47,671 : Getting textual features as CLIP's classifier.
+2024-04-28 06:41:03,752 : 
+Constructing cache model by few-shot visual features and labels.
+2024-04-28 06:41:03,878 : 
+Loading visual features and labels from test set.
+2024-04-28 06:41:03,909 : 
+Running out-domain dataset configs.
+2024-04-28 06:41:03,909 : {'root_path': '/home/nfs03/zengtc', 'seed': 3407, 'load_cache': False, 'load_pre_feat': False, 'dataset': 'iNaturalist', 'backbone': 'ViT-B/16'}
+2024-04-28 06:41:25,170 : **** pos test accuracy: 69.42. ****
+
+2024-04-28 06:41:25,173 : **** neg test accuracy: 57.99. ****
+
+2024-04-28 06:41:25,177 : **** dual test accuracy: 69.03. ****
+
+2024-04-28 06:41:25,521 : **** Our's test pos auroc: 91.72, fpr: 43.48. ****
+
+2024-04-28 06:41:25,888 : **** Our's test neg auroc: 85.33, fpr: 72.20. ****
+
+2024-04-28 06:41:26,257 : **** Our's test dual auroc: 91.38, fpr: 44.93. ****
+
+2024-04-28 06:41:26,264 : **** our dual test accuracy: 69.42. ****
+
+2024-04-28 06:41:26,715 : **** Our's test dual-ours auroc : 92.21, fpr: 42.47. ****
+
+2024-04-28 06:41:26,806 : **** pos test accuracy: 68.82. ****
+
+2024-04-28 06:41:26,810 : **** neg test accuracy: 58.00. ****
+
+2024-04-28 06:41:26,813 : **** dual test accuracy: 68.39. ****
+
+2024-04-28 06:41:27,119 : **** Our's test pos auroc: 92.09, fpr: 41.94. ****
+
+2024-04-28 06:41:27,478 : **** Our's test neg auroc: 85.39, fpr: 72.46. ****
+
+2024-04-28 06:41:27,785 : **** Our's test dual auroc: 91.66, fpr: 43.94. ****
+
+2024-04-28 06:41:27,792 : **** our dual test accuracy: 68.78. ****
+
+2024-04-28 06:41:28,243 : **** Our's test dual-ours auroc : 92.52, fpr: 40.91. ****
+
+2024-04-28 06:41:28,335 : **** pos test accuracy: 68.84. ****
+
+2024-04-28 06:41:28,338 : **** neg test accuracy: 58.01. ****
+
+2024-04-28 06:41:28,341 : **** dual test accuracy: 68.39. ****
+
+2024-04-28 06:41:28,648 : **** Our's test pos auroc: 92.08, fpr: 40.63. ****
+
+2024-04-28 06:41:29,007 : **** Our's test neg auroc: 85.20, fpr: 72.29. ****
+
+2024-04-28 06:41:29,367 : **** Our's test dual auroc: 91.63, fpr: 44.32. ****
+
+2024-04-28 06:41:29,375 : **** our dual test accuracy: 68.83. ****
+
+2024-04-28 06:41:29,825 : **** Our's test dual-ours auroc : 92.51, fpr: 41.52. ****
+
+2024-04-28 06:41:29,916 : **** pos test accuracy: 68.88. ****
+
+2024-04-28 06:41:29,920 : **** neg test accuracy: 58.02. ****
+
+2024-04-28 06:41:29,923 : **** dual test accuracy: 68.46. ****
+
+2024-04-28 06:41:30,285 : **** Our's test pos auroc: 92.06, fpr: 41.24. ****
+
+2024-04-28 06:41:30,643 : **** Our's test neg auroc: 85.34, fpr: 72.24. ****
+
+2024-04-28 06:41:31,003 : **** Our's test dual auroc: 91.63, fpr: 43.26. ****
+
+2024-04-28 06:41:31,011 : **** our dual test accuracy: 68.87. ****
+
+2024-04-28 06:41:31,461 : **** Our's test dual-ours auroc : 92.49, fpr: 42.12. ****
+
+2024-04-28 06:41:31,553 : **** pos test accuracy: 68.91. ****
+
+2024-04-28 06:41:31,556 : **** neg test accuracy: 58.01. ****
+
+2024-04-28 06:41:31,560 : **** dual test accuracy: 68.50. ****
+
+2024-04-28 06:41:31,920 : **** Our's test pos auroc: 92.06, fpr: 41.74. ****
+
+2024-04-28 06:41:32,278 : **** Our's test neg auroc: 85.36, fpr: 72.25. ****
+
+2024-04-28 06:41:32,656 : **** Our's test dual auroc: 91.63, fpr: 43.54. ****
+
+2024-04-28 06:41:32,664 : **** our dual test accuracy: 68.89. ****
+
+2024-04-28 06:41:33,115 : **** Our's test dual-ours auroc : 92.47, fpr: 40.80. ****
+
+2024-04-28 06:41:33,206 : **** pos test accuracy: 68.96. ****
+
+2024-04-28 06:41:33,210 : **** neg test accuracy: 58.00. ****
+
+2024-04-28 06:41:33,213 : **** dual test accuracy: 68.49. ****
+
+2024-04-28 06:41:33,574 : **** Our's test pos auroc: 92.04, fpr: 42.14. ****
+
+2024-04-28 06:41:33,932 : **** Our's test neg auroc: 85.32, fpr: 72.33. ****
+
+2024-04-28 06:41:34,292 : **** Our's test dual auroc: 91.62, fpr: 43.87. ****
+
+2024-04-28 06:41:34,300 : **** our dual test accuracy: 68.94. ****
+
+2024-04-28 06:41:34,748 : **** Our's test dual-ours auroc : 92.47, fpr: 41.30. ****
+
+2024-04-28 06:41:34,839 : **** pos test accuracy: 68.99. ****
+
+2024-04-28 06:41:34,843 : **** neg test accuracy: 57.98. ****
+
+2024-04-28 06:41:34,846 : **** dual test accuracy: 68.53. ****
+
+2024-04-28 06:41:35,207 : **** Our's test pos auroc: 92.03, fpr: 40.74. ****
+
+2024-04-28 06:41:35,565 : **** Our's test neg auroc: 85.38, fpr: 72.11. ****
+
+2024-04-28 06:41:35,926 : **** Our's test dual auroc: 91.61, fpr: 44.23. ****
+
+2024-04-28 06:41:35,933 : **** our dual test accuracy: 68.93. ****
+
+2024-04-28 06:41:36,383 : **** Our's test dual-ours auroc : 92.47, fpr: 41.59. ****
+
+2024-04-28 06:41:36,474 : **** pos test accuracy: 68.98. ****
+
+2024-04-28 06:41:36,478 : **** neg test accuracy: 57.98. ****
+
+2024-04-28 06:41:36,481 : **** dual test accuracy: 68.53. ****
+
+2024-04-28 06:41:36,842 : **** Our's test pos auroc: 92.01, fpr: 41.36. ****
+
+2024-04-28 06:41:37,200 : **** Our's test neg auroc: 85.35, fpr: 71.97. ****
+
+2024-04-28 06:41:37,560 : **** Our's test dual auroc: 91.60, fpr: 43.20. ****
+
+2024-04-28 06:41:37,567 : **** our dual test accuracy: 68.99. ****
+
+2024-04-28 06:41:38,017 : **** Our's test dual-ours auroc : 92.46, fpr: 42.14. ****
+
+2024-04-28 06:41:38,109 : **** pos test accuracy: 69.00. ****
+
+2024-04-28 06:41:38,112 : **** neg test accuracy: 58.08. ****
+
+2024-04-28 06:41:38,116 : **** dual test accuracy: 68.55. ****
+
+2024-04-28 06:41:38,476 : **** Our's test pos auroc: 91.99, fpr: 41.91. ****
+
+2024-04-28 06:41:38,834 : **** Our's test neg auroc: 85.40, fpr: 71.87. ****
+
+2024-04-28 06:41:39,195 : **** Our's test dual auroc: 91.58, fpr: 43.62. ****
+
+2024-04-28 06:41:39,202 : **** our dual test accuracy: 69.01. ****
+
+2024-04-28 06:41:39,649 : **** Our's test dual-ours auroc : 92.41, fpr: 40.96. ****
+
+2024-04-28 06:41:39,740 : **** pos test accuracy: 69.05. ****
+
+2024-04-28 06:41:39,744 : **** neg test accuracy: 58.08. ****
+
+2024-04-28 06:41:39,748 : **** dual test accuracy: 68.63. ****
+
+2024-04-28 06:41:40,110 : **** Our's test pos auroc: 91.99, fpr: 42.28. ****
+
+2024-04-28 06:41:40,468 : **** Our's test neg auroc: 85.22, fpr: 72.43. ****
+
+2024-04-28 06:41:40,834 : **** Our's test dual auroc: 91.58, fpr: 43.98. ****
+
+2024-04-28 06:41:40,841 : **** our dual test accuracy: 69.02. ****
+
+2024-04-28 06:41:41,292 : **** Our's test dual-ours auroc : 92.42, fpr: 41.36. ****
+
+2024-04-28 06:41:41,383 : **** pos test accuracy: 69.10. ****
+
+2024-04-28 06:41:41,387 : **** neg test accuracy: 58.08. ****
+
+2024-04-28 06:41:41,390 : **** dual test accuracy: 68.65. ****
+
+2024-04-28 06:41:41,751 : **** Our's test pos auroc: 91.97, fpr: 41.06. ****
+
+2024-04-28 06:41:42,109 : **** Our's test neg auroc: 85.32, fpr: 71.76. ****
+
+2024-04-28 06:41:42,471 : **** Our's test dual auroc: 91.57, fpr: 44.46. ****
+
+2024-04-28 06:41:42,478 : **** our dual test accuracy: 69.09. ****
+
+2024-04-28 06:41:42,928 : **** Our's test dual-ours auroc : 92.41, fpr: 41.93. ****
+
+2024-04-28 06:41:43,020 : **** pos test accuracy: 69.14. ****
+
+2024-04-28 06:41:43,023 : **** neg test accuracy: 57.90. ****
+
+2024-04-28 06:41:43,027 : **** dual test accuracy: 68.64. ****
+
+2024-04-28 06:41:43,391 : **** Our's test pos auroc: 91.96, fpr: 41.68. ****
+
+2024-04-28 06:41:43,751 : **** Our's test neg auroc: 85.44, fpr: 71.61. ****
+
+2024-04-28 06:41:44,115 : **** Our's test dual auroc: 91.56, fpr: 43.48. ****
+
+2024-04-28 06:41:44,122 : **** our dual test accuracy: 69.13. ****
+
+2024-04-28 06:41:44,574 : **** Our's test dual-ours auroc : 92.40, fpr: 42.58. ****
+
+2024-04-28 06:41:44,666 : **** pos test accuracy: 69.16. ****
+
+2024-04-28 06:41:44,670 : **** neg test accuracy: 57.90. ****
+
+2024-04-28 06:41:44,674 : **** dual test accuracy: 68.70. ****
+
+2024-04-28 06:41:45,038 : **** Our's test pos auroc: 91.94, fpr: 42.19. ****
+
+2024-04-28 06:41:45,396 : **** Our's test neg auroc: 85.35, fpr: 72.55. ****
+
+2024-04-28 06:41:45,758 : **** Our's test dual auroc: 91.55, fpr: 43.89. ****
+
+2024-04-28 06:41:45,765 : **** our dual test accuracy: 69.11. ****
+
+2024-04-28 06:41:46,218 : **** Our's test dual-ours auroc : 92.39, fpr: 41.27. ****
+
+2024-04-28 06:41:46,310 : **** pos test accuracy: 69.17. ****
+
+2024-04-28 06:41:46,314 : **** neg test accuracy: 57.90. ****
+
+2024-04-28 06:41:46,317 : **** dual test accuracy: 68.68. ****
+
+2024-04-28 06:41:46,634 : **** Our's test pos auroc: 91.94, fpr: 42.75. ****
+
+2024-04-28 06:41:47,000 : **** Our's test neg auroc: 85.32, fpr: 72.14. ****
+
+2024-04-28 06:41:47,307 : **** Our's test dual auroc: 91.56, fpr: 44.33. ****
+
+2024-04-28 06:41:47,314 : **** our dual test accuracy: 69.14. ****
+
+2024-04-28 06:41:47,764 : **** Our's test dual-ours auroc : 92.39, fpr: 41.82. ****
+
+2024-04-28 06:41:47,856 : **** pos test accuracy: 69.17. ****
+
+2024-04-28 06:41:47,860 : **** neg test accuracy: 57.90. ****
+
+2024-04-28 06:41:47,863 : **** dual test accuracy: 68.72. ****
+
+2024-04-28 06:41:48,171 : **** Our's test pos auroc: 91.91, fpr: 41.18. ****
+
+2024-04-28 06:41:48,531 : **** Our's test neg auroc: 85.19, fpr: 72.64. ****
+
+2024-04-28 06:41:48,892 : **** Our's test dual auroc: 91.52, fpr: 44.62. ****
+
+2024-04-28 06:41:48,900 : **** our dual test accuracy: 69.14. ****
+
+2024-04-28 06:41:49,350 : **** Our's test dual-ours auroc : 92.44, fpr: 41.89. ****
+
+2024-04-28 06:41:49,442 : **** pos test accuracy: 69.16. ****
+
+2024-04-28 06:41:49,445 : **** neg test accuracy: 57.90. ****
+
+2024-04-28 06:41:49,449 : **** dual test accuracy: 68.74. ****
+
+2024-04-28 06:41:49,810 : **** Our's test pos auroc: 91.90, fpr: 41.74. ****
+
+2024-04-28 06:41:50,168 : **** Our's test neg auroc: 85.19, fpr: 72.18. ****
+
+2024-04-28 06:41:50,530 : **** Our's test dual auroc: 91.51, fpr: 43.63. ****
+
+2024-04-28 06:41:50,537 : **** our dual test accuracy: 69.20. ****
+
+2024-04-28 06:41:50,989 : **** Our's test dual-ours auroc : 92.43, fpr: 40.73. ****
+
+2024-04-28 06:41:51,080 : **** pos test accuracy: 69.25. ****
+
+2024-04-28 06:41:51,084 : **** neg test accuracy: 57.90. ****
+
+2024-04-28 06:41:51,088 : **** dual test accuracy: 68.78. ****
+
+2024-04-28 06:41:51,448 : **** Our's test pos auroc: 91.87, fpr: 42.35. ****
+
+2024-04-28 06:41:51,806 : **** Our's test neg auroc: 85.23, fpr: 72.44. ****
+
+2024-04-28 06:41:52,166 : **** Our's test dual auroc: 91.49, fpr: 44.19. ****
+
+2024-04-28 06:41:52,173 : **** our dual test accuracy: 69.27. ****
+
+2024-04-28 06:41:52,625 : **** Our's test dual-ours auroc : 92.42, fpr: 41.28. ****
+
+2024-04-28 06:41:52,716 : **** pos test accuracy: 69.24. ****
+
+2024-04-28 06:41:52,720 : **** neg test accuracy: 57.98. ****
+
+2024-04-28 06:41:52,723 : **** dual test accuracy: 68.76. ****
+
+2024-04-28 06:41:53,029 : **** Our's test pos auroc: 91.85, fpr: 42.79. ****
+
+2024-04-28 06:41:53,333 : **** Our's test neg auroc: 85.11, fpr: 73.01. ****
+
+2024-04-28 06:41:53,695 : **** Our's test dual auroc: 91.46, fpr: 44.46. ****
+
+2024-04-28 06:41:53,702 : **** our dual test accuracy: 69.22. ****
+
+2024-04-28 06:41:54,152 : **** Our's test dual-ours auroc : 92.28, fpr: 41.76. ****
+
+2024-04-28 06:41:54,243 : **** pos test accuracy: 69.27. ****
+
+2024-04-28 06:41:54,247 : **** neg test accuracy: 57.98. ****
+
+2024-04-28 06:41:54,250 : **** dual test accuracy: 68.82. ****
+
+2024-04-28 06:41:54,557 : **** Our's test pos auroc: 91.84, fpr: 41.62. ****
+
+2024-04-28 06:41:54,915 : **** Our's test neg auroc: 85.12, fpr: 72.61. ****
+
+2024-04-28 06:41:55,276 : **** Our's test dual auroc: 91.46, fpr: 44.88. ****
+
+2024-04-28 06:41:55,284 : **** our dual test accuracy: 69.27. ****
+
+2024-04-28 06:41:55,737 : **** Our's test dual-ours auroc : 92.28, fpr: 42.41. ****
+
+2024-04-28 06:41:55,828 : **** pos test accuracy: 69.25. ****
+
+2024-04-28 06:41:55,832 : **** neg test accuracy: 57.98. ****
+
+2024-04-28 06:41:55,835 : **** dual test accuracy: 68.80. ****
+
+2024-04-28 06:41:56,142 : **** Our's test pos auroc: 91.83, fpr: 42.19. ****
+
+2024-04-28 06:41:56,500 : **** Our's test neg auroc: 85.09, fpr: 72.10. ****
+
+2024-04-28 06:41:56,809 : **** Our's test dual auroc: 91.45, fpr: 43.90. ****
+
+2024-04-28 06:41:56,816 : **** our dual test accuracy: 69.26. ****
+
+2024-04-28 06:41:57,268 : **** Our's test dual-ours auroc : 92.27, fpr: 42.75. ****
+
+2024-04-28 06:41:57,359 : **** pos test accuracy: 69.26. ****
+
+2024-04-28 06:41:57,363 : **** neg test accuracy: 57.98. ****
+
+2024-04-28 06:41:57,366 : **** dual test accuracy: 68.81. ****
+
+2024-04-28 06:41:57,674 : **** Our's test pos auroc: 91.80, fpr: 42.58. ****
+
+2024-04-28 06:41:58,033 : **** Our's test neg auroc: 85.21, fpr: 72.67. ****
+
+2024-04-28 06:41:58,394 : **** Our's test dual auroc: 91.43, fpr: 44.32. ****
+
+2024-04-28 06:41:58,401 : **** our dual test accuracy: 69.31. ****
+
+2024-04-28 06:41:58,853 : **** Our's test dual-ours auroc : 92.25, fpr: 43.27. ****
+
+2024-04-28 06:41:58,944 : **** pos test accuracy: 68.81. ****
+
+2024-04-28 06:41:58,948 : **** neg test accuracy: 58.00. ****
+
+2024-04-28 06:41:58,951 : **** dual test accuracy: 68.38. ****
+
+2024-04-28 06:41:59,312 : **** Our's test pos auroc: 92.09, fpr: 42.01. ****
+
+2024-04-28 06:41:59,671 : **** Our's test neg auroc: 85.39, fpr: 72.43. ****
+
+2024-04-28 06:42:00,033 : **** Our's test dual auroc: 91.65, fpr: 44.01. ****
+
+2024-04-28 06:42:00,040 : **** our dual test accuracy: 68.78. ****
+
+2024-04-28 06:42:00,487 : **** Our's test dual-ours auroc : 92.52, fpr: 41.03. ****
+
+2024-04-28 06:42:00,580 : **** pos test accuracy: 68.86. ****
+
+2024-04-28 06:42:00,583 : **** neg test accuracy: 58.02. ****
+
+2024-04-28 06:42:00,587 : **** dual test accuracy: 68.42. ****
+
+2024-04-28 06:42:00,948 : **** Our's test pos auroc: 92.07, fpr: 40.87. ****
+
+2024-04-28 06:42:01,305 : **** Our's test neg auroc: 85.40, fpr: 72.33. ****
+
+2024-04-28 06:42:01,667 : **** Our's test dual auroc: 91.64, fpr: 42.93. ****
+
+2024-04-28 06:42:01,674 : **** our dual test accuracy: 68.82. ****
+
+2024-04-28 06:42:02,123 : **** Our's test dual-ours auroc : 92.49, fpr: 41.77. ****
+
+2024-04-28 06:42:02,215 : **** pos test accuracy: 68.88. ****
+
+2024-04-28 06:42:02,219 : **** neg test accuracy: 57.99. ****
+
+2024-04-28 06:42:02,222 : **** dual test accuracy: 68.44. ****
+
+2024-04-28 06:42:02,529 : **** Our's test pos auroc: 92.06, fpr: 41.57. ****
+
+2024-04-28 06:42:02,888 : **** Our's test neg auroc: 85.33, fpr: 72.40. ****
+
+2024-04-28 06:42:03,195 : **** Our's test dual auroc: 91.63, fpr: 43.47. ****
+
+2024-04-28 06:42:03,202 : **** our dual test accuracy: 68.90. ****
+
+2024-04-28 06:42:03,652 : **** Our's test dual-ours auroc : 92.49, fpr: 40.62. ****
+
+2024-04-28 06:42:03,744 : **** pos test accuracy: 68.90. ****
+
+2024-04-28 06:42:03,747 : **** neg test accuracy: 57.98. ****
+
+2024-04-28 06:42:03,751 : **** dual test accuracy: 68.47. ****
+
+2024-04-28 06:42:04,112 : **** Our's test pos auroc: 92.05, fpr: 42.11. ****
+
+2024-04-28 06:42:04,470 : **** Our's test neg auroc: 85.35, fpr: 71.95. ****
+
+2024-04-28 06:42:04,832 : **** Our's test dual auroc: 91.62, fpr: 43.84. ****
+
+2024-04-28 06:42:04,840 : **** our dual test accuracy: 68.90. ****
+
+2024-04-28 06:42:05,290 : **** Our's test dual-ours auroc : 92.49, fpr: 41.10. ****
+
+2024-04-28 06:42:05,382 : **** pos test accuracy: 69.01. ****
+
+2024-04-28 06:42:05,386 : **** neg test accuracy: 58.08. ****
+
+2024-04-28 06:42:05,389 : **** dual test accuracy: 68.56. ****
+
+2024-04-28 06:42:05,695 : **** Our's test pos auroc: 92.02, fpr: 40.99. ****
+
+2024-04-28 06:42:06,054 : **** Our's test neg auroc: 85.21, fpr: 72.36. ****
+
+2024-04-28 06:42:06,361 : **** Our's test dual auroc: 91.60, fpr: 43.03. ****
+
+2024-04-28 06:42:06,368 : **** our dual test accuracy: 69.00. ****
+
+2024-04-28 06:42:06,816 : **** Our's test dual-ours auroc : 92.50, fpr: 41.75. ****
+
+2024-04-28 06:42:06,908 : **** pos test accuracy: 69.02. ****
+
+2024-04-28 06:42:06,912 : **** neg test accuracy: 58.00. ****
+
+2024-04-28 06:42:06,915 : **** dual test accuracy: 68.59. ****
+
+2024-04-28 06:42:07,221 : **** Our's test pos auroc: 92.00, fpr: 41.67. ****
+
+2024-04-28 06:42:07,579 : **** Our's test neg auroc: 85.34, fpr: 72.25. ****
+
+2024-04-28 06:42:07,940 : **** Our's test dual auroc: 91.59, fpr: 43.50. ****
+
+2024-04-28 06:42:07,947 : **** our dual test accuracy: 68.99. ****
+
+2024-04-28 06:42:08,397 : **** Our's test dual-ours auroc : 92.45, fpr: 40.77. ****
+
+2024-04-28 06:42:08,489 : **** pos test accuracy: 69.05. ****
+
+2024-04-28 06:42:08,492 : **** neg test accuracy: 58.08. ****
+
+2024-04-28 06:42:08,496 : **** dual test accuracy: 68.63. ****
+
+2024-04-28 06:42:08,857 : **** Our's test pos auroc: 91.98, fpr: 42.37. ****
+
+2024-04-28 06:42:09,214 : **** Our's test neg auroc: 85.34, fpr: 72.09. ****
+
+2024-04-28 06:42:09,575 : **** Our's test dual auroc: 91.57, fpr: 44.03. ****
+
+2024-04-28 06:42:09,582 : **** our dual test accuracy: 69.01. ****
+
+2024-04-28 06:42:10,034 : **** Our's test dual-ours auroc : 92.42, fpr: 41.47. ****
+
+2024-04-28 06:42:10,127 : **** pos test accuracy: 69.10. ****
+
+2024-04-28 06:42:10,130 : **** neg test accuracy: 58.00. ****
+
+2024-04-28 06:42:10,134 : **** dual test accuracy: 68.67. ****
+
+2024-04-28 06:42:10,495 : **** Our's test pos auroc: 91.97, fpr: 41.18. ****
+
+2024-04-28 06:42:10,856 : **** Our's test neg auroc: 85.31, fpr: 72.32. ****
+
+2024-04-28 06:42:11,218 : **** Our's test dual auroc: 91.56, fpr: 43.15. ****
+
+2024-04-28 06:42:11,225 : **** our dual test accuracy: 69.09. ****
+
+2024-04-28 06:42:11,674 : **** Our's test dual-ours auroc : 92.40, fpr: 42.11. ****
+
+2024-04-28 06:42:11,765 : **** pos test accuracy: 69.14. ****
+
+2024-04-28 06:42:11,768 : **** neg test accuracy: 58.00. ****
+
+2024-04-28 06:42:11,772 : **** dual test accuracy: 68.67. ****
+
+2024-04-28 06:42:12,133 : **** Our's test pos auroc: 91.95, fpr: 41.73. ****
+
+2024-04-28 06:42:12,490 : **** Our's test neg auroc: 85.33, fpr: 71.99. ****
+
+2024-04-28 06:42:12,852 : **** Our's test dual auroc: 91.56, fpr: 43.53. ****
+
+2024-04-28 06:42:12,859 : **** our dual test accuracy: 69.12. ****
+
+2024-04-28 06:42:13,309 : **** Our's test dual-ours auroc : 92.46, fpr: 40.82. ****
+
+2024-04-28 06:42:13,401 : **** pos test accuracy: 69.15. ****
+
+2024-04-28 06:42:13,405 : **** neg test accuracy: 58.08. ****
+
+2024-04-28 06:42:13,408 : **** dual test accuracy: 68.75. ****
+
+2024-04-28 06:42:13,770 : **** Our's test pos auroc: 91.93, fpr: 42.55. ****
+
+2024-04-28 06:42:14,127 : **** Our's test neg auroc: 85.36, fpr: 71.65. ****
+
+2024-04-28 06:42:14,488 : **** Our's test dual auroc: 91.54, fpr: 44.20. ****
+
+2024-04-28 06:42:14,495 : **** our dual test accuracy: 69.14. ****
+
+2024-04-28 06:42:14,947 : **** Our's test dual-ours auroc : 92.39, fpr: 41.57. ****
+
+2024-04-28 06:42:15,039 : **** pos test accuracy: 69.19. ****
+
+2024-04-28 06:42:15,042 : **** neg test accuracy: 57.86. ****
+
+2024-04-28 06:42:15,046 : **** dual test accuracy: 68.75. ****
+
+2024-04-28 06:42:15,406 : **** Our's test pos auroc: 91.91, fpr: 41.30. ****
+

@@ -1,0 +1,94 @@
+2024-04-29 05:07:36,770 : #########TRAIN_EVAL_INFO############
+2024-04-29 05:07:36,775 : 
+Running in-domain dataset configs.
+2024-04-29 05:07:36,775 : {'root_path': '/home/nfs03/liyh/', 'seed': 3407, 'load_cache': True, 'load_pre_feat': True, 'search_hp': True, 'search_scale': [30, 30, 60], 'search_step': [200, 30, 40], 'init_beta': 1, 'init_alpha': 2, 'init_gamma': 0.1, 'eps': 0.001, 'training_feat_num': 256, 'training_free_feat_num': 256, 'w_training_free': [0.7, 0.3], 'w_training': [0.2, 0.8], 'dataset': 'imagenet', 'shots': 16, 'backbone': 'ViT-B/16', 'lr': 0.001, 'augment_epoch': 10, 'train_epoch': 20, 'data_section': 0, 'cache_dir': '/home/nfs03/zengtc/tip/caches/imagenet'}
+2024-04-29 05:07:42,864 : Preparing ImageNet dataset.
+2024-04-29 05:09:54,802 : Getting textual features as CLIP's classifier.
+2024-04-29 05:10:10,781 : 
+Constructing cache model by few-shot visual features and labels.
+2024-04-29 05:10:10,920 : 
+Loading visual features and labels from test set.
+2024-04-29 05:10:10,947 : 
+Running out-domain dataset configs.
+2024-04-29 05:10:10,947 : {'root_path': '/home/nfs03/zengtc', 'seed': 3407, 'load_cache': False, 'load_pre_feat': False, 'dataset': 'iNaturalist', 'backbone': 'ViT-B/16'}
+2024-04-29 05:10:34,087 : **** pos test accuracy: 68.76. ****
+
+2024-04-29 05:10:34,091 : **** neg test accuracy: 0.00. ****
+
+2024-04-29 05:10:34,094 : **** neg test accuracy: 61.08. ****
+
+2024-04-29 05:10:34,098 : **** dual test accuracy: 8.09. ****
+
+2024-04-29 05:10:34,444 : **** Our's test pos auroc: 92.32, fpr: 40.45. ****
+
+2024-04-29 05:10:34,812 : **** Our's test neg(-) auroc: 56.09, fpr: 91.26. ****
+
+2024-04-29 05:10:35,126 : **** Our's test neg(+) auroc: 84.19, fpr: 72.84. ****
+
+2024-04-29 05:10:35,492 : **** Our's test dual auroc: 46.71, fpr: 97.73. ****
+
+2024-04-29 05:10:35,956 : **** Our's test dual-ours auroc : 91.71, fpr: 41.79. ****
+
+2024-04-29 05:10:37,635 : temperature: 0.03, alpha: 0.10, beta: 0.10, pos_auroc: 91.76, neg_auroc: 53.60, dual_auroc: 46.84, dual_auroc_ours:91.87, auroc_fpr:41.14
+2024-04-29 05:10:39,212 : temperature: 0.05, alpha: 0.10, beta: 0.10, pos_auroc: 92.09, neg_auroc: 53.73, dual_auroc: 46.93, dual_auroc_ours:92.03, auroc_fpr:41.06
+2024-04-29 05:10:40,785 : temperature: 0.07, alpha: 0.10, beta: 0.10, pos_auroc: 92.14, neg_auroc: 53.83, dual_auroc: 46.97, dual_auroc_ours:92.06, auroc_fpr:41.16
+2024-04-29 05:10:42,359 : temperature: 0.10, alpha: 0.10, beta: 0.10, pos_auroc: 92.15, neg_auroc: 53.93, dual_auroc: 47.00, dual_auroc_ours:92.07, auroc_fpr:40.93
+2024-04-29 05:10:43,928 : temperature: 0.30, alpha: 0.10, beta: 0.10, pos_auroc: 92.12, neg_auroc: 54.12, dual_auroc: 47.05, dual_auroc_ours:92.05, auroc_fpr:41.13
+2024-04-29 05:10:45,493 : temperature: 0.50, alpha: 0.10, beta: 0.10, pos_auroc: 92.10, neg_auroc: 54.16, dual_auroc: 47.04, dual_auroc_ours:92.04, auroc_fpr:41.26
+2024-04-29 05:10:47,037 : temperature: 1.00, alpha: 0.10, beta: 0.10, pos_auroc: 92.09, neg_auroc: 54.18, dual_auroc: 47.06, dual_auroc_ours:92.03, auroc_fpr:40.65
+2024-04-29 05:10:48,574 : temperature: 2.00, alpha: 0.10, beta: 0.10, pos_auroc: 92.08, neg_auroc: 54.19, dual_auroc: 47.03, dual_auroc_ours:92.03, auroc_fpr:40.61
+2024-04-29 05:10:50,106 : temperature: 3.00, alpha: 0.10, beta: 0.10, pos_auroc: 92.06, neg_auroc: 54.21, dual_auroc: 47.08, dual_auroc_ours:92.00, auroc_fpr:43.18
+2024-04-29 05:10:51,634 : temperature: 5.00, alpha: 0.10, beta: 0.10, pos_auroc: 92.02, neg_auroc: 54.21, dual_auroc: 47.19, dual_auroc_ours:91.98, auroc_fpr:44.37
+2024-04-29 05:10:53,182 : temperature: 10.00, alpha: 0.10, beta: 0.10, pos_auroc: 91.82, neg_auroc: 54.11, dual_auroc: 47.37, dual_auroc_ours:91.78, auroc_fpr:35.14
+2024-04-29 05:10:54,849 : temperature: 0.03, alpha: 1.10, beta: 0.10, pos_auroc: 91.79, neg_auroc: 53.82, dual_auroc: 46.80, dual_auroc_ours:91.82, auroc_fpr:41.44
+2024-04-29 05:10:56,416 : temperature: 0.05, alpha: 1.10, beta: 0.10, pos_auroc: 92.12, neg_auroc: 53.96, dual_auroc: 46.88, dual_auroc_ours:91.99, auroc_fpr:41.33
+2024-04-29 05:10:57,989 : temperature: 0.07, alpha: 1.10, beta: 0.10, pos_auroc: 92.17, neg_auroc: 54.05, dual_auroc: 46.92, dual_auroc_ours:92.02, auroc_fpr:41.39
+2024-04-29 05:10:59,588 : temperature: 0.10, alpha: 1.10, beta: 0.10, pos_auroc: 92.18, neg_auroc: 54.16, dual_auroc: 46.94, dual_auroc_ours:92.03, auroc_fpr:41.38
+2024-04-29 05:11:01,144 : temperature: 0.30, alpha: 1.10, beta: 0.10, pos_auroc: 92.15, neg_auroc: 54.34, dual_auroc: 47.00, dual_auroc_ours:92.02, auroc_fpr:41.46
+2024-04-29 05:11:02,684 : temperature: 0.50, alpha: 1.10, beta: 0.10, pos_auroc: 92.14, neg_auroc: 54.39, dual_auroc: 46.99, dual_auroc_ours:92.01, auroc_fpr:41.12
+2024-04-29 05:11:04,246 : temperature: 1.00, alpha: 1.10, beta: 0.10, pos_auroc: 92.13, neg_auroc: 54.43, dual_auroc: 47.00, dual_auroc_ours:92.00, auroc_fpr:40.60
+2024-04-29 05:11:05,813 : temperature: 2.00, alpha: 1.10, beta: 0.10, pos_auroc: 92.11, neg_auroc: 54.43, dual_auroc: 47.00, dual_auroc_ours:91.99, auroc_fpr:40.58
+2024-04-29 05:11:07,369 : temperature: 3.00, alpha: 1.10, beta: 0.10, pos_auroc: 92.09, neg_auroc: 54.45, dual_auroc: 47.08, dual_auroc_ours:91.97, auroc_fpr:42.98
+2024-04-29 05:11:08,919 : temperature: 5.00, alpha: 1.10, beta: 0.10, pos_auroc: 92.06, neg_auroc: 54.42, dual_auroc: 47.14, dual_auroc_ours:91.94, auroc_fpr:44.25
+2024-04-29 05:11:10,467 : temperature: 10.00, alpha: 1.10, beta: 0.10, pos_auroc: 91.87, neg_auroc: 54.37, dual_auroc: 47.40, dual_auroc_ours:91.76, auroc_fpr:35.10
+2024-04-29 05:11:12,136 : temperature: 0.03, alpha: 2.09, beta: 0.10, pos_auroc: 91.82, neg_auroc: 54.06, dual_auroc: 46.75, dual_auroc_ours:91.77, auroc_fpr:41.54
+2024-04-29 05:11:13,706 : temperature: 0.05, alpha: 2.09, beta: 0.10, pos_auroc: 92.15, neg_auroc: 54.20, dual_auroc: 46.81, dual_auroc_ours:91.94, auroc_fpr:41.45
+2024-04-29 05:11:15,271 : temperature: 0.07, alpha: 2.09, beta: 0.10, pos_auroc: 92.21, neg_auroc: 54.31, dual_auroc: 46.84, dual_auroc_ours:91.98, auroc_fpr:41.45
+2024-04-29 05:11:16,819 : temperature: 0.10, alpha: 2.09, beta: 0.10, pos_auroc: 92.22, neg_auroc: 54.41, dual_auroc: 46.86, dual_auroc_ours:91.99, auroc_fpr:41.60
+2024-04-29 05:11:18,391 : temperature: 0.30, alpha: 2.09, beta: 0.10, pos_auroc: 92.19, neg_auroc: 54.60, dual_auroc: 46.94, dual_auroc_ours:91.98, auroc_fpr:41.41
+2024-04-29 05:11:19,944 : temperature: 0.50, alpha: 2.09, beta: 0.10, pos_auroc: 92.18, neg_auroc: 54.64, dual_auroc: 46.92, dual_auroc_ours:91.98, auroc_fpr:41.71
+2024-04-29 05:11:21,489 : temperature: 1.00, alpha: 2.09, beta: 0.10, pos_auroc: 92.17, neg_auroc: 54.67, dual_auroc: 46.92, dual_auroc_ours:91.97, auroc_fpr:42.13
+2024-04-29 05:11:23,030 : temperature: 2.00, alpha: 2.09, beta: 0.10, pos_auroc: 92.15, neg_auroc: 54.69, dual_auroc: 46.95, dual_auroc_ours:91.96, auroc_fpr:40.45
+2024-04-29 05:11:24,571 : temperature: 3.00, alpha: 2.09, beta: 0.10, pos_auroc: 92.13, neg_auroc: 54.69, dual_auroc: 46.99, dual_auroc_ours:91.95, auroc_fpr:42.87
+2024-04-29 05:11:26,112 : temperature: 5.00, alpha: 2.09, beta: 0.10, pos_auroc: 92.08, neg_auroc: 54.68, dual_auroc: 47.03, dual_auroc_ours:91.91, auroc_fpr:44.04
+2024-04-29 05:11:27,654 : temperature: 10.00, alpha: 2.09, beta: 0.10, pos_auroc: 91.91, neg_auroc: 54.66, dual_auroc: 47.28, dual_auroc_ours:91.73, auroc_fpr:35.03
+2024-04-29 05:11:29,300 : temperature: 0.03, alpha: 3.09, beta: 0.10, pos_auroc: 91.84, neg_auroc: 54.26, dual_auroc: 46.67, dual_auroc_ours:91.70, auroc_fpr:42.06
+2024-04-29 05:11:30,866 : temperature: 0.05, alpha: 3.09, beta: 0.10, pos_auroc: 92.17, neg_auroc: 54.41, dual_auroc: 46.73, dual_auroc_ours:91.89, auroc_fpr:41.79
+2024-04-29 05:11:32,425 : temperature: 0.07, alpha: 3.09, beta: 0.10, pos_auroc: 92.23, neg_auroc: 54.52, dual_auroc: 46.77, dual_auroc_ours:91.93, auroc_fpr:41.62
+2024-04-29 05:11:33,984 : temperature: 0.10, alpha: 3.09, beta: 0.10, pos_auroc: 92.24, neg_auroc: 54.62, dual_auroc: 46.78, dual_auroc_ours:91.94, auroc_fpr:41.78
+2024-04-29 05:11:35,542 : temperature: 0.30, alpha: 3.09, beta: 0.10, pos_auroc: 92.21, neg_auroc: 54.82, dual_auroc: 46.85, dual_auroc_ours:91.94, auroc_fpr:41.59
+2024-04-29 05:11:37,095 : temperature: 0.50, alpha: 3.09, beta: 0.10, pos_auroc: 92.20, neg_auroc: 54.86, dual_auroc: 46.83, dual_auroc_ours:91.94, auroc_fpr:41.64
+2024-04-29 05:11:38,645 : temperature: 1.00, alpha: 3.09, beta: 0.10, pos_auroc: 92.19, neg_auroc: 54.90, dual_auroc: 46.84, dual_auroc_ours:91.93, auroc_fpr:42.06
+2024-04-29 05:11:40,207 : temperature: 2.00, alpha: 3.09, beta: 0.10, pos_auroc: 92.17, neg_auroc: 54.92, dual_auroc: 46.87, dual_auroc_ours:91.92, auroc_fpr:40.49
+2024-04-29 05:11:41,732 : temperature: 3.00, alpha: 3.09, beta: 0.10, pos_auroc: 92.16, neg_auroc: 54.93, dual_auroc: 46.89, dual_auroc_ours:91.91, auroc_fpr:42.89
+2024-04-29 05:11:43,254 : temperature: 5.00, alpha: 3.09, beta: 0.10, pos_auroc: 92.11, neg_auroc: 54.91, dual_auroc: 46.83, dual_auroc_ours:91.87, auroc_fpr:44.05
+2024-04-29 05:11:44,791 : temperature: 10.00, alpha: 3.09, beta: 0.10, pos_auroc: 91.93, neg_auroc: 54.84, dual_auroc: 47.09, dual_auroc_ours:91.68, auroc_fpr:35.07
+2024-04-29 05:11:46,468 : temperature: 0.03, alpha: 4.09, beta: 0.10, pos_auroc: 91.86, neg_auroc: 54.46, dual_auroc: 46.56, dual_auroc_ours:91.64, auroc_fpr:42.24
+2024-04-29 05:11:48,032 : temperature: 0.05, alpha: 4.09, beta: 0.10, pos_auroc: 92.19, neg_auroc: 54.62, dual_auroc: 46.62, dual_auroc_ours:91.84, auroc_fpr:41.79
+2024-04-29 05:11:49,582 : temperature: 0.07, alpha: 4.09, beta: 0.10, pos_auroc: 92.25, neg_auroc: 54.73, dual_auroc: 46.67, dual_auroc_ours:91.88, auroc_fpr:41.74
+2024-04-29 05:11:51,133 : temperature: 0.10, alpha: 4.09, beta: 0.10, pos_auroc: 92.25, neg_auroc: 54.83, dual_auroc: 46.68, dual_auroc_ours:91.89, auroc_fpr:41.97
+2024-04-29 05:11:52,669 : temperature: 0.30, alpha: 4.09, beta: 0.10, pos_auroc: 92.23, neg_auroc: 55.03, dual_auroc: 46.73, dual_auroc_ours:91.90, auroc_fpr:41.69
+2024-04-29 05:11:54,234 : temperature: 0.50, alpha: 4.09, beta: 0.10, pos_auroc: 92.22, neg_auroc: 55.08, dual_auroc: 46.72, dual_auroc_ours:91.90, auroc_fpr:41.67
+2024-04-29 05:11:55,785 : temperature: 1.00, alpha: 4.09, beta: 0.10, pos_auroc: 92.21, neg_auroc: 55.11, dual_auroc: 46.72, dual_auroc_ours:91.89, auroc_fpr:42.12
+2024-04-29 05:11:57,345 : temperature: 2.00, alpha: 4.09, beta: 0.10, pos_auroc: 92.20, neg_auroc: 55.13, dual_auroc: 46.71, dual_auroc_ours:91.88, auroc_fpr:40.40
+2024-04-29 05:11:58,888 : temperature: 3.00, alpha: 4.09, beta: 0.10, pos_auroc: 92.18, neg_auroc: 55.14, dual_auroc: 46.72, dual_auroc_ours:91.87, auroc_fpr:42.73
+2024-04-29 05:12:00,446 : temperature: 5.00, alpha: 4.09, beta: 0.10, pos_auroc: 92.13, neg_auroc: 55.08, dual_auroc: 46.80, dual_auroc_ours:91.83, auroc_fpr:44.05
+2024-04-29 05:12:01,984 : temperature: 10.00, alpha: 4.09, beta: 0.10, pos_auroc: 91.94, neg_auroc: 55.05, dual_auroc: 47.00, dual_auroc_ours:91.65, auroc_fpr:35.09
+2024-04-29 05:12:03,624 : temperature: 0.03, alpha: 5.08, beta: 0.10, pos_auroc: 91.88, neg_auroc: 54.70, dual_auroc: 46.55, dual_auroc_ours:91.57, auroc_fpr:42.41
+2024-04-29 05:12:05,179 : temperature: 0.05, alpha: 5.08, beta: 0.10, pos_auroc: 92.22, neg_auroc: 54.86, dual_auroc: 46.61, dual_auroc_ours:91.78, auroc_fpr:42.12
+2024-04-29 05:12:06,721 : temperature: 0.07, alpha: 5.08, beta: 0.10, pos_auroc: 92.27, neg_auroc: 54.97, dual_auroc: 46.64, dual_auroc_ours:91.83, auroc_fpr:41.95
+2024-04-29 05:12:08,267 : temperature: 0.10, alpha: 5.08, beta: 0.10, pos_auroc: 92.29, neg_auroc: 55.08, dual_auroc: 46.66, dual_auroc_ours:91.85, auroc_fpr:42.03
+2024-04-29 05:12:09,809 : temperature: 0.30, alpha: 5.08, beta: 0.10, pos_auroc: 92.26, neg_auroc: 55.28, dual_auroc: 46.71, dual_auroc_ours:91.86, auroc_fpr:42.07
+2024-04-29 05:12:11,345 : temperature: 0.50, alpha: 5.08, beta: 0.10, pos_auroc: 92.25, neg_auroc: 55.32, dual_auroc: 46.70, dual_auroc_ours:91.85, auroc_fpr:42.34
+2024-04-29 05:12:12,882 : temperature: 1.00, alpha: 5.08, beta: 0.10, pos_auroc: 92.24, neg_auroc: 55.36, dual_auroc: 46.71, dual_auroc_ours:91.85, auroc_fpr:42.08
+2024-04-29 05:12:14,410 : temperature: 2.00, alpha: 5.08, beta: 0.10, pos_auroc: 92.23, neg_auroc: 55.38, dual_auroc: 46.70, dual_auroc_ours:91.84, auroc_fpr:43.90

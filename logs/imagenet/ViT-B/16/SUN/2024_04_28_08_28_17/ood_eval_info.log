@@ -1,0 +1,340 @@
+2024-04-28 08:28:17,854 : #########TRAIN_EVAL_INFO############
+2024-04-28 08:28:17,862 : 
+Running in-domain dataset configs.
+2024-04-28 08:28:17,863 : {'root_path': '/home/nfs03/liyh/', 'seed': 3407, 'load_cache': True, 'load_pre_feat': True, 'search_hp': True, 'search_scale': [7, 7, 0.5], 'search_step': [200, 20, 5], 'init_beta': 1, 'init_alpha': 2, 'init_gamma': 0.1, 'eps': 0.001, 'training_feat_num': 256, 'training_free_feat_num': 256, 'w_training_free': [0.7, 0.3], 'w_training': [0.2, 0.8], 'dataset': 'imagenet', 'shots': 16, 'backbone': 'ViT-B/16', 'lr': 0.001, 'augment_epoch': 10, 'train_epoch': 20, 'data_section': 0, 'cache_dir': '/home/nfs03/zengtc/tip/caches/imagenet'}
+2024-04-28 08:28:23,911 : Preparing ImageNet dataset.
+2024-04-28 08:30:55,543 : Getting textual features as CLIP's classifier.
+2024-04-28 08:31:11,771 : 
+Constructing cache model by few-shot visual features and labels.
+2024-04-28 08:31:11,893 : 
+Loading visual features and labels from test set.
+2024-04-28 08:31:11,922 : 
+Running out-domain dataset configs.
+2024-04-28 08:31:11,922 : {'root_path': '/home/nfs03/zengtc', 'seed': 3407, 'load_cache': False, 'load_pre_feat': False, 'dataset': 'SUN', 'backbone': 'ViT-B/16'}
+2024-04-28 08:31:46,894 : **** pos test accuracy: 69.42. ****
+
+2024-04-28 08:31:46,898 : **** neg test accuracy: 61.23. ****
+
+2024-04-28 08:31:46,902 : **** neg test accuracy: 0.00. ****
+
+2024-04-28 08:31:46,905 : **** dual test accuracy: 67.52. ****
+
+2024-04-28 08:31:47,247 : **** Our's test pos auroc: 91.79, fpr: 41.40. ****
+
+2024-04-28 08:31:47,560 : **** Our's test neg auroc: 88.57, fpr: 59.03. ****
+
+2024-04-28 08:31:47,921 : **** Our's test neg auroc: 69.90, fpr: 81.62. ****
+
+2024-04-28 08:31:48,284 : **** Our's test dual auroc: 91.02, fpr: 46.15. ****
+
+2024-04-28 08:31:48,292 : **** our dual test accuracy: 0.00. ****
+
+2024-04-28 08:31:48,751 : **** Our's test dual-ours auroc : 84.50, fpr: 78.98. ****
+
+2024-04-28 08:31:50,376 : alpha: 0.10, beta: 0.10, pos_auroc: 92.21, neg_auroc: 85.27, dual_auroc: 91.82, dual_auroc_ours:92.58
+2024-04-28 08:31:52,001 : alpha: 0.45, beta: 0.10, pos_auroc: 92.19, neg_auroc: 85.10, dual_auroc: 91.79, dual_auroc_ours:92.57
+2024-04-28 08:31:53,629 : alpha: 0.79, beta: 0.10, pos_auroc: 92.17, neg_auroc: 85.23, dual_auroc: 91.79, dual_auroc_ours:92.55
+2024-04-28 08:31:55,237 : alpha: 1.14, beta: 0.10, pos_auroc: 92.16, neg_auroc: 85.30, dual_auroc: 91.78, dual_auroc_ours:92.52
+2024-04-28 08:31:56,861 : alpha: 1.48, beta: 0.10, pos_auroc: 92.15, neg_auroc: 85.25, dual_auroc: 91.77, dual_auroc_ours:92.51
+2024-04-28 08:31:58,481 : alpha: 1.83, beta: 0.10, pos_auroc: 92.13, neg_auroc: 85.29, dual_auroc: 91.76, dual_auroc_ours:92.51
+2024-04-28 08:31:59,991 : alpha: 2.17, beta: 0.10, pos_auroc: 92.11, neg_auroc: 85.28, dual_auroc: 91.74, dual_auroc_ours:92.50
+2024-04-28 08:32:01,613 : alpha: 2.52, beta: 0.10, pos_auroc: 92.09, neg_auroc: 85.24, dual_auroc: 91.73, dual_auroc_ours:92.45
+2024-04-28 08:32:03,242 : alpha: 2.86, beta: 0.10, pos_auroc: 92.08, neg_auroc: 85.26, dual_auroc: 91.72, dual_auroc_ours:92.44
+2024-04-28 08:32:04,756 : alpha: 3.21, beta: 0.10, pos_auroc: 92.07, neg_auroc: 85.20, dual_auroc: 91.70, dual_auroc_ours:92.44
+2024-04-28 08:32:06,324 : alpha: 3.55, beta: 0.10, pos_auroc: 92.05, neg_auroc: 85.22, dual_auroc: 91.69, dual_auroc_ours:92.43
+2024-04-28 08:32:07,894 : alpha: 3.90, beta: 0.10, pos_auroc: 92.03, neg_auroc: 85.27, dual_auroc: 91.67, dual_auroc_ours:92.41
+2024-04-28 08:32:09,518 : alpha: 4.24, beta: 0.10, pos_auroc: 92.02, neg_auroc: 85.23, dual_auroc: 91.67, dual_auroc_ours:92.41
+2024-04-28 08:32:11,149 : alpha: 4.58, beta: 0.10, pos_auroc: 92.00, neg_auroc: 85.28, dual_auroc: 91.66, dual_auroc_ours:92.45
+2024-04-28 08:32:12,720 : alpha: 4.93, beta: 0.10, pos_auroc: 91.97, neg_auroc: 85.18, dual_auroc: 91.63, dual_auroc_ours:92.43
+2024-04-28 08:32:14,344 : alpha: 5.27, beta: 0.10, pos_auroc: 91.96, neg_auroc: 85.28, dual_auroc: 91.62, dual_auroc_ours:92.42
+2024-04-28 08:32:15,990 : alpha: 5.62, beta: 0.10, pos_auroc: 91.94, neg_auroc: 85.16, dual_auroc: 91.60, dual_auroc_ours:92.29
+2024-04-28 08:32:17,629 : alpha: 5.96, beta: 0.10, pos_auroc: 91.93, neg_auroc: 85.18, dual_auroc: 91.59, dual_auroc_ours:92.28
+2024-04-28 08:32:19,149 : alpha: 6.31, beta: 0.10, pos_auroc: 91.92, neg_auroc: 85.19, dual_auroc: 91.57, dual_auroc_ours:92.27
+2024-04-28 08:32:20,790 : alpha: 6.65, beta: 0.10, pos_auroc: 91.89, neg_auroc: 85.29, dual_auroc: 91.56, dual_auroc_ours:92.25
+2024-04-28 08:32:22,412 : alpha: 0.10, beta: 0.13, pos_auroc: 92.20, neg_auroc: 85.27, dual_auroc: 91.82, dual_auroc_ours:92.58
+2024-04-28 08:32:23,925 : alpha: 0.45, beta: 0.13, pos_auroc: 92.18, neg_auroc: 85.36, dual_auroc: 91.80, dual_auroc_ours:92.55
+2024-04-28 08:32:25,502 : alpha: 0.79, beta: 0.13, pos_auroc: 92.16, neg_auroc: 85.23, dual_auroc: 91.78, dual_auroc_ours:92.54
+2024-04-28 08:32:27,030 : alpha: 1.14, beta: 0.13, pos_auroc: 92.15, neg_auroc: 85.22, dual_auroc: 91.77, dual_auroc_ours:92.53
+2024-04-28 08:32:28,656 : alpha: 1.48, beta: 0.13, pos_auroc: 92.12, neg_auroc: 85.11, dual_auroc: 91.74, dual_auroc_ours:92.53
+2024-04-28 08:32:30,173 : alpha: 1.83, beta: 0.13, pos_auroc: 92.10, neg_auroc: 85.24, dual_auroc: 91.73, dual_auroc_ours:92.49
+2024-04-28 08:32:31,818 : alpha: 2.17, beta: 0.13, pos_auroc: 92.08, neg_auroc: 85.20, dual_auroc: 91.71, dual_auroc_ours:92.45
+2024-04-28 08:32:33,431 : alpha: 2.52, beta: 0.13, pos_auroc: 92.06, neg_auroc: 85.23, dual_auroc: 91.70, dual_auroc_ours:92.43
+2024-04-28 08:32:35,059 : alpha: 2.86, beta: 0.13, pos_auroc: 92.04, neg_auroc: 85.22, dual_auroc: 91.69, dual_auroc_ours:92.48
+2024-04-28 08:32:36,684 : alpha: 3.21, beta: 0.13, pos_auroc: 92.02, neg_auroc: 85.21, dual_auroc: 91.67, dual_auroc_ours:92.40
+2024-04-28 08:32:38,195 : alpha: 3.55, beta: 0.13, pos_auroc: 91.99, neg_auroc: 85.25, dual_auroc: 91.64, dual_auroc_ours:92.39
+2024-04-28 08:32:39,815 : alpha: 3.90, beta: 0.13, pos_auroc: 91.98, neg_auroc: 85.22, dual_auroc: 91.63, dual_auroc_ours:92.38
+2024-04-28 08:32:41,391 : alpha: 4.24, beta: 0.13, pos_auroc: 91.95, neg_auroc: 85.13, dual_auroc: 91.61, dual_auroc_ours:92.36
+2024-04-28 08:32:43,014 : alpha: 4.58, beta: 0.13, pos_auroc: 91.93, neg_auroc: 85.29, dual_auroc: 91.59, dual_auroc_ours:92.28
+2024-04-28 08:32:44,638 : alpha: 4.93, beta: 0.13, pos_auroc: 91.90, neg_auroc: 85.20, dual_auroc: 91.57, dual_auroc_ours:92.38
+2024-04-28 08:32:46,275 : alpha: 5.27, beta: 0.13, pos_auroc: 91.90, neg_auroc: 85.00, dual_auroc: 91.55, dual_auroc_ours:92.26
+2024-04-28 08:32:47,902 : alpha: 5.62, beta: 0.13, pos_auroc: 91.86, neg_auroc: 85.20, dual_auroc: 91.53, dual_auroc_ours:92.23
+2024-04-28 08:32:49,424 : alpha: 5.96, beta: 0.13, pos_auroc: 91.84, neg_auroc: 85.13, dual_auroc: 91.52, dual_auroc_ours:92.33
+2024-04-28 08:32:50,995 : alpha: 6.31, beta: 0.13, pos_auroc: 91.82, neg_auroc: 85.01, dual_auroc: 91.49, dual_auroc_ours:92.20
+2024-04-28 08:32:52,513 : alpha: 6.65, beta: 0.13, pos_auroc: 91.79, neg_auroc: 85.21, dual_auroc: 91.48, dual_auroc_ours:92.18
+2024-04-28 08:32:54,138 : alpha: 0.10, beta: 0.17, pos_auroc: 92.20, neg_auroc: 85.32, dual_auroc: 91.82, dual_auroc_ours:92.58
+2024-04-28 08:32:55,666 : alpha: 0.45, beta: 0.17, pos_auroc: 92.18, neg_auroc: 85.23, dual_auroc: 91.79, dual_auroc_ours:92.57
+2024-04-28 08:32:57,290 : alpha: 0.79, beta: 0.17, pos_auroc: 92.15, neg_auroc: 85.26, dual_auroc: 91.78, dual_auroc_ours:92.55
+2024-04-28 08:32:58,804 : alpha: 1.14, beta: 0.17, pos_auroc: 92.13, neg_auroc: 85.16, dual_auroc: 91.75, dual_auroc_ours:92.54
+2024-04-28 08:33:00,425 : alpha: 1.48, beta: 0.17, pos_auroc: 92.11, neg_auroc: 85.13, dual_auroc: 91.73, dual_auroc_ours:92.52
+2024-04-28 08:33:01,995 : alpha: 1.83, beta: 0.17, pos_auroc: 92.08, neg_auroc: 85.20, dual_auroc: 91.71, dual_auroc_ours:92.50
+2024-04-28 08:33:03,620 : alpha: 2.17, beta: 0.17, pos_auroc: 92.05, neg_auroc: 85.27, dual_auroc: 91.70, dual_auroc_ours:92.49
+2024-04-28 08:33:05,191 : alpha: 2.52, beta: 0.17, pos_auroc: 92.03, neg_auroc: 85.31, dual_auroc: 91.68, dual_auroc_ours:92.47
+2024-04-28 08:33:06,759 : alpha: 2.86, beta: 0.17, pos_auroc: 92.00, neg_auroc: 85.31, dual_auroc: 91.66, dual_auroc_ours:92.45
+2024-04-28 08:33:08,275 : alpha: 3.21, beta: 0.17, pos_auroc: 91.97, neg_auroc: 85.21, dual_auroc: 91.62, dual_auroc_ours:92.43
+2024-04-28 08:33:09,903 : alpha: 3.55, beta: 0.17, pos_auroc: 91.94, neg_auroc: 85.27, dual_auroc: 91.60, dual_auroc_ours:92.41
+2024-04-28 08:33:11,543 : alpha: 3.90, beta: 0.17, pos_auroc: 91.91, neg_auroc: 85.34, dual_auroc: 91.59, dual_auroc_ours:92.38
+2024-04-28 08:33:13,171 : alpha: 4.24, beta: 0.17, pos_auroc: 91.89, neg_auroc: 85.29, dual_auroc: 91.57, dual_auroc_ours:92.37
+2024-04-28 08:33:14,790 : alpha: 4.58, beta: 0.17, pos_auroc: 91.86, neg_auroc: 85.34, dual_auroc: 91.54, dual_auroc_ours:92.35
+2024-04-28 08:33:16,416 : alpha: 4.93, beta: 0.17, pos_auroc: 91.83, neg_auroc: 85.09, dual_auroc: 91.50, dual_auroc_ours:92.33
+2024-04-28 08:33:18,039 : alpha: 5.27, beta: 0.17, pos_auroc: 91.81, neg_auroc: 85.18, dual_auroc: 91.49, dual_auroc_ours:92.31
+2024-04-28 08:33:19,661 : alpha: 5.62, beta: 0.17, pos_auroc: 91.78, neg_auroc: 85.09, dual_auroc: 91.45, dual_auroc_ours:92.29
+2024-04-28 08:33:21,285 : alpha: 5.96, beta: 0.17, pos_auroc: 91.74, neg_auroc: 85.18, dual_auroc: 91.44, dual_auroc_ours:92.25
+2024-04-28 08:33:22,798 : alpha: 6.31, beta: 0.17, pos_auroc: 91.72, neg_auroc: 85.04, dual_auroc: 91.42, dual_auroc_ours:92.24
+2024-04-28 08:33:24,420 : alpha: 6.65, beta: 0.17, pos_auroc: 91.69, neg_auroc: 85.08, dual_auroc: 91.38, dual_auroc_ours:92.21
+2024-04-28 08:33:26,045 : alpha: 0.10, beta: 0.20, pos_auroc: 92.20, neg_auroc: 85.31, dual_auroc: 91.82, dual_auroc_ours:92.58
+2024-04-28 08:33:27,612 : alpha: 0.45, beta: 0.20, pos_auroc: 92.17, neg_auroc: 85.20, dual_auroc: 91.79, dual_auroc_ours:92.56
+2024-04-28 08:33:29,236 : alpha: 0.79, beta: 0.20, pos_auroc: 92.15, neg_auroc: 85.23, dual_auroc: 91.77, dual_auroc_ours:92.53
+2024-04-28 08:33:30,753 : alpha: 1.14, beta: 0.20, pos_auroc: 92.11, neg_auroc: 85.21, dual_auroc: 91.74, dual_auroc_ours:92.50
+2024-04-28 08:33:32,268 : alpha: 1.48, beta: 0.20, pos_auroc: 92.09, neg_auroc: 85.25, dual_auroc: 91.73, dual_auroc_ours:92.48
+2024-04-28 08:33:33,895 : alpha: 1.83, beta: 0.20, pos_auroc: 92.06, neg_auroc: 85.30, dual_auroc: 91.70, dual_auroc_ours:92.46
+2024-04-28 08:33:35,522 : alpha: 2.17, beta: 0.20, pos_auroc: 92.02, neg_auroc: 85.26, dual_auroc: 91.67, dual_auroc_ours:92.44
+2024-04-28 08:33:37,146 : alpha: 2.52, beta: 0.20, pos_auroc: 92.00, neg_auroc: 85.19, dual_auroc: 91.64, dual_auroc_ours:92.39
+2024-04-28 08:33:38,771 : alpha: 2.86, beta: 0.20, pos_auroc: 91.96, neg_auroc: 85.30, dual_auroc: 91.62, dual_auroc_ours:92.37
+2024-04-28 08:33:40,393 : alpha: 3.21, beta: 0.20, pos_auroc: 91.93, neg_auroc: 85.06, dual_auroc: 91.58, dual_auroc_ours:92.40
+2024-04-28 08:33:42,032 : alpha: 3.55, beta: 0.20, pos_auroc: 91.90, neg_auroc: 85.17, dual_auroc: 91.56, dual_auroc_ours:92.32
+2024-04-28 08:33:43,660 : alpha: 3.90, beta: 0.20, pos_auroc: 91.87, neg_auroc: 85.20, dual_auroc: 91.55, dual_auroc_ours:92.30
+2024-04-28 08:33:45,174 : alpha: 4.24, beta: 0.20, pos_auroc: 91.83, neg_auroc: 85.08, dual_auroc: 91.50, dual_auroc_ours:92.26
+2024-04-28 08:33:46,800 : alpha: 4.58, beta: 0.20, pos_auroc: 91.80, neg_auroc: 85.10, dual_auroc: 91.48, dual_auroc_ours:92.24
+2024-04-28 08:33:48,422 : alpha: 4.93, beta: 0.20, pos_auroc: 91.76, neg_auroc: 85.00, dual_auroc: 91.45, dual_auroc_ours:92.16
+2024-04-28 08:33:50,042 : alpha: 5.27, beta: 0.20, pos_auroc: 91.72, neg_auroc: 85.20, dual_auroc: 91.43, dual_auroc_ours:92.24
+2024-04-28 08:33:51,665 : alpha: 5.62, beta: 0.20, pos_auroc: 91.69, neg_auroc: 85.29, dual_auroc: 91.40, dual_auroc_ours:92.10
+2024-04-28 08:33:53,291 : alpha: 5.96, beta: 0.20, pos_auroc: 91.65, neg_auroc: 85.25, dual_auroc: 91.37, dual_auroc_ours:92.07
+2024-04-28 08:33:54,857 : alpha: 6.31, beta: 0.20, pos_auroc: 91.63, neg_auroc: 85.08, dual_auroc: 91.33, dual_auroc_ours:92.05
+2024-04-28 08:33:56,485 : alpha: 6.65, beta: 0.20, pos_auroc: 91.58, neg_auroc: 84.96, dual_auroc: 91.30, dual_auroc_ours:92.01
+2024-04-28 08:33:58,109 : alpha: 0.10, beta: 0.24, pos_auroc: 92.20, neg_auroc: 85.19, dual_auroc: 91.81, dual_auroc_ours:92.58
+2024-04-28 08:33:59,620 : alpha: 0.45, beta: 0.24, pos_auroc: 92.17, neg_auroc: 85.18, dual_auroc: 91.78, dual_auroc_ours:92.56
+2024-04-28 08:34:01,240 : alpha: 0.79, beta: 0.24, pos_auroc: 92.14, neg_auroc: 85.18, dual_auroc: 91.76, dual_auroc_ours:92.54
+2024-04-28 08:34:02,759 : alpha: 1.14, beta: 0.24, pos_auroc: 92.11, neg_auroc: 85.22, dual_auroc: 91.73, dual_auroc_ours:92.51
+2024-04-28 08:34:04,382 : alpha: 1.48, beta: 0.24, pos_auroc: 92.07, neg_auroc: 85.14, dual_auroc: 91.70, dual_auroc_ours:92.50
+2024-04-28 08:34:06,001 : alpha: 1.83, beta: 0.24, pos_auroc: 92.04, neg_auroc: 85.15, dual_auroc: 91.67, dual_auroc_ours:92.45
+2024-04-28 08:34:07,517 : alpha: 2.17, beta: 0.24, pos_auroc: 92.00, neg_auroc: 85.16, dual_auroc: 91.64, dual_auroc_ours:92.42
+2024-04-28 08:34:09,140 : alpha: 2.52, beta: 0.24, pos_auroc: 91.96, neg_auroc: 85.23, dual_auroc: 91.62, dual_auroc_ours:92.37
+2024-04-28 08:34:10,766 : alpha: 2.86, beta: 0.24, pos_auroc: 91.93, neg_auroc: 85.23, dual_auroc: 91.59, dual_auroc_ours:92.34
+2024-04-28 08:34:12,391 : alpha: 3.21, beta: 0.24, pos_auroc: 91.90, neg_auroc: 85.30, dual_auroc: 91.56, dual_auroc_ours:92.32
+2024-04-28 08:34:13,906 : alpha: 3.55, beta: 0.24, pos_auroc: 91.85, neg_auroc: 85.19, dual_auroc: 91.53, dual_auroc_ours:92.28
+2024-04-28 08:34:15,533 : alpha: 3.90, beta: 0.24, pos_auroc: 91.82, neg_auroc: 85.08, dual_auroc: 91.50, dual_auroc_ours:92.25
+2024-04-28 08:34:17,168 : alpha: 4.24, beta: 0.24, pos_auroc: 91.78, neg_auroc: 85.12, dual_auroc: 91.47, dual_auroc_ours:92.23
+2024-04-28 08:34:18,681 : alpha: 4.58, beta: 0.24, pos_auroc: 91.74, neg_auroc: 85.14, dual_auroc: 91.43, dual_auroc_ours:92.20
+2024-04-28 08:34:20,301 : alpha: 4.93, beta: 0.24, pos_auroc: 91.70, neg_auroc: 85.15, dual_auroc: 91.40, dual_auroc_ours:92.17
+2024-04-28 08:34:21,923 : alpha: 5.27, beta: 0.24, pos_auroc: 91.65, neg_auroc: 85.07, dual_auroc: 91.36, dual_auroc_ours:92.07
+2024-04-28 08:34:23,497 : alpha: 5.62, beta: 0.24, pos_auroc: 91.62, neg_auroc: 84.97, dual_auroc: 91.32, dual_auroc_ours:92.16
+2024-04-28 08:34:25,015 : alpha: 5.96, beta: 0.24, pos_auroc: 91.57, neg_auroc: 84.97, dual_auroc: 91.29, dual_auroc_ours:92.12
+2024-04-28 08:34:26,645 : alpha: 6.31, beta: 0.24, pos_auroc: 91.54, neg_auroc: 85.06, dual_auroc: 91.26, dual_auroc_ours:92.09
+2024-04-28 08:34:28,216 : alpha: 6.65, beta: 0.24, pos_auroc: 91.49, neg_auroc: 85.15, dual_auroc: 91.23, dual_auroc_ours:91.94
+2024-04-28 08:34:29,781 : alpha: 0.10, beta: 0.27, pos_auroc: 92.20, neg_auroc: 85.15, dual_auroc: 91.81, dual_auroc_ours:92.58
+2024-04-28 08:34:31,398 : alpha: 0.45, beta: 0.27, pos_auroc: 92.16, neg_auroc: 85.18, dual_auroc: 91.78, dual_auroc_ours:92.56
+2024-04-28 08:34:33,023 : alpha: 0.79, beta: 0.27, pos_auroc: 92.13, neg_auroc: 85.19, dual_auroc: 91.76, dual_auroc_ours:92.52
+2024-04-28 08:34:34,559 : alpha: 1.14, beta: 0.27, pos_auroc: 92.09, neg_auroc: 85.21, dual_auroc: 91.73, dual_auroc_ours:92.49
+2024-04-28 08:34:36,182 : alpha: 1.48, beta: 0.27, pos_auroc: 92.05, neg_auroc: 85.18, dual_auroc: 91.69, dual_auroc_ours:92.49
+2024-04-28 08:34:37,806 : alpha: 1.83, beta: 0.27, pos_auroc: 92.01, neg_auroc: 85.30, dual_auroc: 91.67, dual_auroc_ours:92.43
+2024-04-28 08:34:39,425 : alpha: 2.17, beta: 0.27, pos_auroc: 91.98, neg_auroc: 85.23, dual_auroc: 91.63, dual_auroc_ours:92.40
+2024-04-28 08:34:40,944 : alpha: 2.52, beta: 0.27, pos_auroc: 91.94, neg_auroc: 85.13, dual_auroc: 91.59, dual_auroc_ours:92.38
+2024-04-28 08:34:42,513 : alpha: 2.86, beta: 0.27, pos_auroc: 91.89, neg_auroc: 85.18, dual_auroc: 91.56, dual_auroc_ours:92.31
+2024-04-28 08:34:44,028 : alpha: 3.21, beta: 0.27, pos_auroc: 91.85, neg_auroc: 85.12, dual_auroc: 91.52, dual_auroc_ours:92.34
+2024-04-28 08:34:45,650 : alpha: 3.55, beta: 0.27, pos_auroc: 91.81, neg_auroc: 85.24, dual_auroc: 91.50, dual_auroc_ours:92.25
+2024-04-28 08:34:47,217 : alpha: 3.90, beta: 0.27, pos_auroc: 91.77, neg_auroc: 85.16, dual_auroc: 91.46, dual_auroc_ours:92.23
+2024-04-28 08:34:48,837 : alpha: 4.24, beta: 0.27, pos_auroc: 91.73, neg_auroc: 85.22, dual_auroc: 91.43, dual_auroc_ours:92.18
+2024-04-28 08:34:50,457 : alpha: 4.58, beta: 0.27, pos_auroc: 91.68, neg_auroc: 85.22, dual_auroc: 91.39, dual_auroc_ours:92.15
+2024-04-28 08:34:52,079 : alpha: 4.93, beta: 0.27, pos_auroc: 91.63, neg_auroc: 85.27, dual_auroc: 91.36, dual_auroc_ours:92.06
+2024-04-28 08:34:53,704 : alpha: 5.27, beta: 0.27, pos_auroc: 91.59, neg_auroc: 85.00, dual_auroc: 91.30, dual_auroc_ours:92.01
+2024-04-28 08:34:55,325 : alpha: 5.62, beta: 0.27, pos_auroc: 91.54, neg_auroc: 85.05, dual_auroc: 91.27, dual_auroc_ours:91.98
+2024-04-28 08:34:56,953 : alpha: 5.96, beta: 0.27, pos_auroc: 91.50, neg_auroc: 85.25, dual_auroc: 91.24, dual_auroc_ours:91.94
+2024-04-28 08:34:58,467 : alpha: 6.31, beta: 0.27, pos_auroc: 91.45, neg_auroc: 85.22, dual_auroc: 91.20, dual_auroc_ours:91.90
+2024-04-28 08:35:00,088 : alpha: 6.65, beta: 0.27, pos_auroc: 91.41, neg_auroc: 85.24, dual_auroc: 91.17, dual_auroc_ours:91.98
+2024-04-28 08:35:01,706 : alpha: 0.10, beta: 0.31, pos_auroc: 92.20, neg_auroc: 85.29, dual_auroc: 91.81, dual_auroc_ours:92.58
+2024-04-28 08:35:03,226 : alpha: 0.45, beta: 0.31, pos_auroc: 92.16, neg_auroc: 85.10, dual_auroc: 91.77, dual_auroc_ours:92.56
+2024-04-28 08:35:04,794 : alpha: 0.79, beta: 0.31, pos_auroc: 92.12, neg_auroc: 85.23, dual_auroc: 91.75, dual_auroc_ours:92.52
+2024-04-28 08:35:06,310 : alpha: 1.14, beta: 0.31, pos_auroc: 92.08, neg_auroc: 85.21, dual_auroc: 91.72, dual_auroc_ours:92.49
+2024-04-28 08:35:07,881 : alpha: 1.48, beta: 0.31, pos_auroc: 92.04, neg_auroc: 85.26, dual_auroc: 91.69, dual_auroc_ours:92.45
+2024-04-28 08:35:09,395 : alpha: 1.83, beta: 0.31, pos_auroc: 92.00, neg_auroc: 85.27, dual_auroc: 91.65, dual_auroc_ours:92.42
+2024-04-28 08:35:11,017 : alpha: 2.17, beta: 0.31, pos_auroc: 91.96, neg_auroc: 85.23, dual_auroc: 91.61, dual_auroc_ours:92.39
+2024-04-28 08:35:12,641 : alpha: 2.52, beta: 0.31, pos_auroc: 91.91, neg_auroc: 85.23, dual_auroc: 91.58, dual_auroc_ours:92.35
+2024-04-28 08:35:14,282 : alpha: 2.86, beta: 0.31, pos_auroc: 91.86, neg_auroc: 85.25, dual_auroc: 91.54, dual_auroc_ours:92.29
+2024-04-28 08:35:15,802 : alpha: 3.21, beta: 0.31, pos_auroc: 91.82, neg_auroc: 85.23, dual_auroc: 91.50, dual_auroc_ours:92.25
+2024-04-28 08:35:17,371 : alpha: 3.55, beta: 0.31, pos_auroc: 91.77, neg_auroc: 85.25, dual_auroc: 91.47, dual_auroc_ours:92.28
+2024-04-28 08:35:18,889 : alpha: 3.90, beta: 0.31, pos_auroc: 91.73, neg_auroc: 85.15, dual_auroc: 91.42, dual_auroc_ours:92.18
+2024-04-28 08:35:20,461 : alpha: 4.24, beta: 0.31, pos_auroc: 91.67, neg_auroc: 85.12, dual_auroc: 91.38, dual_auroc_ours:92.14
+2024-04-28 08:35:21,978 : alpha: 4.58, beta: 0.31, pos_auroc: 91.63, neg_auroc: 85.29, dual_auroc: 91.35, dual_auroc_ours:92.10
+2024-04-28 08:35:23,607 : alpha: 4.93, beta: 0.31, pos_auroc: 91.58, neg_auroc: 85.23, dual_auroc: 91.31, dual_auroc_ours:92.07
+2024-04-28 08:35:25,231 : alpha: 5.27, beta: 0.31, pos_auroc: 91.52, neg_auroc: 85.15, dual_auroc: 91.25, dual_auroc_ours:92.02
+2024-04-28 08:35:26,856 : alpha: 5.62, beta: 0.31, pos_auroc: 91.48, neg_auroc: 85.25, dual_auroc: 91.22, dual_auroc_ours:91.93
+2024-04-28 08:35:28,385 : alpha: 5.96, beta: 0.31, pos_auroc: 91.43, neg_auroc: 85.14, dual_auroc: 91.19, dual_auroc_ours:92.00
+2024-04-28 08:35:29,956 : alpha: 6.31, beta: 0.31, pos_auroc: 91.38, neg_auroc: 85.08, dual_auroc: 91.13, dual_auroc_ours:91.84
+2024-04-28 08:35:31,472 : alpha: 6.65, beta: 0.31, pos_auroc: 91.32, neg_auroc: 85.20, dual_auroc: 91.10, dual_auroc_ours:91.79
+2024-04-28 08:35:33,104 : alpha: 0.10, beta: 0.34, pos_auroc: 92.20, neg_auroc: 85.19, dual_auroc: 91.80, dual_auroc_ours:92.58
+2024-04-28 08:35:34,732 : alpha: 0.45, beta: 0.34, pos_auroc: 92.16, neg_auroc: 85.02, dual_auroc: 91.76, dual_auroc_ours:92.55
+2024-04-28 08:35:36,356 : alpha: 0.79, beta: 0.34, pos_auroc: 92.11, neg_auroc: 85.26, dual_auroc: 91.74, dual_auroc_ours:92.51
+2024-04-28 08:35:37,983 : alpha: 1.14, beta: 0.34, pos_auroc: 92.07, neg_auroc: 85.21, dual_auroc: 91.70, dual_auroc_ours:92.47
+2024-04-28 08:35:39,608 : alpha: 1.48, beta: 0.34, pos_auroc: 92.03, neg_auroc: 85.25, dual_auroc: 91.67, dual_auroc_ours:92.41
+2024-04-28 08:35:41,131 : alpha: 1.83, beta: 0.34, pos_auroc: 91.98, neg_auroc: 85.18, dual_auroc: 91.63, dual_auroc_ours:92.37
+2024-04-28 08:35:42,702 : alpha: 2.17, beta: 0.34, pos_auroc: 91.93, neg_auroc: 85.18, dual_auroc: 91.59, dual_auroc_ours:92.31
+2024-04-28 08:35:44,221 : alpha: 2.52, beta: 0.34, pos_auroc: 91.88, neg_auroc: 85.23, dual_auroc: 91.55, dual_auroc_ours:92.31
+2024-04-28 08:35:45,843 : alpha: 2.86, beta: 0.34, pos_auroc: 91.84, neg_auroc: 85.25, dual_auroc: 91.52, dual_auroc_ours:92.27
+2024-04-28 08:35:47,357 : alpha: 3.21, beta: 0.34, pos_auroc: 91.79, neg_auroc: 85.17, dual_auroc: 91.48, dual_auroc_ours:92.18
+2024-04-28 08:35:48,941 : alpha: 3.55, beta: 0.34, pos_auroc: 91.74, neg_auroc: 85.40, dual_auroc: 91.44, dual_auroc_ours:92.13
+2024-04-28 08:35:50,462 : alpha: 3.90, beta: 0.34, pos_auroc: 91.68, neg_auroc: 85.15, dual_auroc: 91.38, dual_auroc_ours:92.09
+2024-04-28 08:35:52,083 : alpha: 4.24, beta: 0.34, pos_auroc: 91.62, neg_auroc: 85.12, dual_auroc: 91.34, dual_auroc_ours:92.05
+2024-04-28 08:35:53,660 : alpha: 4.58, beta: 0.34, pos_auroc: 91.57, neg_auroc: 85.04, dual_auroc: 91.29, dual_auroc_ours:92.01
+2024-04-28 08:35:55,229 : alpha: 4.93, beta: 0.34, pos_auroc: 91.52, neg_auroc: 85.26, dual_auroc: 91.27, dual_auroc_ours:91.90
+2024-04-28 08:35:56,746 : alpha: 5.27, beta: 0.34, pos_auroc: 91.47, neg_auroc: 85.27, dual_auroc: 91.22, dual_auroc_ours:91.92
+2024-04-28 08:35:58,319 : alpha: 5.62, beta: 0.34, pos_auroc: 91.41, neg_auroc: 85.24, dual_auroc: 91.17, dual_auroc_ours:91.75
+2024-04-28 08:35:59,832 : alpha: 5.96, beta: 0.34, pos_auroc: 91.36, neg_auroc: 85.20, dual_auroc: 91.13, dual_auroc_ours:91.83
+2024-04-28 08:36:01,399 : alpha: 6.31, beta: 0.34, pos_auroc: 91.30, neg_auroc: 85.00, dual_auroc: 91.07, dual_auroc_ours:91.78
+2024-04-28 08:36:02,949 : alpha: 6.65, beta: 0.34, pos_auroc: 91.25, neg_auroc: 85.22, dual_auroc: 91.04, dual_auroc_ours:91.62
+2024-04-28 08:36:04,568 : alpha: 0.10, beta: 0.38, pos_auroc: 92.20, neg_auroc: 85.27, dual_auroc: 91.81, dual_auroc_ours:92.58
+2024-04-28 08:36:06,082 : alpha: 0.45, beta: 0.38, pos_auroc: 92.15, neg_auroc: 85.00, dual_auroc: 91.75, dual_auroc_ours:92.55
+2024-04-28 08:36:07,700 : alpha: 0.79, beta: 0.38, pos_auroc: 92.11, neg_auroc: 85.30, dual_auroc: 91.74, dual_auroc_ours:92.51
+2024-04-28 08:36:09,269 : alpha: 1.14, beta: 0.38, pos_auroc: 92.06, neg_auroc: 85.21, dual_auroc: 91.70, dual_auroc_ours:92.46
+2024-04-28 08:36:10,896 : alpha: 1.48, beta: 0.38, pos_auroc: 92.01, neg_auroc: 85.26, dual_auroc: 91.66, dual_auroc_ours:92.40
+2024-04-28 08:36:12,518 : alpha: 1.83, beta: 0.38, pos_auroc: 91.96, neg_auroc: 85.21, dual_auroc: 91.62, dual_auroc_ours:92.37
+2024-04-28 08:36:14,036 : alpha: 2.17, beta: 0.38, pos_auroc: 91.91, neg_auroc: 85.22, dual_auroc: 91.58, dual_auroc_ours:92.33
+2024-04-28 08:36:15,656 : alpha: 2.52, beta: 0.38, pos_auroc: 91.86, neg_auroc: 85.19, dual_auroc: 91.53, dual_auroc_ours:92.26
+2024-04-28 08:36:17,284 : alpha: 2.86, beta: 0.38, pos_auroc: 91.81, neg_auroc: 85.19, dual_auroc: 91.49, dual_auroc_ours:92.22
+2024-04-28 08:36:18,799 : alpha: 3.21, beta: 0.38, pos_auroc: 91.76, neg_auroc: 85.22, dual_auroc: 91.45, dual_auroc_ours:92.21
+2024-04-28 08:36:20,365 : alpha: 3.55, beta: 0.38, pos_auroc: 91.70, neg_auroc: 85.07, dual_auroc: 91.40, dual_auroc_ours:92.10
+2024-04-28 08:36:21,875 : alpha: 3.90, beta: 0.38, pos_auroc: 91.64, neg_auroc: 85.12, dual_auroc: 91.35, dual_auroc_ours:92.06
+2024-04-28 08:36:23,505 : alpha: 4.24, beta: 0.38, pos_auroc: 91.59, neg_auroc: 85.13, dual_auroc: 91.30, dual_auroc_ours:92.01
+2024-04-28 08:36:25,014 : alpha: 4.58, beta: 0.38, pos_auroc: 91.53, neg_auroc: 84.97, dual_auroc: 91.25, dual_auroc_ours:91.97
+2024-04-28 08:36:26,639 : alpha: 4.93, beta: 0.38, pos_auroc: 91.47, neg_auroc: 85.20, dual_auroc: 91.21, dual_auroc_ours:91.92
+2024-04-28 08:36:28,150 : alpha: 5.27, beta: 0.38, pos_auroc: 91.41, neg_auroc: 85.07, dual_auroc: 91.16, dual_auroc_ours:91.81
+2024-04-28 08:36:29,773 : alpha: 5.62, beta: 0.38, pos_auroc: 91.35, neg_auroc: 85.29, dual_auroc: 91.13, dual_auroc_ours:91.76
+2024-04-28 08:36:31,395 : alpha: 5.96, beta: 0.38, pos_auroc: 91.28, neg_auroc: 85.00, dual_auroc: 91.05, dual_auroc_ours:91.66
+2024-04-28 08:36:33,018 : alpha: 6.31, beta: 0.38, pos_auroc: 91.23, neg_auroc: 85.23, dual_auroc: 91.02, dual_auroc_ours:91.60
+2024-04-28 08:36:34,534 : alpha: 6.65, beta: 0.38, pos_auroc: 91.16, neg_auroc: 85.11, dual_auroc: 90.95, dual_auroc_ours:91.54
+2024-04-28 08:36:36,155 : alpha: 0.10, beta: 0.41, pos_auroc: 92.20, neg_auroc: 85.27, dual_auroc: 91.81, dual_auroc_ours:92.56
+2024-04-28 08:36:37,779 : alpha: 0.45, beta: 0.41, pos_auroc: 92.15, neg_auroc: 85.39, dual_auroc: 91.78, dual_auroc_ours:92.53
+2024-04-28 08:36:39,404 : alpha: 0.79, beta: 0.41, pos_auroc: 92.10, neg_auroc: 85.25, dual_auroc: 91.73, dual_auroc_ours:92.50
+2024-04-28 08:36:40,921 : alpha: 1.14, beta: 0.41, pos_auroc: 92.05, neg_auroc: 85.22, dual_auroc: 91.70, dual_auroc_ours:92.45
+2024-04-28 08:36:42,489 : alpha: 1.48, beta: 0.41, pos_auroc: 92.00, neg_auroc: 85.22, dual_auroc: 91.65, dual_auroc_ours:92.41
+2024-04-28 08:36:44,007 : alpha: 1.83, beta: 0.41, pos_auroc: 91.95, neg_auroc: 85.20, dual_auroc: 91.60, dual_auroc_ours:92.35
+2024-04-28 08:36:45,572 : alpha: 2.17, beta: 0.41, pos_auroc: 91.89, neg_auroc: 85.21, dual_auroc: 91.56, dual_auroc_ours:92.32
+2024-04-28 08:36:47,086 : alpha: 2.52, beta: 0.41, pos_auroc: 91.84, neg_auroc: 85.18, dual_auroc: 91.51, dual_auroc_ours:92.25
+2024-04-28 08:36:48,721 : alpha: 2.86, beta: 0.41, pos_auroc: 91.78, neg_auroc: 85.18, dual_auroc: 91.47, dual_auroc_ours:92.20
+2024-04-28 08:36:50,240 : alpha: 3.21, beta: 0.41, pos_auroc: 91.72, neg_auroc: 85.16, dual_auroc: 91.42, dual_auroc_ours:92.13
+2024-04-28 08:36:51,865 : alpha: 3.55, beta: 0.41, pos_auroc: 91.66, neg_auroc: 85.12, dual_auroc: 91.37, dual_auroc_ours:92.08
+2024-04-28 08:36:53,380 : alpha: 3.90, beta: 0.41, pos_auroc: 91.61, neg_auroc: 85.15, dual_auroc: 91.33, dual_auroc_ours:92.04
+2024-04-28 08:36:55,001 : alpha: 4.24, beta: 0.41, pos_auroc: 91.54, neg_auroc: 85.12, dual_auroc: 91.27, dual_auroc_ours:91.98
+2024-04-28 08:36:56,628 : alpha: 4.58, beta: 0.41, pos_auroc: 91.48, neg_auroc: 85.06, dual_auroc: 91.23, dual_auroc_ours:91.93
+2024-04-28 08:36:58,250 : alpha: 4.93, beta: 0.41, pos_auroc: 91.42, neg_auroc: 85.04, dual_auroc: 91.17, dual_auroc_ours:91.82
+2024-04-28 08:36:59,763 : alpha: 5.27, beta: 0.41, pos_auroc: 91.36, neg_auroc: 85.26, dual_auroc: 91.14, dual_auroc_ours:91.77
+2024-04-28 08:37:01,331 : alpha: 5.62, beta: 0.41, pos_auroc: 91.30, neg_auroc: 85.04, dual_auroc: 91.06, dual_auroc_ours:91.72
+2024-04-28 08:37:02,851 : alpha: 5.96, beta: 0.41, pos_auroc: 91.23, neg_auroc: 85.30, dual_auroc: 91.03, dual_auroc_ours:91.65
+2024-04-28 08:37:04,419 : alpha: 6.31, beta: 0.41, pos_auroc: 91.17, neg_auroc: 84.96, dual_auroc: 90.95, dual_auroc_ours:91.55
+2024-04-28 08:37:05,936 : alpha: 6.65, beta: 0.41, pos_auroc: 91.10, neg_auroc: 85.22, dual_auroc: 90.92, dual_auroc_ours:91.49
+2024-04-28 08:37:07,554 : alpha: 0.10, beta: 0.44, pos_auroc: 92.19, neg_auroc: 85.20, dual_auroc: 91.80, dual_auroc_ours:92.57
+2024-04-28 08:37:09,073 : alpha: 0.45, beta: 0.44, pos_auroc: 92.15, neg_auroc: 85.29, dual_auroc: 91.77, dual_auroc_ours:92.53
+2024-04-28 08:37:10,696 : alpha: 0.79, beta: 0.44, pos_auroc: 92.09, neg_auroc: 85.24, dual_auroc: 91.73, dual_auroc_ours:92.49
+2024-04-28 08:37:12,209 : alpha: 1.14, beta: 0.44, pos_auroc: 92.04, neg_auroc: 85.30, dual_auroc: 91.69, dual_auroc_ours:92.44
+2024-04-28 08:37:13,833 : alpha: 1.48, beta: 0.44, pos_auroc: 91.99, neg_auroc: 85.18, dual_auroc: 91.64, dual_auroc_ours:92.40
+2024-04-28 08:37:15,455 : alpha: 1.83, beta: 0.44, pos_auroc: 91.93, neg_auroc: 85.23, dual_auroc: 91.60, dual_auroc_ours:92.34
+2024-04-28 08:37:17,077 : alpha: 2.17, beta: 0.44, pos_auroc: 91.88, neg_auroc: 85.32, dual_auroc: 91.56, dual_auroc_ours:92.27
+2024-04-28 08:37:18,590 : alpha: 2.52, beta: 0.44, pos_auroc: 91.82, neg_auroc: 85.32, dual_auroc: 91.51, dual_auroc_ours:92.23
+2024-04-28 08:37:20,212 : alpha: 2.86, beta: 0.44, pos_auroc: 91.76, neg_auroc: 85.28, dual_auroc: 91.46, dual_auroc_ours:92.18
+2024-04-28 08:37:21,725 : alpha: 3.21, beta: 0.44, pos_auroc: 91.70, neg_auroc: 85.23, dual_auroc: 91.41, dual_auroc_ours:92.11
+2024-04-28 08:37:23,349 : alpha: 3.55, beta: 0.44, pos_auroc: 91.63, neg_auroc: 85.17, dual_auroc: 91.36, dual_auroc_ours:92.05
+2024-04-28 08:37:24,918 : alpha: 3.90, beta: 0.44, pos_auroc: 91.57, neg_auroc: 85.17, dual_auroc: 91.31, dual_auroc_ours:92.01
+2024-04-28 08:37:26,487 : alpha: 4.24, beta: 0.44, pos_auroc: 91.51, neg_auroc: 85.25, dual_auroc: 91.26, dual_auroc_ours:91.95
+2024-04-28 08:37:27,997 : alpha: 4.58, beta: 0.44, pos_auroc: 91.44, neg_auroc: 85.14, dual_auroc: 91.19, dual_auroc_ours:91.84
+2024-04-28 08:37:29,620 : alpha: 4.93, beta: 0.44, pos_auroc: 91.37, neg_auroc: 85.21, dual_auroc: 91.15, dual_auroc_ours:91.78
+2024-04-28 08:37:31,189 : alpha: 5.27, beta: 0.44, pos_auroc: 91.31, neg_auroc: 85.21, dual_auroc: 91.08, dual_auroc_ours:91.73
+2024-04-28 08:37:32,820 : alpha: 5.62, beta: 0.44, pos_auroc: 91.24, neg_auroc: 85.25, dual_auroc: 91.04, dual_auroc_ours:91.66
+2024-04-28 08:37:34,391 : alpha: 5.96, beta: 0.44, pos_auroc: 91.18, neg_auroc: 85.17, dual_auroc: 90.97, dual_auroc_ours:91.61
+2024-04-28 08:37:35,961 : alpha: 6.31, beta: 0.44, pos_auroc: 91.11, neg_auroc: 84.99, dual_auroc: 90.91, dual_auroc_ours:91.61
+2024-04-28 08:37:37,471 : alpha: 6.65, beta: 0.44, pos_auroc: 91.04, neg_auroc: 85.25, dual_auroc: 90.86, dual_auroc_ours:91.55
+2024-04-28 08:37:39,095 : alpha: 0.10, beta: 0.48, pos_auroc: 92.19, neg_auroc: 85.13, dual_auroc: 91.80, dual_auroc_ours:92.57
+2024-04-28 08:37:40,663 : alpha: 0.45, beta: 0.48, pos_auroc: 92.14, neg_auroc: 85.47, dual_auroc: 91.78, dual_auroc_ours:92.52
+2024-04-28 08:37:42,284 : alpha: 0.79, beta: 0.48, pos_auroc: 92.09, neg_auroc: 85.18, dual_auroc: 91.72, dual_auroc_ours:92.50
+2024-04-28 08:37:43,910 : alpha: 1.14, beta: 0.48, pos_auroc: 92.04, neg_auroc: 85.24, dual_auroc: 91.68, dual_auroc_ours:92.45
+2024-04-28 08:37:45,535 : alpha: 1.48, beta: 0.48, pos_auroc: 91.98, neg_auroc: 85.26, dual_auroc: 91.63, dual_auroc_ours:92.39
+2024-04-28 08:37:47,154 : alpha: 1.83, beta: 0.48, pos_auroc: 91.92, neg_auroc: 85.28, dual_auroc: 91.58, dual_auroc_ours:92.34
+2024-04-28 08:37:48,773 : alpha: 2.17, beta: 0.48, pos_auroc: 91.86, neg_auroc: 85.25, dual_auroc: 91.54, dual_auroc_ours:92.29
+2024-04-28 08:37:50,344 : alpha: 2.52, beta: 0.48, pos_auroc: 91.80, neg_auroc: 85.18, dual_auroc: 91.48, dual_auroc_ours:92.22
+2024-04-28 08:37:51,907 : alpha: 2.86, beta: 0.48, pos_auroc: 91.74, neg_auroc: 85.18, dual_auroc: 91.43, dual_auroc_ours:92.19
+2024-04-28 08:37:53,425 : alpha: 3.21, beta: 0.48, pos_auroc: 91.68, neg_auroc: 85.13, dual_auroc: 91.38, dual_auroc_ours:92.09
+2024-04-28 08:37:55,046 : alpha: 3.55, beta: 0.48, pos_auroc: 91.61, neg_auroc: 85.10, dual_auroc: 91.32, dual_auroc_ours:92.04
+2024-04-28 08:37:56,564 : alpha: 3.90, beta: 0.48, pos_auroc: 91.54, neg_auroc: 85.14, dual_auroc: 91.27, dual_auroc_ours:91.98
+2024-04-28 08:37:58,186 : alpha: 4.24, beta: 0.48, pos_auroc: 91.47, neg_auroc: 85.39, dual_auroc: 91.22, dual_auroc_ours:91.92
+2024-04-28 08:37:59,753 : alpha: 4.58, beta: 0.48, pos_auroc: 91.41, neg_auroc: 85.22, dual_auroc: 91.17, dual_auroc_ours:91.87
+2024-04-28 08:38:01,375 : alpha: 4.93, beta: 0.48, pos_auroc: 91.33, neg_auroc: 85.13, dual_auroc: 91.11, dual_auroc_ours:91.75
+2024-04-28 08:38:03,007 : alpha: 5.27, beta: 0.48, pos_auroc: 91.26, neg_auroc: 85.26, dual_auroc: 91.06, dual_auroc_ours:91.69
+2024-04-28 08:38:04,634 : alpha: 5.62, beta: 0.48, pos_auroc: 91.19, neg_auroc: 85.11, dual_auroc: 90.99, dual_auroc_ours:91.68
+2024-04-28 08:38:06,208 : alpha: 5.96, beta: 0.48, pos_auroc: 91.13, neg_auroc: 85.03, dual_auroc: 90.93, dual_auroc_ours:91.57
+2024-04-28 08:38:07,776 : alpha: 6.31, beta: 0.48, pos_auroc: 91.06, neg_auroc: 85.28, dual_auroc: 90.89, dual_auroc_ours:91.50
+2024-04-28 08:38:09,291 : alpha: 6.65, beta: 0.48, pos_auroc: 90.98, neg_auroc: 85.09, dual_auroc: 90.80, dual_auroc_ours:91.39
+2024-04-28 08:38:10,932 : alpha: 0.10, beta: 0.51, pos_auroc: 92.20, neg_auroc: 85.31, dual_auroc: 91.81, dual_auroc_ours:92.57
+2024-04-28 08:38:12,445 : alpha: 0.45, beta: 0.51, pos_auroc: 92.14, neg_auroc: 85.24, dual_auroc: 91.77, dual_auroc_ours:92.53
+2024-04-28 08:38:14,068 : alpha: 0.79, beta: 0.51, pos_auroc: 92.08, neg_auroc: 85.34, dual_auroc: 91.73, dual_auroc_ours:92.48
+2024-04-28 08:38:15,583 : alpha: 1.14, beta: 0.51, pos_auroc: 92.03, neg_auroc: 85.21, dual_auroc: 91.67, dual_auroc_ours:92.44
+2024-04-28 08:38:17,149 : alpha: 1.48, beta: 0.51, pos_auroc: 91.97, neg_auroc: 85.18, dual_auroc: 91.62, dual_auroc_ours:92.38
+2024-04-28 08:38:18,663 : alpha: 1.83, beta: 0.51, pos_auroc: 91.91, neg_auroc: 85.18, dual_auroc: 91.57, dual_auroc_ours:92.33
+2024-04-28 08:38:20,284 : alpha: 2.17, beta: 0.51, pos_auroc: 91.85, neg_auroc: 85.23, dual_auroc: 91.53, dual_auroc_ours:92.28
+2024-04-28 08:38:21,848 : alpha: 2.52, beta: 0.51, pos_auroc: 91.78, neg_auroc: 85.29, dual_auroc: 91.48, dual_auroc_ours:92.20
+2024-04-28 08:38:23,471 : alpha: 2.86, beta: 0.51, pos_auroc: 91.72, neg_auroc: 85.21, dual_auroc: 91.42, dual_auroc_ours:92.15
+2024-04-28 08:38:25,038 : alpha: 3.21, beta: 0.51, pos_auroc: 91.65, neg_auroc: 85.15, dual_auroc: 91.36, dual_auroc_ours:92.10
+2024-04-28 08:38:26,663 : alpha: 3.55, beta: 0.51, pos_auroc: 91.58, neg_auroc: 85.27, dual_auroc: 91.31, dual_auroc_ours:92.01
+2024-04-28 08:38:28,233 : alpha: 3.90, beta: 0.51, pos_auroc: 91.51, neg_auroc: 85.22, dual_auroc: 91.24, dual_auroc_ours:91.95
+2024-04-28 08:38:29,802 : alpha: 4.24, beta: 0.51, pos_auroc: 91.44, neg_auroc: 85.13, dual_auroc: 91.19, dual_auroc_ours:91.90
+2024-04-28 08:38:31,314 : alpha: 4.58, beta: 0.51, pos_auroc: 91.37, neg_auroc: 85.20, dual_auroc: 91.14, dual_auroc_ours:91.83
+2024-04-28 08:38:32,888 : alpha: 4.93, beta: 0.51, pos_auroc: 91.29, neg_auroc: 85.11, dual_auroc: 91.07, dual_auroc_ours:91.72
+2024-04-28 08:38:34,401 : alpha: 5.27, beta: 0.51, pos_auroc: 91.23, neg_auroc: 85.07, dual_auroc: 91.01, dual_auroc_ours:91.66
+2024-04-28 08:38:36,027 : alpha: 5.62, beta: 0.51, pos_auroc: 91.15, neg_auroc: 85.33, dual_auroc: 90.97, dual_auroc_ours:91.64
+2024-04-28 08:38:37,594 : alpha: 5.96, beta: 0.51, pos_auroc: 91.08, neg_auroc: 85.21, dual_auroc: 90.90, dual_auroc_ours:91.53
+2024-04-28 08:38:39,164 : alpha: 6.31, beta: 0.51, pos_auroc: 91.00, neg_auroc: 85.11, dual_auroc: 90.82, dual_auroc_ours:91.46
+2024-04-28 08:38:40,681 : alpha: 6.65, beta: 0.51, pos_auroc: 90.93, neg_auroc: 85.24, dual_auroc: 90.77, dual_auroc_ours:91.33
+2024-04-28 08:38:42,303 : alpha: 0.10, beta: 0.55, pos_auroc: 92.19, neg_auroc: 85.26, dual_auroc: 91.81, dual_auroc_ours:92.57
+2024-04-28 08:38:43,874 : alpha: 0.45, beta: 0.55, pos_auroc: 92.14, neg_auroc: 85.13, dual_auroc: 91.75, dual_auroc_ours:92.54
+2024-04-28 08:38:45,499 : alpha: 0.79, beta: 0.55, pos_auroc: 92.08, neg_auroc: 85.38, dual_auroc: 91.73, dual_auroc_ours:92.48
+2024-04-28 08:38:47,009 : alpha: 1.14, beta: 0.55, pos_auroc: 92.02, neg_auroc: 85.30, dual_auroc: 91.67, dual_auroc_ours:92.42
+2024-04-28 08:38:48,578 : alpha: 1.48, beta: 0.55, pos_auroc: 91.96, neg_auroc: 85.21, dual_auroc: 91.62, dual_auroc_ours:92.38
+2024-04-28 08:38:50,090 : alpha: 1.83, beta: 0.55, pos_auroc: 91.90, neg_auroc: 85.18, dual_auroc: 91.57, dual_auroc_ours:92.32
+2024-04-28 08:38:51,711 : alpha: 2.17, beta: 0.55, pos_auroc: 91.83, neg_auroc: 85.19, dual_auroc: 91.51, dual_auroc_ours:92.27
+2024-04-28 08:38:53,337 : alpha: 2.52, beta: 0.55, pos_auroc: 91.77, neg_auroc: 85.25, dual_auroc: 91.46, dual_auroc_ours:92.22
+2024-04-28 08:38:54,956 : alpha: 2.86, beta: 0.55, pos_auroc: 91.70, neg_auroc: 85.20, dual_auroc: 91.40, dual_auroc_ours:92.13
+2024-04-28 08:38:56,473 : alpha: 3.21, beta: 0.55, pos_auroc: 91.63, neg_auroc: 85.22, dual_auroc: 91.34, dual_auroc_ours:92.08
+2024-04-28 08:38:58,039 : alpha: 3.55, beta: 0.55, pos_auroc: 91.56, neg_auroc: 85.29, dual_auroc: 91.29, dual_auroc_ours:92.05
+2024-04-28 08:38:59,554 : alpha: 3.90, beta: 0.55, pos_auroc: 91.48, neg_auroc: 85.12, dual_auroc: 91.22, dual_auroc_ours:91.93
+2024-04-28 08:39:01,176 : alpha: 4.24, beta: 0.55, pos_auroc: 91.41, neg_auroc: 85.20, dual_auroc: 91.18, dual_auroc_ours:91.87
+2024-04-28 08:39:02,749 : alpha: 4.58, beta: 0.55, pos_auroc: 91.34, neg_auroc: 85.05, dual_auroc: 91.11, dual_auroc_ours:91.81
+2024-04-28 08:39:04,320 : alpha: 4.93, beta: 0.55, pos_auroc: 91.26, neg_auroc: 85.18, dual_auroc: 91.06, dual_auroc_ours:91.74
+2024-04-28 08:39:05,836 : alpha: 5.27, beta: 0.55, pos_auroc: 91.19, neg_auroc: 85.25, dual_auroc: 90.99, dual_auroc_ours:91.62
+2024-04-28 08:39:07,456 : alpha: 5.62, beta: 0.55, pos_auroc: 91.11, neg_auroc: 85.13, dual_auroc: 90.92, dual_auroc_ours:91.56
+2024-04-28 08:39:09,025 : alpha: 5.96, beta: 0.55, pos_auroc: 91.03, neg_auroc: 85.06, dual_auroc: 90.85, dual_auroc_ours:91.48
+2024-04-28 08:39:10,648 : alpha: 6.31, beta: 0.55, pos_auroc: 90.96, neg_auroc: 85.26, dual_auroc: 90.80, dual_auroc_ours:91.41
+2024-04-28 08:39:12,218 : alpha: 6.65, beta: 0.55, pos_auroc: 90.88, neg_auroc: 85.22, dual_auroc: 90.73, dual_auroc_ours:91.28
+2024-04-28 08:39:13,792 : alpha: 0.10, beta: 0.58, pos_auroc: 92.19, neg_auroc: 85.26, dual_auroc: 91.81, dual_auroc_ours:92.57
+2024-04-28 08:39:15,314 : alpha: 0.45, beta: 0.58, pos_auroc: 92.14, neg_auroc: 85.24, dual_auroc: 91.76, dual_auroc_ours:92.53
+2024-04-28 08:39:16,937 : alpha: 0.79, beta: 0.58, pos_auroc: 92.08, neg_auroc: 85.37, dual_auroc: 91.72, dual_auroc_ours:92.47
+2024-04-28 08:39:18,515 : alpha: 1.14, beta: 0.58, pos_auroc: 92.01, neg_auroc: 85.21, dual_auroc: 91.66, dual_auroc_ours:92.43
+2024-04-28 08:39:20,142 : alpha: 1.48, beta: 0.58, pos_auroc: 91.96, neg_auroc: 85.18, dual_auroc: 91.61, dual_auroc_ours:92.38
+2024-04-28 08:39:21,766 : alpha: 1.83, beta: 0.58, pos_auroc: 91.89, neg_auroc: 85.19, dual_auroc: 91.56, dual_auroc_ours:92.31
+2024-04-28 08:39:23,394 : alpha: 2.17, beta: 0.58, pos_auroc: 91.82, neg_auroc: 85.24, dual_auroc: 91.51, dual_auroc_ours:92.26
+2024-04-28 08:39:24,961 : alpha: 2.52, beta: 0.58, pos_auroc: 91.75, neg_auroc: 85.20, dual_auroc: 91.44, dual_auroc_ours:92.18
+2024-04-28 08:39:26,538 : alpha: 2.86, beta: 0.58, pos_auroc: 91.68, neg_auroc: 85.20, dual_auroc: 91.39, dual_auroc_ours:92.12
+2024-04-28 08:39:28,058 : alpha: 3.21, beta: 0.58, pos_auroc: 91.61, neg_auroc: 85.24, dual_auroc: 91.33, dual_auroc_ours:92.06
+2024-04-28 08:39:29,680 : alpha: 3.55, beta: 0.58, pos_auroc: 91.54, neg_auroc: 85.32, dual_auroc: 91.28, dual_auroc_ours:91.97
+2024-04-28 08:39:31,252 : alpha: 3.90, beta: 0.58, pos_auroc: 91.46, neg_auroc: 85.22, dual_auroc: 91.21, dual_auroc_ours:91.91
+2024-04-28 08:39:32,876 : alpha: 4.24, beta: 0.58, pos_auroc: 91.39, neg_auroc: 85.13, dual_auroc: 91.14, dual_auroc_ours:91.85
+2024-04-28 08:39:34,503 : alpha: 4.58, beta: 0.58, pos_auroc: 91.31, neg_auroc: 85.13, dual_auroc: 91.08, dual_auroc_ours:91.78
+2024-04-28 08:39:36,128 : alpha: 4.93, beta: 0.58, pos_auroc: 91.23, neg_auroc: 85.13, dual_auroc: 91.01, dual_auroc_ours:91.72
+2024-04-28 08:39:37,699 : alpha: 5.27, beta: 0.58, pos_auroc: 91.15, neg_auroc: 85.11, dual_auroc: 90.95, dual_auroc_ours:91.59
+2024-04-28 08:39:39,266 : alpha: 5.62, beta: 0.58, pos_auroc: 91.07, neg_auroc: 85.12, dual_auroc: 90.89, dual_auroc_ours:91.52
+2024-04-28 08:39:40,785 : alpha: 5.96, beta: 0.58, pos_auroc: 90.99, neg_auroc: 85.04, dual_auroc: 90.82, dual_auroc_ours:91.45
+2024-04-28 08:39:42,403 : alpha: 6.31, beta: 0.58, pos_auroc: 90.91, neg_auroc: 85.04, dual_auroc: 90.75, dual_auroc_ours:91.38
+2024-04-28 08:39:43,973 : alpha: 6.65, beta: 0.58, pos_auroc: 90.83, neg_auroc: 85.04, dual_auroc: 90.69, dual_auroc_ours:91.31
+2024-04-28 08:39:45,596 : alpha: 0.10, beta: 0.62, pos_auroc: 92.19, neg_auroc: 85.27, dual_auroc: 91.81, dual_auroc_ours:92.57
+2024-04-28 08:39:47,112 : alpha: 0.45, beta: 0.62, pos_auroc: 92.14, neg_auroc: 85.47, dual_auroc: 91.78, dual_auroc_ours:92.51
+2024-04-28 08:39:48,731 : alpha: 0.79, beta: 0.62, pos_auroc: 92.07, neg_auroc: 85.19, dual_auroc: 91.71, dual_auroc_ours:92.49
+2024-04-28 08:39:50,297 : alpha: 1.14, beta: 0.62, pos_auroc: 92.01, neg_auroc: 85.22, dual_auroc: 91.66, dual_auroc_ours:92.43
+2024-04-28 08:39:51,867 : alpha: 1.48, beta: 0.62, pos_auroc: 91.95, neg_auroc: 85.26, dual_auroc: 91.61, dual_auroc_ours:92.37
+2024-04-28 08:39:53,384 : alpha: 1.83, beta: 0.62, pos_auroc: 91.88, neg_auroc: 85.18, dual_auroc: 91.55, dual_auroc_ours:92.32
+2024-04-28 08:39:54,951 : alpha: 2.17, beta: 0.62, pos_auroc: 91.81, neg_auroc: 85.25, dual_auroc: 91.49, dual_auroc_ours:92.25

@@ -1,0 +1,46 @@
+2024-04-29 06:11:19,694 : #########TRAIN_EVAL_INFO############
+2024-04-29 06:11:19,694 : 
+Running in-domain dataset configs.
+2024-04-29 06:11:19,694 : {'root_path': '/home/nfs03/liyh/', 'seed': 3407, 'load_cache': True, 'load_pre_feat': True, 'search_hp': True, 'search_scale': [30, 30, 60], 'search_step': [200, 30, 40], 'init_beta': 1, 'init_alpha': 2, 'init_gamma': 0.1, 'eps': 0.001, 'training_feat_num': 256, 'training_free_feat_num': 256, 'w_training_free': [0.7, 0.3], 'w_training': [0.2, 0.8], 'dataset': 'imagenet', 'shots': 16, 'backbone': 'ViT-B/16', 'lr': 0.001, 'augment_epoch': 10, 'train_epoch': 20, 'data_section': 0, 'cache_dir': '/home/nfs03/zengtc/tip/caches/imagenet'}
+2024-04-29 06:11:26,352 : Preparing ImageNet dataset.
+2024-04-29 06:13:39,206 : Getting textual features as CLIP's classifier.
+2024-04-29 06:13:55,695 : 
+Constructing cache model by few-shot visual features and labels.
+2024-04-29 06:13:55,836 : 
+Loading visual features and labels from test set.
+2024-04-29 06:13:55,865 : 
+Running out-domain dataset configs.
+2024-04-29 06:13:55,865 : {'root_path': '/home/nfs03/zengtc', 'load_cache': False, 'load_pre_feat': False, 'dataset': 'Texture', 'backbone': 'ViT-B/16'}
+2024-04-29 06:14:05,542 : Train Epoch: 0 / 20
+2024-04-29 06:14:35,061 : LR: 0.000994, Acc: 0.0000 (0.0/16000), Loss: 18.3713
+2024-04-29 06:14:35,106 : **** Dual-F's neg test accuracy: 0.00. ****
+
+2024-04-29 06:14:35,106 : Train Epoch: 1 / 20
+2024-04-29 06:14:59,806 : LR: 0.000976, Acc: 0.0000 (0.0/16000), Loss: 17.4859
+2024-04-29 06:14:59,850 : **** Dual-F's neg test accuracy: 0.00. ****
+
+2024-04-29 06:14:59,850 : Train Epoch: 2 / 20
+2024-04-29 06:15:24,765 : LR: 0.000946, Acc: 0.0000 (0.0/16000), Loss: 16.8901
+2024-04-29 06:15:24,808 : **** Dual-F's neg test accuracy: 0.00. ****
+
+2024-04-29 06:15:24,808 : Train Epoch: 3 / 20
+2024-04-29 06:15:53,398 : LR: 0.000905, Acc: 0.0000 (0.0/16000), Loss: 16.3285
+2024-04-29 06:15:53,441 : **** Dual-F's neg test accuracy: 0.00. ****
+
+2024-04-29 06:15:53,442 : Train Epoch: 4 / 20
+2024-04-29 06:16:23,481 : LR: 0.000854, Acc: 0.0000 (0.0/16000), Loss: 15.7848
+2024-04-29 06:16:23,524 : **** Dual-F's neg test accuracy: 0.00. ****
+
+2024-04-29 06:16:23,524 : Train Epoch: 5 / 20
+2024-04-29 06:16:51,051 : LR: 0.000794, Acc: 0.0000 (0.0/16000), Loss: 15.2507
+2024-04-29 06:16:51,094 : **** Dual-F's neg test accuracy: 0.00. ****
+
+2024-04-29 06:16:51,095 : Train Epoch: 6 / 20
+2024-04-29 06:17:19,015 : LR: 0.000727, Acc: 0.0000 (0.0/16000), Loss: 14.7452
+2024-04-29 06:17:19,058 : **** Dual-F's neg test accuracy: 0.00. ****
+
+2024-04-29 06:17:19,058 : Train Epoch: 7 / 20
+2024-04-29 06:17:44,156 : LR: 0.000655, Acc: 0.0001 (1.0/16000), Loss: 14.2285
+2024-04-29 06:17:44,200 : **** Dual-F's neg test accuracy: 0.00. ****
+
+2024-04-29 06:17:44,200 : Train Epoch: 8 / 20
