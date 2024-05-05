@@ -647,12 +647,12 @@ def APE_ood(log, cfg, cache_keys, cache_values, test_features, test_labels, pos_
 
                 t_list = [0.03, 0.05, 0.07, 0.1, 0.3, 0.5, 1, 2, 3, 5, 10]
                 for i in t_list:
-                    pos_auroc, _ , fpr = cls_auroc_mcm(id_pos_logits, ood_pos_logits, t = i)
-                    neg_auroc, _ , fpr = cls_auroc_mcm(id_neg_logits, ood_neg_logits, t = i)
-                    dual_auroc, _, fpr = cls_auroc_mcm(id_pos_logits + id_neg_logits,ood_pos_logits + ood_neg_logits, t = i)
-                    dual_auroc_ours, fpr = cls_auroc_ours(id_logits, ood_logits, t = i)
-                    log.debug("temperature: {:.2f}, alpha: {:.2f}, beta: {:.2f}, pos_auroc: {:.2f}, neg_auroc: {:.2f}, dual_auroc: {:.2f}, dual_auroc_ours:{:.2f}, auroc_fpr:{:.2f}".format(i, alpha, beta, pos_auroc, 
-                                                        neg_auroc, dual_auroc, dual_auroc_ours, fpr))
+                    pos_auroc, _ , pos_fpr = cls_auroc_mcm(id_pos_logits, ood_pos_logits, t = i)
+                    neg_auroc, _ , neg_fpr = cls_auroc_mcm(id_neg_logits, ood_neg_logits, t = i)
+                    dual_auroc, _, dual_fpr = cls_auroc_mcm(id_pos_logits + id_neg_logits,ood_pos_logits + ood_neg_logits, t = i)
+                    dual_auroc_ours, dual_ours_fpr = cls_auroc_ours(id_logits, ood_logits, t = i)
+                    log.debug("temperature: {:.2f}, alpha: {:.2f}, beta: {:.2f}, pos_auroc: {:.2f}, pos_fpr: {:.2f}, neg_auroc: {:.2f}, neg_fpr: {:.2f}, dual_auroc: {:.2f}, dual_fpr: {:.2f}, dual_auroc_ours: {:.2f}, auroc_fpr: {:.2f}".format(i, alpha, beta, pos_auroc, 
+                                                        pos_fpr, neg_auroc, neg_fpr, dual_auroc, dual_fpr, dual_auroc_ours, dual_ours_fpr))
         
 
     
@@ -670,7 +670,7 @@ def main():
     # Set logging
     current = datetime.now()
     formatted_time = current.strftime("%Y_%m_%d_%H_%M_%S")
-    args.log_directory = f"logs/{id_cfg['dataset']}/{id_cfg['backbone']}/{ood_cfg['dataset']}/{str(formatted_time)}"
+    args.log_directory = f"logs/{id_cfg['dataset']}/{id_cfg['backbone']}/{ood_cfg['dataset']}/{id_cfg['shots']}/{str(formatted_time)}"
     args.name = "TRAIN_EVAL_INFO"
     os.makedirs(args.log_directory, exist_ok=True)
     log = setup_log(args)
