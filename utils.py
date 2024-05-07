@@ -284,7 +284,14 @@ def clip_classifier(classnames, template, clip_model):
         clip_weights = torch.stack(clip_weights, dim=1).cuda()
     return clip_weights
 
-def neg_clip_weights(classnames, neg_template, clip_model):
+def neg_clip_classifier(classnames, ood_dataset, clip_model):
+    neg_template = []
+
+    if ood_dataset == "Texture":
+        neg_template = ["background of {}"]
+    else:
+        neg_template = ["background of {}", "a photo of no {}", "not a photo of {}"]
+
     # out-of-domain
     with torch.no_grad():
         neg_clip_weights = []
@@ -293,7 +300,7 @@ def neg_clip_weights(classnames, neg_template, clip_model):
             classname = classname.replace('_', ' ')
             texts = [t.format(classname) for t in neg_template]
             texts = clip.tokenize(texts).cuda()
-            class_embeddings = clip_model.enconde_text(texts)
+            class_embeddings = clip_model.encode_text(texts)
             class_embeddings /= class_embeddings.norm(dim=-1, keepdim=True)
             class_embeddings = class_embeddings.mean(dim=0)
             class_embeddings /= class_embeddings.norm()
@@ -503,3 +510,19 @@ def search_hp_ape(log, cfg, new_cache_keys, new_cache_values, test_features, new
         log.debug("\nAfter searching, the best score: {:.2f}, best acc: {:.2f}, best auroc: {:.2f}.\n".format(best_score, best_acc, best_auroc))
 
     return best_beta, best_alpha
+
+def load_text_feature(cfg):
+    save_path = cfg['cache_dir'] + "/text_weights_cupl_t.pt"
+    clip_weights = torch.load(save_path)
+    return clip_weights
+
+def load_few_shot_feature(cfg):
+    cache_keys = torch.load(cfg['cache_dir'] + '/keys_' + str(cfg['shots']) + "shots.pt")
+    cache_values = torch.load(cfg['cache_dir'] + '/values_' + str(cfg['shots']) + "shots.pt")
+    return cache_keys, cache_values
+
+
+def loda_val_test_feature(cfg, split):
+    features = torch.load(cfg['cache_dir'] + "/" + split + "_f.pt")
+    labels = torch.load(cfg['cache_dir'] + "/" + split + "_l.pt")
+    return features, labels

@@ -182,9 +182,10 @@ imagenet_templates = ["itap of a {}.",
                         "art of the {}.",
                         "a photo of the small {}."]
 
-# neg_template = ["a photo of  no {}"]
-neg_template = ["background of {}",
-                "a photo of no {}"]
+# neg_template = ["background of {}",
+#                 "a photo of no {}"]
+
+neg_template = ["background of {}"]
 
 
 class ImageNet():
@@ -211,6 +212,7 @@ class ImageNet():
         self.template = imagenet_templates
         self.neg_template = neg_template
         self.classnames = imagenet_classes
+        self.cupl_path = './gpt3_prompts/CuPL_prompts_imagenet.json'
 
         split_by_label_dict = defaultdict(list)
         for i in range(len(self.train.imgs)):
