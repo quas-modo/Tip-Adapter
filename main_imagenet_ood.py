@@ -64,9 +64,6 @@ def cal_dual_logits_ab(features, pos_clip_weights, neg_clip_weights, cache_keys,
     pos_cache_keys = cache_keys[top_indices, :]
     neg_cache_keys = cache_keys[ood_indices, :]
 
-    # pos_features = features[:, top_indices]
-    # neg_features = features[:, ood_indices]
-
     max_pool = nn.MaxPool1d(2, stride=2)
     pos_features = max_pool(features)
     pos_features = pos_features.view(-1, 256)
@@ -75,26 +72,9 @@ def cal_dual_logits_ab(features, pos_clip_weights, neg_clip_weights, cache_keys,
     # tip pos adapter
     pos_zero_logits = 100. * features @ pos_clip_weights
     pos_affinity = pos_features @ pos_cache_keys
-    # pos_tip_logits = ((-1) * (beta - beta * pos_affinity)).exp() @ cache_values
-    # pos_logits = pos_zero_logits + pos_tip_logits  * alpha
-
-    # neg_zero_logits = 100. * (1 - features @ neg_clip_weights)
-    # zero_scale = pos_zero_logits.mean() / neg_zero_logits.mean()
-    # neg_zero_logits = neg_zero_logits * zero_scale
-    # neg_affinity = neg_features @ neg_cache_keys
-    # neg_tip_logits = ((-1) * beta * neg_affinity).exp() @ cache_values
-    # tip_scale = pos_tip_logits.mean() / neg_tip_logits
-    # neg_tip_logits = neg_tip_logits * tip_scale
-    # neg_logits = neg_zero_logits + neg_tip_logits * alpha
 
     neg_zero_logits = 100. * features @ neg_clip_weights
-    # zero_scale = pos_zero_logits.mean() / neg_zero_logits.mean()
-    # neg_zero_logits = neg_zero_logits * zero_scale
     neg_affinity = pos_features @ neg_cache_keys
-    # aff_scale = pos_affinity.mean() / neg_affinity.mean()
-    # neg_affinity = neg_affinity * aff_scale
-    # neg_tip_logits = ((-1) * (beta - beta * neg_affinity)).exp() @ cache_values
-    # neg_logits = neg_zero_logits + neg_tip_logits * alpha
 
     return pos_zero_logits, pos_affinity, neg_zero_logits, neg_affinity
 
@@ -125,11 +105,11 @@ def cal_loss_auroc(logits, pos_cate_num):
     return -torch.mean(torch.sum(p * torch.log(p + 1e-5)), 0)
 
 
-def APE(log, cfg, cache_keys, cache_values,  test_features, test_labels, pos_clip_weights, neg_clip_weights,
+def PNA(log, cfg, cache_keys, cache_values,  test_features, test_labels, pos_clip_weights, neg_clip_weights,
         open_features, open_labels):
 
     cfg['w'] = cfg['w_training_free']
-    top_indices, ood_indices = cal_criterion(cfg, pos_clip_weights, cache_keys, only_use_txt=True)
+    top_indices, ood_indices = cal_criterion(cfg, pos_clip_weights, cache_keys, only_use_txt=False)
 
     id_pos_logits, id_neg_logits = cal_dual_logits(test_features, pos_clip_weights, neg_clip_weights, cache_keys, cache_values,
                                 top_indices, ood_indices, cfg)
@@ -184,110 +164,35 @@ def APE(log, cfg, cache_keys, cache_values,  test_features, test_labels, pos_cli
     ood_pzero, ood_paff, ood_nzero, ood_naff = cal_dual_logits_ab(open_features, pos_clip_weights, neg_clip_weights, cache_keys, cache_values,
                         top_indices, ood_indices)
 
-    # for beta in beta_list:
-    #     for alpha in alpha_list:
+    for beta in beta_list:
+        for alpha in alpha_list:
 
-    #         id_pos_logits = id_pzero + alpha * (((-1) * (beta - beta * id_paff)).exp() @ cache_values)
-    #         id_neg_logits = id_nzero + alpha * (((-1) * (beta - beta * id_naff)).exp() @ cache_values)
-    #         ood_pos_logits = ood_pzero + alpha * (((-1) * (beta - beta * ood_paff)).exp() @ cache_values)
-    #         ood_neg_logits = ood_nzero + alpha *  (((-1) * (beta - beta * ood_naff)).exp() @ cache_values)
+            id_pos_logits = id_pzero + alpha * (((-1) * (beta - beta * id_paff)).exp() @ cache_values)
+            id_neg_logits = id_nzero + alpha * (((-1) * (beta - beta * id_naff)).exp() @ cache_values)
+            ood_pos_logits = ood_pzero + alpha * (((-1) * (beta - beta * ood_paff)).exp() @ cache_values)
+            ood_neg_logits = ood_nzero + alpha *  (((-1) * (beta - beta * ood_naff)).exp() @ cache_values)
 
-    #         # print(id_pos_logits[:2, :100])
-    #         # print(id_neg_logits[:2, :100])
-    #         # print(ood_pos_logits[:2, :100])
-    #         # print(ood_neg_logits[:2, :100])
+            id_logits = torch.cat([id_pos_logits, id_neg_logits], dim=1)
+            ood_logits = torch.cat([ood_pos_logits, ood_neg_logits], dim=1)
 
-    #         id_logits = torch.cat([id_pos_logits, id_neg_logits], dim=1)
-    #         ood_logits = torch.cat([ood_pos_logits, ood_neg_logits], dim=1)
-
-    #         t_list = [0.03, 0.05, 0.07, 0.1, 0.3, 0.5, 1, 2, 3, 5, 10]
-    #         for i in t_list:
-    #             pos_auroc, _ , fpr = cls_auroc_mcm(id_pos_logits, ood_pos_logits, t = i)
-    #             neg_auroc, _ , fpr = cls_auroc_mcm(120 - id_neg_logits, 120 - ood_neg_logits, t = i)
-    #             dual_auroc, _, fpr = cls_auroc_mcm(120 + id_pos_logits - id_neg_logits, 120 + ood_pos_logits - ood_neg_logits, t = i)
-    #             dual_auroc_ours, fpr = cls_auroc_ours(id_logits, ood_logits, t = i)
-    #             log.debug("temperature: {:.2f}, alpha: {:.2f}, beta: {:.2f}, pos_auroc: {:.2f}, neg_auroc: {:.2f}, dual_auroc: {:.2f}, dual_auroc_ours:{:.2f}, auroc_fpr:{:.2f}".format(i, alpha, beta, pos_auroc, 
-    #                                                 neg_auroc, dual_auroc, dual_auroc_ours, fpr))
-
-
-    # for i in range(100):
-    #     id_logits = id_pos_logits - 0.1 * i * id_neg_logits
-    #     ood_logits = ood_pos_logits - 0.1 * i * ood_neg_logits
-    #     i_acc = cls_acc(id_logits, test_labels)
-    #     log.debug("**** dual acc {:.2f}: {:.2f}".format(i * 0.1, i_acc))
-    #     auroc, _, fpr = cls_auroc_mcm(id_logits, ood_logits)
-    #     log.debug("**** Our's test dual auroc {:.2f}: {:.2f}, fpr: {:.2f}. ****\n".format(i * 0.1, auroc, fpr))
-
-
-    #  clipn trial
-
-    # idex = torch.argmax(id_pos_logits, -1).unsqueeze(-1)
-    # yesno = torch.cat([id_pos_logits.unsqueeze(-1), id_neg_logits.unsqueeze(-1)], -1)
-    # yesno = torch.softmax(yesno, dim=-1)[:,:,0]
-    # yesno_s = torch.gather(yesno, dim=1, index=idex)
-    # ind_ctw = list(yesno_s.detach().cpu().numpy())
-    # ind_atd = list((yesno * torch.softmax(id_pos_logits, -1)).sum(1).detach().cpu().numpy())
-    
-    # o_idex = torch.argmax(ood_pos_logits, -1).unsqueeze(-1)
-    # o_yesno = torch.cat([ood_pos_logits.unsqueeze(-1), ood_neg_logits.unsqueeze(-1)], -1)
-    # o_yesno = torch.softmax(o_yesno, dim=-1)[:,:,0]
-    # o_yesno_s = torch.gather(o_yesno, dim=1, index=o_idex)
-
-    # ood_ctw = list(o_yesno_s.detach().cpu().numpy())
-    # ood_atd = list((o_yesno * torch.softmax(ood_pos_logits, -1) ).sum(1).detach().cpu().numpy())
-
-    # ctw_auroc, fpr = cal_auc_fpr(ind_ctw, ood_ctw)
-    # log.debug("**** Our's test ctw auroc: {:.2f}, fpr: {:.2f}. ****\n".format(ctw_auroc, fpr))
-
-    # atd_auroc, fpr = cal_auc_fpr(ind_atd, ood_atd)
-    # log.debug("**** Our's test atd auroc: {:.2f}, fpr: {:.2f}. ****\n".format(atd_auroc, fpr))
+            t_list = [0.03, 0.05, 0.07, 0.1, 0.3, 0.5, 1, 2, 3, 5, 10]
+            for i in t_list:
+                pos_auroc, _ , pos_fpr = cls_auroc_mcm(id_pos_logits, ood_pos_logits, t = i)
+                neg_auroc, _ , neg_fpr = cls_auroc_mcm(id_neg_logits, ood_neg_logits, t = i)
+                dual_auroc, _, dual_fpr = cls_auroc_mcm(id_pos_logits + id_neg_logits,ood_pos_logits + ood_neg_logits, t = i)
+                pna_auroc, pna_fpr = cls_auroc_ours(id_logits, ood_logits, t = i)
+                log.debug("temperature: {:.2f}, alpha: {:.2f}, beta: {:.2f}, pos_auroc: {:.2f}, pos_fpr: {:.2f}, neg_auroc: {:.2f}, neg_fpr: {:.2f}, dual_auroc: {:.2f}, dual_fpr: {:.2f}, dual_auroc_ours: {:.2f}, auroc_fpr: {:.2f}".format(i, alpha, beta, pos_auroc, 
+                                                        pos_fpr, neg_auroc, neg_fpr, dual_auroc, dual_fpr, pna_auroc, pna_fpr))
 
 
 
-    # softmax trial
-
-    # print(id_pos_logits)
-    # print(id_neg_logits)
-    # print(ood_pos_logits)
-    # print(ood_neg_logits)
-
-    # id_pos_logits = F.softmax(id_pos_logits, dim=1)
-    # # print(id_pos_logits)
-    # id_neg_logits = F.softmax(id_neg_logits, dim=1)
-    # # print(id_neg_logits)
-    # ood_pos_logits = F.softmax(ood_pos_logits, dim=1)
-    # # print(ood_pos_logits)
-    # ood_neg_logits = F.softmax(ood_neg_logits, dim=1)
-    # # print(ood_neg_logits)
-    # id_logits = 1000.0 * (id_pos_logits + id_neg_logits)
-    # ood_logits = 1000.0 * (ood_pos_logits + ood_neg_logits) 
-    # print(id_logits)
-    # print(ood_logits)
-
-    # id_pos_logits = F.normalize(id_pos_logits, dim=-1)
-    # id_neg_logits = F.normalize(id_neg_logits, dim=-1)
-    # id_logits = id_pos_logits + id_neg_logits
-    # print(id_pos_logits)
-    # print(id_neg_logits)
-    # print(id_logits)
-    # ood_pos_logits = F.normalize(ood_pos_logits, dim=-1)
-    # ood_neg_logits = F.normalize(ood_neg_logits, dim=-1)
-    # ood_logits = ood_pos_logits + ood_neg_logits
-    # print(ood_pos_logits)
-    # print(id_neg_logits)
-    # print(ood_logits)
-
-    # auroc, _ , fpr = cls_auroc_mcm(id_logits, ood_logits)
-    # log.debug("**** Our's test dual auroc: {:.2f}, fpr: {:.2f}. ****\n".format(auroc, fpr))
-
-    # best_beta, best_alpha = search_hp_ape(log, cfg, new_cache_keys, new_cache_values, test_features, new_test_features, test_labels,
-    #                                       open_features, new_open_features, open_labels, zero_clip_weights)
-
-
-def APE_ood(log, cfg, cache_keys, cache_values, test_features, test_labels, pos_clip_weights, neg_clip_weights, 
+def PNA_T(log, cfg, cache_keys, cache_values, test_features, test_labels, pos_clip_weights, neg_clip_weights, 
             clip_model, train_loader_F, open_features, open_labels):
     cfg['w'] = cfg['w_training_free']
     top_indices, ood_indices = cal_criterion(cfg, pos_clip_weights, cache_keys, only_use_txt=True)
+
+    anchor_clip_weights = pos_clip_weights[top_indices, :]
+    triplet_loss = nn.TripletMarginLoss(margin=1.0, p=2, eps=1e-6)
 
     pos_cache_keys = cache_keys[top_indices,:]
     neg_cache_keys = cache_keys[ood_indices,:]
@@ -322,65 +227,65 @@ def APE_ood(log, cfg, cache_keys, cache_values, test_features, test_labels, pos_
     beta, alpha = cfg['init_beta'], cfg['init_alpha']
     best_score, best_acc, best_auroc, best_fpr, best_epoch = 0.0, 0.0, 0.0, 0.0, 0
 
-    for train_idx in range(cfg['train_epoch']):
-        # Train
-        neg_adapter.train()
+    # for train_idx in range(cfg['train_epoch']):
+    #     # Train
+    #     neg_adapter.train()
 
-        correct_samples, all_samples = 0, 0
-        loss_list = []
-        log.debug('Train Epoch: {:} / {:}'.format(train_idx, cfg['train_epoch']))
+    #     correct_samples, all_samples = 0, 0
+    #     loss_list = []
+    #     log.debug('Train Epoch: {:} / {:}'.format(train_idx, cfg['train_epoch']))
 
-        for i, (images, target) in enumerate(tqdm(train_loader_F)):
-            images, target = images.cuda(), target.cuda()
-            with torch.no_grad():
-                image_features = clip_model.encode_image(images)
-                image_features /= image_features.norm(dim=-1, keepdim=True)
+    #     for i, (images, target) in enumerate(tqdm(train_loader_F)):
+    #         images, target = images.cuda(), target.cuda()
+    #         with torch.no_grad():
+    #             image_features = clip_model.encode_image(images)
+    #             image_features /= image_features.norm(dim=-1, keepdim=True)
 
-            pos_image_features = max_pool(image_features)
-            pos_image_features = pos_image_features.view(-1, 256)
-            pos_image_features /= pos_image_features.norm(p=2, dim=1, keepdim=True)
+    #         pos_image_features = max_pool(image_features)
+    #         pos_image_features = pos_image_features.view(-1, 256)
+    #         pos_image_features /= pos_image_features.norm(p=2, dim=1, keepdim=True)
 
-            # neg_zero_logits = 100. * (1 - image_features @ neg_clip_weights)
-            # neg_affinity = neg_adapter(neg_image_features)
-            # neg_tip_logits =  ((-1) * beta * neg_affinity).exp() @ cache_values
-            # neg_logits = neg_zero_logits + neg_tip_logits * alpha
-            # neg_logits_re = 150 - neg_logits 
+    #         # neg_zero_logits = 100. * (1 - image_features @ neg_clip_weights)
+    #         # neg_affinity = neg_adapter(neg_image_features)
+    #         # neg_tip_logits =  ((-1) * beta * neg_affinity).exp() @ cache_values
+    #         # neg_logits = neg_zero_logits + neg_tip_logits * alpha
+    #         # neg_logits_re = 150 - neg_logits 
 
-            neg_zero_logits = 100. * image_features @ neg_clip_weights
-            neg_affinity = neg_adapter(pos_image_features)
-            neg_tip_logits = ((-1) * (beta - beta * neg_affinity)).exp() @ cache_values
-            neg_logits = neg_zero_logits + neg_tip_logits * alpha
+    #         neg_zero_logits = 100. * image_features @ neg_clip_weights
+    #         neg_affinity = neg_adapter(pos_image_features)
+    #         neg_tip_logits = ((-1) * (beta - beta * neg_affinity)).exp() @ cache_values
+    #         neg_logits = neg_zero_logits + neg_tip_logits * alpha
 
-            loss_neg_acc = F.cross_entropy(neg_logits, target)
-            neg_acc = cls_acc(neg_logits, target)
+    #         loss_neg_acc = F.cross_entropy(neg_logits, target)
+    #         neg_acc = cls_acc(neg_logits, target)
 
-            neg_optimizer.zero_grad()
-            loss_neg_acc.backward()
-            neg_optimizer.step()
-            neg_scheduler.step()
+    #         neg_optimizer.zero_grad()
+    #         loss_neg_acc.backward()
+    #         neg_optimizer.step()
+    #         neg_scheduler.step()
 
-            correct_samples += neg_acc / 100 * len(neg_logits)
-            all_samples += len(neg_logits)
-            loss_list.append(loss_neg_acc.item())
+    #         correct_samples += neg_acc / 100 * len(neg_logits)
+    #         all_samples += len(neg_logits)
+    #         loss_list.append(loss_neg_acc.item())
 
-        current_lr = neg_scheduler.get_last_lr()[0]
-        log.debug('LR: {:.6f}, Acc: {:.4f} ({:}/{:}), Loss: {:.4f}'.format(current_lr, correct_samples / all_samples,
-                                                                       correct_samples, all_samples,
-                                                                       sum(loss_list) / len(loss_list)))
+    #     current_lr = neg_scheduler.get_last_lr()[0]
+    #     log.debug('LR: {:.6f}, Acc: {:.4f} ({:}/{:}), Loss: {:.4f}'.format(current_lr, correct_samples / all_samples,
+    #                                                                    correct_samples, all_samples,
+    #                                                                    sum(loss_list) / len(loss_list)))
 
-        # Eval
-        neg_adapter.eval()
-        # neg_zero_logits = 100. * (1 - test_features @ neg_clip_weights)
-        # neg_affinity = neg_adapter(neg_test_features)
-        # neg_tip_logits = ((-1) * beta * neg_affinity).exp() @ cache_values
-        # neg_logits = neg_zero_logits + neg_tip_logits * alpha
-        # neg_logits_re = 120 - neg_logits 
-        neg_zero_logits = 100. * test_features @ neg_clip_weights
-        neg_affinity = neg_adapter(pos_test_features)
-        neg_tip_logits = ((-1) * (beta - beta * neg_affinity)).exp() @ cache_values
-        neg_logits = neg_zero_logits + neg_tip_logits * alpha
-        neg_acc = cls_acc(neg_logits, test_labels)
-        log.debug("**** Dual-F's neg test accuracy: {:.2f}. ****\n".format(neg_acc))
+    #     # Eval
+    #     neg_adapter.eval()
+    #     # neg_zero_logits = 100. * (1 - test_features @ neg_clip_weights)
+    #     # neg_affinity = neg_adapter(neg_test_features)
+    #     # neg_tip_logits = ((-1) * beta * neg_affinity).exp() @ cache_values
+    #     # neg_logits = neg_zero_logits + neg_tip_logits * alpha
+    #     # neg_logits_re = 120 - neg_logits 
+    #     neg_zero_logits = 100. * test_features @ neg_clip_weights
+    #     neg_affinity = neg_adapter(pos_test_features)
+    #     neg_tip_logits = ((-1) * (beta - beta * neg_affinity)).exp() @ cache_values
+    #     neg_logits = neg_zero_logits + neg_tip_logits * alpha
+    #     neg_acc = cls_acc(neg_logits, test_labels)
+    #     log.debug("**** Dual-F's neg test accuracy: {:.2f}. ****\n".format(neg_acc))
 
     for train_idx in range(cfg['train_epoch']):
         # Train
@@ -406,28 +311,38 @@ def APE_ood(log, cfg, cache_keys, cache_values, test_features, test_labels, pos_
             pos_tip_logits = ((-1) * (beta - beta * pos_affinity)).exp() @ cache_values
             pos_logits = pos_zero_logits + pos_tip_logits * alpha
 
-            loss_pos_acc = F.cross_entropy(pos_logits, target)
-            pos_acc = cls_acc(pos_logits, target)
-
             neg_zero_logits = 100. * image_features @ neg_clip_weights
             neg_affinity = neg_adapter(pos_image_features)
             neg_tip_logits = ((-1) * (beta - beta * neg_affinity)).exp() @ cache_values
             neg_logits = neg_zero_logits + neg_tip_logits * alpha
 
-            logits = torch.cat([pos_logits, neg_logits], dim=1)
-            pos_cate = pos_logits.shape[1]
+            #logits = F.softmax(torch.cat([pos_logits, neg_logits], dim=1), dim=1)
+            #pos_cate = pos_logits.shape[1]
+            #loss_pos_acc = F.cross_entropy(logits[:, pos_cate:], target)
+            #pos_acc = cls_acc(pos_logits, target)
+            
+            logits = pos_logits + neg_logits
+            loss_pos_acc = F.cross_entropy(logits, target)
+            pos_acc = cls_acc(logits, target)
 
             # loss_auroc = cal_loss_auroc(logits, pos_cate)
             # loss = loss_pos_acc + loss_auroc
 
+            if pos_logits.shape == torch.Size([128, 1000]): 
+                pos_logits = pos_logits.repeat(2,1)
+                neg_logits = neg_logits.repeat(2,1)
+            
+            loss_triplet = triplet_loss(anchor_clip_weights, pos_logits, neg_logits)
+            loss = loss_pos_acc + loss_triplet
+
             pos_optimizer.zero_grad()
-            loss_pos_acc.backward()
+            loss.backward()
             pos_optimizer.step()
             pos_scheduler.step()
 
             correct_samples += pos_acc / 100 * len(pos_logits)
             all_samples += len(pos_logits)
-            loss_list.append(loss_pos_acc.item())
+            loss_list.append(loss.item())
 
         current_lr = pos_scheduler.get_last_lr()[0]
         log.debug('LR: {:.6f}, Acc: {:.4f} ({:}/{:}), Loss: {:.4f}'.format(current_lr, correct_samples / all_samples,
@@ -593,11 +508,11 @@ def main():
                                    shuffle=False)
     ood_features, ood_labels = pre_load_features(ood_cfg, "ood", clip_model, ood_loader)
 
-    APE(log, id_cfg, cache_keys, cache_values, test_features, test_labels, clip_weights, neg_clip_weights,
+    PNA(log, id_cfg, cache_keys, cache_values, test_features, test_labels, clip_weights, neg_clip_weights,
         ood_features, ood_labels)
 
-    APE_ood(log, id_cfg, cache_keys, cache_values, test_features, test_labels, clip_weights, neg_clip_weights, clip_model,
-            train_loader_F, ood_features, ood_labels)
+    # PNA_T(log, id_cfg, cache_keys, cache_values, test_features, test_labels, clip_weights, neg_clip_weights, clip_model,
+    #         train_loader_F, ood_features, ood_labels)
 
 
 if __name__ == '__main__':

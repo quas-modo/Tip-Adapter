@@ -288,9 +288,11 @@ def neg_clip_classifier(classnames, ood_dataset, clip_model):
     neg_template = []
 
     if ood_dataset == "Texture":
+        print("load Texture clip weights")
         neg_template = ["background of {}"]
     else:
-        neg_template = ["background of {}", "a photo of no {}", "not a photo of {}"]
+        print("load {} clip weights".format(ood_dataset))
+        neg_template = ["a photo of no {}", "background of {}","not a photo of {}"]
 
     # out-of-domain
     with torch.no_grad():
